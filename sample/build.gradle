@@ -1,0 +1,39 @@
+apply plugin: "com.android.application"
+
+android {
+  compileSdkVersion rootProject.ext.android.compileSdkVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+  defaultConfig {
+    applicationId rootProject.ext.android.applicationId
+    minSdkVersion rootProject.ext.android.minSdkVersion
+    targetSdkVersion rootProject.ext.android.targetSdkVersion
+    versionCode rootProject.ext.android.versionCode
+    versionName rootProject.ext.android.versionName
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    }
+  }
+
+  lintOptions {
+    disable "InvalidPackage"
+    lintConfig file("lint.xml")
+  }
+}
+
+dependencies {
+  compile fileTree(dir: "libs", include: ["*.jar"])
+  compile rootProject.ext.dependencies["com.android.support:design"]
+  compile rootProject.ext.dependencies["com.android.support:appcompat-v7"]
+  compile rootProject.ext.dependencies["com.android.support:recyclerview-v7"]
+
+  compile rootProject.ext.dependencies["com.jakewharton:butterknife"]
+
+  compile(project(":library")) {
+    exclude group: "com.android.support"
+  }
+}
