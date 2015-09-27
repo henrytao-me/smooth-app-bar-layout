@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2015 "Henry Tao <hi@henrytao.me>"
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,14 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:compat="http://schemas.android.com/apk/res-auto"
   tools:context=".MainActivity">
 
+  <item
+    android:id="@+id/action_info"
+    android:icon="@drawable/ic_toolbar_info"
+    android:title="@string/text_info"
+    compat:showAsAction="always" />
 </menu>

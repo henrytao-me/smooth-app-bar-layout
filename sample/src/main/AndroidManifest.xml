@@ -14,7 +14,7 @@
   ~ limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="me.henrytao.mddemo">
+  package="me.henrytao.smoothappbarlayoutdemo">
 
   <application
     android:allowBackup="true"
@@ -22,7 +22,6 @@
     android:label="@string/app_name"
     android:theme="@style/AppTheme">
     <activity
-      android:configChanges="orientation|screenSize"
       android:label="@string/app_name"
       android:name=".activity.MainActivity">
       <intent-filter>
@@ -31,6 +30,9 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+    <activity
+      android:label="@string/title_activity_info"
+      android:name=".activity.InfoActivity"></activity>
   </application>
 
 </manifest>

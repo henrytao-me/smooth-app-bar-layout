@@ -1,21 +1,20 @@
 /*
- * Copyright (C) 2015 MySQUAR. All rights reserved.
+ * Copyright 2015 "Henry Tao <hi@henrytao.me>"
  *
- * This software is the confidential and proprietary information of MySQUAR or one of its
- * subsidiaries. You shall not disclose this confidential information and shall use it only in
- * accordance with the terms of the license agreement or other applicable agreement you entered into
- * with MySQUAR.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * MySQUAR MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THE SOFTWARE, EITHER
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. MySQUAR SHALL NOT BE LIABLE FOR ANY LOSSES
- * OR DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR
- * ITS DERIVATIVES.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package me.henrytao.smoothappbarlayout;
-
-import com.squar.mychat.app.util.Ln;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
@@ -24,6 +23,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -39,8 +39,8 @@ import java.util.List;
 @CoordinatorLayout.DefaultBehavior(SmoothAppBarLayout.Behavior.class)
 public class SmoothAppBarLayout extends AppBarLayout {
 
-  private static void log(Object s1, Object... args) {
-    Ln.i(s1, args);
+  private static void log(String s, Object... args) {
+    Log.i("info", String.format(s, args));
   }
 
   protected final List<WeakReference<OnOffsetChangedListener>> mListeners;
@@ -196,7 +196,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       return -minOffset;
     }
 
-    protected boolean init(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target) {
+    protected boolean init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target) {
       if (mScrollingTarget == null && target != null) {
         mScrollingTarget = target;
         if (target instanceof RecyclerView) {
@@ -275,27 +275,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
         dispatchOffsetUpdates(child, mCurrentTranslationOffset);
         log("custom scroll | %d | %d | %d | %d | %d", dy, mCurrentScrollOffset, mCurrentTranslationOffset, minY, maxY);
       }
-    }
-  }
-
-  public static class ScrollingViewBehavior extends AppBarLayout.ScrollingViewBehavior {
-
-    public ScrollingViewBehavior() {
-    }
-
-    public ScrollingViewBehavior(Context context, AttributeSet attrs) {
-      super(context, attrs);
-    }
-
-    @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
-      return false;
-    }
-
-    @Override
-    public boolean onMeasureChild(CoordinatorLayout parent, View child, int parentWidthMeasureSpec, int widthUsed,
-        int parentHeightMeasureSpec, int heightUsed) {
-      return false;
     }
   }
 }

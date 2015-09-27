@@ -47,6 +47,7 @@ dependencies {
   compile fileTree(dir: "libs", include: ["*.jar"])
   compile rootProject.ext.dependencies["com.android.support:design"]
   compile rootProject.ext.dependencies["com.android.support:appcompat-v7"]
+  compile rootProject.ext.dependencies["com.android.support:recyclerview-v7"]
 }
 
 apply from: "https://raw.githubusercontent.com/henrytao-me/JCenter/master/installv1.gradle"
