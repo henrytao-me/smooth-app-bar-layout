@@ -20,9 +20,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.Bind;
+import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
@@ -44,8 +47,20 @@ public class SmoothDefaultFragment extends BaseFeatureFragment {
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
+    // This is RecyclerViewWrapperAdapter. Checkout at https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter
+    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new SimpleAdapter<>(getSampleData(), null)) {
+      @Override
+      public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        return null;
+      }
+
+      @Override
+      public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_spacing);
+      }
+    };
     vRecyclerView.hasFixedSize();
     vRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    vRecyclerView.setAdapter(new SimpleAdapter<>(getSampleData(), null));
+    vRecyclerView.setAdapter(adapter);
   }
 }
