@@ -26,5 +26,8 @@
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="title_activity_info">@string/text_info</string>
   <string name="action_settings">Settings</string>
+  <string name="title_activity_simple">SimpleActivity</string>
+  <string name="title_activity_gsd_default">GsdDefaultActivity</string>
+  <string name="title_activity_feature">FeatureActivity</string>
 
 </resources>

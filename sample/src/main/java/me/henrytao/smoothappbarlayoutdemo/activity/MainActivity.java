@@ -31,19 +31,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
+import me.henrytao.smoothappbarlayoutdemo.config.Constants;
 
 
 public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnItemClickListener<MainActivity.Feature> {
 
-  private static final String GSD_DEFAULT = "GSD_DEFAULT";
-
-  private static final String GSD_EXIT_UNTIL_COLLAPSED = "GSD_EXIT_UNTIL_COLLAPSED";
-
   private static final int NUM_OF_COLUMNS = 2;
-
-  private static final String SM_DEFAULT = "SM_DEFAULT";
-
-  private static final String SM_EXIT_UNTIL_COLLAPSED = "SM_EXIT_UNTIL_COLLAPSED";
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
@@ -64,12 +57,7 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     if (data == null) {
       return;
     }
-    switch (data.mKey) {
-      case GSD_DEFAULT:
-        break;
-      case SM_DEFAULT:
-        break;
-    }
+    startActivity(FeatureActivity.newIntent(this, data.mKey, data.mValue));
   }
 
   @Override
@@ -91,27 +79,26 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     setSupportActionBar(vToolbar);
 
     mAdapter = new SimpleAdapter(getFeatures(), this);
-    vRecyclerView.hasFixedSize();
     vRecyclerView.setLayoutManager(new GridLayoutManager(this, NUM_OF_COLUMNS));
     vRecyclerView.setAdapter(mAdapter);
   }
 
   protected List<Feature> getFeatures() {
     List<Feature> features = new ArrayList<>();
-    features.add(new Feature(GSD_DEFAULT, "Default"));
-    features.add(new Feature(SM_DEFAULT, "Smooth Default"));
-    features.add(new Feature(GSD_EXIT_UNTIL_COLLAPSED, "ExitUntilCollapsed"));
-    features.add(new Feature(SM_EXIT_UNTIL_COLLAPSED, "Smooth ExitUntilCollapsed"));
+    features.add(new Feature(Constants.Feature.GSD_DEFAULT, "Default"));
+    features.add(new Feature(Constants.Feature.SMOOTH_DEFAULT, "Smooth Default"));
+    features.add(new Feature(Constants.Feature.GSD_EXIT_UNTIL_COLLAPSED, "ExitUntilCollapsed"));
+    features.add(new Feature(Constants.Feature.SMOOTH_EXIT_UNTIL_COLLAPSED, "Smooth ExitUntilCollapsed"));
     return features;
   }
 
   public static class Feature {
 
-    private String mKey;
+    private Constants.Feature mKey;
 
     private String mValue;
 
-    public Feature(String key, String value) {
+    public Feature(Constants.Feature key, String value) {
       mKey = key;
       mValue = value;
     }

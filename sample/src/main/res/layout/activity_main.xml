@@ -22,7 +22,7 @@
 
   <android.support.v7.widget.Toolbar
     android:id="@+id/toolbar"
-    style="@style/MdToolbar" />
+    style="@style/AppStyle.MdToolbar" />
 
   <android.support.v7.widget.RecyclerView
     android:id="@android:id/list"

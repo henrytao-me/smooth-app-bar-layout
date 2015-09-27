@@ -14,11 +14,14 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="me.henrytao.smoothappbarlayoutdemo.activity.FeatureActivity">
 
-  <!-- Default screen margins, per the Android Design guidelines. -->
-  <dimen name="activity_horizontal_margin">16dp</dimen>
-  <dimen name="activity_vertical_margin">16dp</dimen>
-  <dimen name="app_bar_height">192dp</dimen>
-
-</resources>
+  <FrameLayout
+    android:id="@+id/fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+</RelativeLayout>

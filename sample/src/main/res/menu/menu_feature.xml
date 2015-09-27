@@ -14,11 +14,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<menu xmlns:tools="http://schemas.android.com/tools"
+  tools:context="me.henrytao.smoothappbarlayoutdemo.activity.FeatureActivity">
 
-  <!-- Default screen margins, per the Android Design guidelines. -->
-  <dimen name="activity_horizontal_margin">16dp</dimen>
-  <dimen name="activity_vertical_margin">16dp</dimen>
-  <dimen name="app_bar_height">192dp</dimen>
-
-</resources>
+</menu>

@@ -22,8 +22,8 @@
     android:label="@string/app_name"
     android:theme="@style/AppTheme">
     <activity
-      android:label="@string/app_name"
-      android:name=".activity.MainActivity">
+      android:name=".activity.MainActivity"
+      android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -31,8 +31,11 @@
       </intent-filter>
     </activity>
     <activity
-      android:label="@string/title_activity_info"
-      android:name=".activity.InfoActivity"></activity>
+      android:name=".activity.InfoActivity"
+      android:label="@string/title_activity_info" />
+    <activity
+      android:name=".activity.FeatureActivity"
+      android:label="@string/title_activity_feature"></activity>
   </application>
 
 </manifest>
