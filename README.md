@@ -19,89 +19,177 @@ compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 
 ## Demo
 
-[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=me.henrytao.mdcore)
+[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=me.henrytao.smoothappbarlayout)
 
 Please note that the app on the Play store is not always the latest version.
 
 
 ## Concepts
-`android-md-core` is designed base on some priciples:
 
-- **Widely support:** based on `appcompat` and `google support design` for sure.
-- **Simplicity:** used `attribute-based` theme system rather than `value-based` theme system. This increases the flexibility to have multiple theme in one app. 
-- **Ease to use:** predefined style for most of base elements. So that, you can use easily like `Bootstrap` or `Foundation` for web.
-- **Consistency:** consistent UI for both Lollipop and Non-Lollipop devices. 
-- **Modern:** keep up to date with [Google Material Design](https://www.google.com/design/spec/material-design/introduction.html).
+ ![Button](./screenshots/concept.final.jpg)
 
 
 ## Features
 
- ![Button](./screenshots/all-in-one.jpg)
 
-More? I are working hard to predefine more and more elements. They are coming soon.
-
-
+ 
 ## Usage
 
-#### Step 1. Define your theme in `themes.xml`
+Super easy! Just need to do 2 things:
 
-Please checkout [Google Material Color Section](https://www.google.com/design/spec/style/color.html) to understand about app color. Here are my summaries: 
+- Change `android.support.design.widget.AppBarLayout` to `me.henrytao.smoothappbarlayout.SmoothAppBarLayout`
+- Remove `app:layout_behavior="@string/appbar_scrolling_view_behavior"`
 
-- Limit your selection of colors by choosing three hues from the primary palette and one accent color from the secondary palette.
-- There are 4 main palettes: `primary, accent, warn and background`. Each palette has 4 main colors: `normal, dark, darker and lighter`. It will end up with 16 colors that being used across the app. 
-- LightTheme is `LIGHT` background on `BLACK` text color.
-- DarkTheme is `DARK` background on `WHITE` text color. 
+#### Original AppBarLayout from Google Support Design
 
 ```
-<resources>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
 
-  <!-- AppTheme based on LightTheme -->
-  <style name="AppTheme" parent="MdTheme">
+  <android.support.v7.widget.RecyclerView
+    android:id="@android:id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-  </style>
+  <android.support.design.widget.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_bar_height">
 
-  <!-- AppTheme.Purple based on DarkTheme -->
-  <style name="AppTheme.Purple" parent="MdTheme.Dark">
-    <item name="mdColor_primaryPalette">#9C27B0</item>
-    <item name="mdColor_primaryPalette_dark">#7B1FA2</item>
-    <item name="mdColor_primaryPalette_darker">#6A1B9A</item>
-    <item name="mdColor_primaryPalette_light">#CE93D8</item>
+    <android.support.design.widget.CollapsingToolbarLayout
+      android:id="@+id/collapsing_toolbar_layout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    <item name="mdColor_accentPalette">#8BC34A</item>
-    <item name="mdColor_accentPalette_dark">#689F38</item>
-    <item name="mdColor_accentPalette_darker">#558B2F</item>
-    <item name="mdColor_accentPalette_light">#AED581</item>
-  </style>
-</resources>
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_collapseMode="pin"
+        app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+        style="@style/AppStyle.MdToolbar" />
+    </android.support.design.widget.CollapsingToolbarLayout>
+  </android.support.design.widget.AppBarLayout>
+</android.support.design.widget.CoordinatorLayout>
 ```
 
-#### Step 2. Apply predefined styles to your app
-
-Please checkout sample section in repo. Below is how you define singleline ListItem with icon and divider. 
+#### SmoothAppBarLayout 
 
 ```
-<RelativeLayout
-  android:background="@drawable/md_ripple"
-  android:clickable="true"
-  style="@style/MdList.SingleLine.IconWithText">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
 
-  <ImageView
-    android:src="@drawable/ic_blank"
-    style="@style/MdList.SingleLine.IconWithText.Icon" />
+  <android.support.v7.widget.RecyclerView
+    android:id="@android:id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
-  <TextView
-    android:text="@string/text_title"
-    style="@style/MdList.SingleLine.IconWithText.Text" />
+  <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_bar_height">
 
-  <View style="@style/MdDivider.AlignParentBottom" />
-</RelativeLayout>
+    <android.support.design.widget.CollapsingToolbarLayout
+      android:id="@+id/collapsing_toolbar_layout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_collapseMode="pin"
+        app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+        style="@style/AppStyle.MdToolbar" />
+    </android.support.design.widget.CollapsingToolbarLayout>
+  </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
+</android.support.design.widget.CoordinatorLayout>
+```
+
+#### SmoothCollapsingToolbarLayout exmaple
+
+```
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@android:id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+  <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_bar_height">
+
+    <android.support.design.widget.CollapsingToolbarLayout
+      android:id="@+id/collapsing_toolbar_layout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_collapseMode="pin"
+        app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+        style="@style/AppStyle.MdToolbar" />
+
+      <me.henrytao.smoothappbarlayout.SmoothCollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:minHeight="?attr/actionBarSize"
+        app:sctl_avatar_id="@+id/avatar"
+        app:sctl_collapsed_avatarSize="?attr/mdIcon_sm"
+        app:sctl_collapsed_offsetX="?attr/actionBarSize"
+        app:sctl_collapsed_offsetY="0dp"
+        app:sctl_collapsed_subtitleTextSize="14dp"
+        app:sctl_collapsed_titleTextSize="16dp"
+        app:sctl_expanded_avatarSize="?attr/mdIcon_lg"
+        app:sctl_expanded_offsetX="?attr/mdLayout_spacing_md"
+        app:sctl_expanded_offsetY="?attr/mdLayout_spacing_md"
+        app:sctl_expanded_subtitleTextSize="16dp"
+        app:sctl_expanded_titleTextSize="34dp"
+        app:sctl_subtitle_id="@+id/subtitle"
+        app:sctl_title_id="@+id/title">
+
+        <ImageView
+          android:id="@+id/avatar"
+          android:layout_width="?attr/mdIcon_sm"
+          android:layout_height="?attr/mdIcon_sm"
+          android:layout_gravity="center_vertical"
+          android:src="@drawable/ic_blank_circle" />
+
+        <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_marginLeft="?attr/mdLayout_spacing_md"
+          android:orientation="vertical">
+
+          <TextView
+            android:id="@+id/title"
+            android:text="Title"
+            style="@style/MdText.Title" />
+
+          <TextView
+            android:id="@+id/subtitle"
+            android:text="Subtitle"
+            style="@style/MdText.Body1" />
+        </LinearLayout>
+      </me.henrytao.smoothappbarlayout.SmoothCollapsingToolbarLayout>
+    </android.support.design.widget.CollapsingToolbarLayout>
+  </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
+</android.support.design.widget.CoordinatorLayout>
 ```
 
 
 ## Contributing
 
 Any contributions are welcome!  
-Please check the [CONTRIBUTING](CONTRIBUTING.md) guideline before submitting a new issue. Wanna send PR? [Click HERE](https://github.com/henrytao-me/android-md-core/pulls)
+Please check the [CONTRIBUTING](CONTRIBUTING.md) guideline before submitting a new issue. Wanna send PR? [Click HERE](https://github.com/henrytao-me/smooth-app-bar-layout/pulls)
 
 
 ## License
