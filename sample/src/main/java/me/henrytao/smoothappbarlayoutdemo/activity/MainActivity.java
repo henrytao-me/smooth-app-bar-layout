@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     features.add(new Feature(Constants.Feature.SMOOTH_DEFAULT, "Smooth Default"));
     features.add(new Feature(Constants.Feature.GSD_EXIT_UNTIL_COLLAPSED, "ExitUntilCollapsed"));
     features.add(new Feature(Constants.Feature.SMOOTH_EXIT_UNTIL_COLLAPSED, "Smooth ExitUntilCollapsed"));
+    features.add(new Feature(Constants.Feature.GSD_PARALLAX, "Parallax"));
+    features.add(new Feature(Constants.Feature.SMOOTH_PARALLAX, "Smooth Parallax"));
     return features;
   }
 

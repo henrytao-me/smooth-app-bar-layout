@@ -27,8 +27,10 @@ import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.config.Constants.Feature;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdExitUntilCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothExitUntilCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothParallaxFragment;
 
 public class FeatureActivity extends AppCompatActivity {
 
@@ -77,6 +79,10 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdExitUntilCollapsedFragment.newInstance();
     } else if (Feature.SMOOTH_EXIT_UNTIL_COLLAPSED.equal(feature)) {
       fragment = SmoothExitUntilCollapsedFragment.newInstance();
+    } else if (Feature.GSD_PARALLAX.equal(feature)) {
+      fragment = GsdParallaxFragment.newInstance();
+    } else if (Feature.SMOOTH_PARALLAX.equal(feature)) {
+      fragment = SmoothParallaxFragment.newInstance();
     }
     return fragment;
   }
