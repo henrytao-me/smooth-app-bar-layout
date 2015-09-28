@@ -25,9 +25,11 @@ import android.view.Menu;
 
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.config.Constants.Feature;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdExitUntilCollapsedFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdParallaxFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothExitUntilCollapsedFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothParallaxFragment;
@@ -83,6 +85,10 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdParallaxFragment.newInstance();
     } else if (Feature.SMOOTH_PARALLAX.equal(feature)) {
       fragment = SmoothParallaxFragment.newInstance();
+    } else if (Feature.GSD_AVATAR.equal(feature)) {
+      fragment = GsdAvatarFragment.newInstance();
+    } else if (Feature.SMOOTH_AVATAR.equal(feature)) {
+      fragment = SmoothAvatarFragment.newInstance();
     }
     return fragment;
   }

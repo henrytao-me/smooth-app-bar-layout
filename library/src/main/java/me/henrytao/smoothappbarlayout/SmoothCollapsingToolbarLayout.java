@@ -25,7 +25,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,48 +37,50 @@ import android.widget.TextView;
 public class SmoothCollapsingToolbarLayout extends LinearLayout {
 
   private static void log(String s, Object... args) {
-    Log.i("info", String.format(s, args));
+    //Log.i("info", String.format(s, args));
   }
 
-  private int mAvatarId;
+  protected int mAvatarId;
 
-  private float mCollapsedAvatarSize;
+  protected float mCollapsedAvatarSize;
 
-  private float mCollapsedOffsetX;
+  protected float mCollapsedOffsetX;
 
-  private float mCollapsedOffsetY;
+  protected float mCollapsedOffsetY;
 
-  private float mCollapsedSubTitleTextSize;
+  protected float mCollapsedSubTitleTextSize;
 
-  private float mCollapsedTitleTextSize;
+  protected float mCollapsedTitleTextSize;
 
-  private float mExpandedAvatarSize;
+  protected float mExpandedAvatarSize;
 
-  private float mExpandedOffsetX;
+  protected float mExpandedOffsetX;
 
-  private float mExpandedOffsetY;
+  protected float mExpandedOffsetY;
 
-  private float mExpandedSubtitleTextSize;
+  protected float mExpandedSubtitleTextSize;
 
-  private float mExpandedTitleTextSize;
+  protected float mExpandedTitleTextSize;
 
-  private AppBarLayout.OnOffsetChangedListener mOnAppBarLayoutOffsetChangedListener;
+  protected AppBarLayout.OnOffsetChangedListener mOnAppBarLayoutOffsetChangedListener;
 
-  private OnOffsetChangedListener mOnOffsetChangedListener;
+  protected OnOffsetChangedListener mOnOffsetChangedListener;
 
-  private int mSubtitleId;
+  protected int mSubtitleId;
 
-  private int mTitleId;
+  protected int mTitleId;
 
-  private AppBarLayout vAppBarLayout;
+  protected AppBarLayout vAppBarLayout;
 
-  private View vAvatar;
+  protected View vAvatar;
 
-  private TextView vSubtitle;
+  protected CollapsingToolbarLayout vCollapsingToolbarLayout;
 
-  private TextView vTitle;
+  protected TextView vSubtitle;
 
-  private Toolbar vToolbar;
+  protected TextView vTitle;
+
+  protected Toolbar vToolbar;
 
   public SmoothCollapsingToolbarLayout(Context context) {
     super(context);
@@ -140,6 +141,17 @@ public class SmoothCollapsingToolbarLayout extends LinearLayout {
       }
     }
     return vAppBarLayout;
+  }
+
+  protected CollapsingToolbarLayout getCollapsingToolbarLayout() {
+    if (vCollapsingToolbarLayout == null) {
+      if (getParent() instanceof CollapsingToolbarLayout) {
+        vCollapsingToolbarLayout = (CollapsingToolbarLayout) getParent();
+      } else {
+        throw new IllegalStateException("Must be inside a CollapsingToolbarLayout");
+      }
+    }
+    return vCollapsingToolbarLayout;
   }
 
   protected Toolbar getToolbar() {
