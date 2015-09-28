@@ -33,7 +33,11 @@ ext {
   dependencies = [
       "com.android.support:design"         : "com.android.support:design:23.0.1",
       "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:23.0.1",
+      "com.android.support:cardview-v7"    : "com.android.support:cardview-v7:23.0.1",
       "com.android.support:recyclerview-v7": "com.android.support:recyclerview-v7:23.0.1",
+
+      "me.henrytao:recyclerview"           : "me.henrytao:recyclerview:1.2.0",
+      "me.henrytao:mdcore"                 : "me.henrytao:mdcore:1.2.0",
 
       "com.jakewharton:butterknife"        : "com.jakewharton:butterknife:7.0.1"
   ]

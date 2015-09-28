@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2015 "Henry Tao <hi@henrytao.me>"
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="me.henrytao.smoothappbarlayoutdemo.activity.InfoActivity">
+
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+    style="@style/AppStyle.MdToolbar" />
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/toolbar">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:gravity="center"
+      android:paddingBottom="?attr/mdLayout_spacing_md"
+      android:paddingLeft="?attr/mdLayout_spacing_md"
+      android:paddingRight="?attr/mdLayout_spacing_md"
+      android:paddingTop="?attr/mdLayout_spacing_md">
+
+      <TextView
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:text="smooth-app-bar-layout"
+        style="@style/MdText.Headline" />
+
+      <TextView
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:gravity="center"
+        android:text="Smooth version of Google Support Design AppBarLayout "
+        style="@style/MdText.Body1" />
+
+      <ImageView
+        android:layout_width="?attr/mdIcon_xlg"
+        android:layout_height="?attr/mdIcon_xlg"
+        android:layout_marginBottom="?attr/mdLayout_spacing_md"
+        android:src="@drawable/ic_logo" />
+
+      <TextView
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:gravity="center"
+        android:text="© 2015 Henry Tao All rights reserved"
+        style="@style/MdText.Body1" />
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="?attr/mdLayout_spacing_xlg" />
+
+      <TextView
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:gravity="center"
+        android:text="Fork me on GitHub!"
+        style="@style/MdText.Body1" />
+
+      <TextView
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:autoLink="web"
+        android:gravity="center"
+        android:text="https://github.com/henrytao-me/smooth-app-bar-layout"
+        style="@style/MdText.Body1" />
+
+      <View
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        style="@style/MdDivider" />
+
+      <TextView
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:text="License"
+        style="@style/MdText.Headline" />
+
+      <TextView
+        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:text="@string/license"
+        style="@style/MdText.Body1" />
+    </LinearLayout>
+  </ScrollView>
+</RelativeLayout>
+
+

@@ -1,20 +1,20 @@
-[ ![Download](https://api.bintray.com/packages/henrytao-me/maven/recyclerview/images/download.svg) ](https://bintray.com/henrytao-me/maven/recyclerview/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/henrytao-me/maven/smooth-app-bar-layout/images/download.svg) ](https://bintray.com/henrytao-me/maven/smooth-app-bar-layout/_latestVersion)
 
-android-md-core
+smooth-app-bar-layout
 ================
 
-`AppCompat` and `Google Support Design` are really awesome but they also have some limitations. Theming android app is not an easy task, especially keeping consistent UI on both Lollipop and Non-Lollipop devices is even harder. If you've tried `CardView`, `Spinner`, `Theme`, you know what I mean. So, I propose `android-md-core` - Material bootstrap for Android development like Bootstrap or Foundation for web.
+This is a smooth version of `Google Support Design AppBarLayout`. If you are using origin `AppBarLayout`, you will know it has an issue with fling. Check out this thread to know about that problem http://stackoverflow.com/questions/30923889/flinging-with-recyclerview-appbarlayout
 
-I am working hard to predefine element styles as many as I can. If you find that it still doesn't meet your need, don't hesitate to send me a request. I love to work with you to solve problems. [Send a request HERE](https://github.com/henrytao-me/android-md-core/issues)
+If you find that it still doesn't meet your need, don't hesitate to send me a request. I love to work with you to solve problems. [Send a request HERE](https://github.com/henrytao-me/smooth-app-bar-layout/issues)
 
 
 ## Installation
 
 ```
-compile "me.henrytao:mdcore:<latest-version>"
+compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 ```
 
-`android-md-core` is deployed to `jCenter`. Make sure you have `jcenter()` in your project gradle.
+`smooth-app-bar-layout` is deployed to `jCenter`. Make sure you have `jcenter()` in your project gradle.
 
 
 ## Demo
