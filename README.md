@@ -31,6 +31,15 @@ Please note that the app on the Play store is not always the latest version.
 
 ## Features
 
+- Default scrolling
+- ExitUntilCollapsed
+- Quick return (coming soon)
+
+Checkout these videos:
+
+- Google Design Support AppBarLayout: [https://youtu.be/oaN2UTZIRUk](https://youtu.be/oaN2UTZIRUk)
+- SmoothAppBarLayout: [https://youtu.be/la6ixCL9RKs](https://youtu.be/la6ixCL9RKs)
+
 
  
 ## Usage
