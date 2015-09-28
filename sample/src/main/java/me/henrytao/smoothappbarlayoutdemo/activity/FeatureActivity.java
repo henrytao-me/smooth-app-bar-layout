@@ -26,7 +26,9 @@ import android.view.Menu;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.config.Constants.Feature;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdDefaultFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdExitUntilCollapsedFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothDefaultFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothExitUntilCollapsedFragment;
 
 public class FeatureActivity extends AppCompatActivity {
 
@@ -71,6 +73,10 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdDefaultFragment.newInstance();
     } else if (Feature.SMOOTH_DEFAULT.equal(feature)) {
       fragment = SmoothDefaultFragment.newInstance();
+    } else if (Feature.GSD_EXIT_UNTIL_COLLAPSED.equal(feature)) {
+      fragment = GsdExitUntilCollapsedFragment.newInstance();
+    } else if (Feature.SMOOTH_EXIT_UNTIL_COLLAPSED.equal(feature)) {
+      fragment = SmoothExitUntilCollapsedFragment.newInstance();
     }
     return fragment;
   }
