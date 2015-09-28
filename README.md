@@ -14,7 +14,7 @@ If you find that it still doesn't meet your need, don't hesitate to send me a re
 compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 ```
 
-`android-md-core` is deployed to `jCenter`. Make sure you have `jcenter()` in your project gradle.
+`smooth-app-bar-layout` is deployed to `jCenter`. Make sure you have `jcenter()` in your project gradle.
 
 
 ## Demo

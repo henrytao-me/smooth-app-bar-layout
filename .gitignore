@@ -12,6 +12,7 @@
 .idea/vcs.xml
 .idea/workspace.xml
 *.iml
+release/
 
 # Built application files
 *.apk
