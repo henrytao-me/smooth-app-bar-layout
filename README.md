@@ -35,12 +35,17 @@ Please note that the app on the Play store is not always the latest version.
 - ExitUntilCollapsed
 - Quick return (coming soon)
 
-Checkout these videos:
+If you want to add header to RecyclerView, checkout this RecyclerView WrapperAdapter [recyclerview-multistate-section-endless-adapter](https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter)
+
+
+Checkout these demo videos:
 
 - Google Design Support AppBarLayout: [https://youtu.be/oaN2UTZIRUk](https://youtu.be/oaN2UTZIRUk)
 - SmoothAppBarLayout: [https://youtu.be/la6ixCL9RKs](https://youtu.be/la6ixCL9RKs)
 
+
  ![screenshots](./screenshots/screenshots.jpg)
+ 
 
  
 ## Usage
