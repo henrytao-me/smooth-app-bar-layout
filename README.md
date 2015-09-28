@@ -26,7 +26,7 @@ Please note that the app on the Play store is not always the latest version.
 
 ## Concepts
 
- ![Button](./screenshots/concept.final.jpg)
+ ![concepts](./screenshots/concept.final.jpg)
 
 
 ## Features
@@ -40,6 +40,7 @@ Checkout these videos:
 - Google Design Support AppBarLayout: [https://youtu.be/oaN2UTZIRUk](https://youtu.be/oaN2UTZIRUk)
 - SmoothAppBarLayout: [https://youtu.be/la6ixCL9RKs](https://youtu.be/la6ixCL9RKs)
 
+ ![screenshots](./screenshots/screenshots.jpg)
 
  
 ## Usage
