@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_info:
-        setTitle(getString(R.string.text_info));
         startActivity(InfoActivity.newIntent(this));
         return true;
     }
