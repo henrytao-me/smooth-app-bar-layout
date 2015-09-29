@@ -23,6 +23,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -39,7 +40,7 @@ import java.util.List;
 public class SmoothAppBarLayout extends AppBarLayout {
 
   private static void log(String s, Object... args) {
-    //Log.i("info", String.format(s, args));
+    Log.i("info", String.format(s, args));
   }
 
   protected final List<WeakReference<OnOffsetChangedListener>> mListeners;
@@ -85,6 +86,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   public static class Behavior extends AppBarLayout.Behavior {
 
+    protected int mCurrentQuickReturnOffset;
+
     protected int mCurrentScrollOffset;
 
     protected int mCurrentTranslationOffset;
@@ -94,6 +97,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
     protected boolean mIsOnNestedPreScroll;
 
     protected View mScrollingTarget;
+
+    private int mLastDy;
 
     public Behavior() {
     }
@@ -263,17 +268,33 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected void scroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
       if (dy != 0) {
+        mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
+
         int minY = getMinOffset(child);
         int maxY = getMaxOffset(child);
-        mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
         mCurrentTranslationOffset = Math.min(Math.max(-mCurrentScrollOffset, minY), maxY);
-        setTopAndBottomOffset(mCurrentTranslationOffset);
+
+        int minQuickReturnOffset = -getToolbarHeight(child);
+        int maxQuickReturnOffset = 0;
+        mCurrentQuickReturnOffset = Math.min(Math.max(-mCurrentScrollOffset, minQuickReturnOffset), maxQuickReturnOffset);
+
+        if (Math.abs(mCurrentTranslationOffset) == Math.abs(minY)) {
+          setTopAndBottomOffset(Math.min(Math.max(mCurrentTranslationOffset + mCurrentQuickReturnOffset, minY), maxY));
+        } else {
+          setTopAndBottomOffset(mCurrentTranslationOffset);
+        }
+
         if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator) {
           coordinatorLayout.dispatchDependentViewsChanged(child);
         }
         dispatchOffsetUpdates(child, mCurrentTranslationOffset);
-        log("custom scroll | %d | %d | %d | %d | %d", dy, mCurrentScrollOffset, mCurrentTranslationOffset, minY, maxY);
+        mLastDy = dy;
+        log("custom scroll | %d | %d | %d | %d | %d | %d", dy, mLastDy, mCurrentScrollOffset, mCurrentTranslationOffset, minY, maxY);
       }
+    }
+
+    private int getToolbarHeight(AppBarLayout layout) {
+      return ((ViewGroup) layout.getChildAt(0)).getChildAt(0).getMeasuredHeight();
     }
   }
 }
