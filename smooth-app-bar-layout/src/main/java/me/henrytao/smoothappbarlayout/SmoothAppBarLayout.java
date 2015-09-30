@@ -17,12 +17,14 @@
 package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -87,13 +89,13 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected int mCurrentScrollOffset;
 
-    protected int mCurrentTranslationOffset;
+    protected FlingHandler mFlingHandler;
 
     protected boolean mIsOnNestedFling;
 
     protected boolean mIsOnNestedPreScroll;
 
-    protected View mScrollingTarget;
+    protected View mScrollTarget;
 
     public Behavior() {
     }
@@ -103,11 +105,23 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
 
     @Override
-    public boolean onNestedFling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, float velocityX, float velocityY,
-        boolean consumed) {
+    public boolean onNestedFling(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target,
+        float velocityX, float velocityY, boolean consumed) {
       log("custom onNestedFling | %f | %f | %b", velocityX, velocityY, consumed);
       mIsOnNestedFling = true;
       mIsOnNestedPreScroll = false;
+      if (mFlingHandler == null) {
+        mFlingHandler = new FlingHandler(new Runnable() {
+          @Override
+          public void run() {
+            log("custom onNestedFling Runnable");
+            Behavior.this.resetScrolling(coordinatorLayout, child, target, 0);
+          }
+        });
+      }
+      if (velocityY < 0) {
+        mFlingHandler.post(child);
+      }
       return true;
     }
 
@@ -124,7 +138,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       mIsOnNestedFling = false;
       if (mIsOnNestedPreScroll) {
         log("custom onNestedPreScroll | %d | %d", dx, dy);
-        scroll(coordinatorLayout, child, target, dy);
+        onScrollChanged(coordinatorLayout, child, target, dy);
       }
     }
 
@@ -136,7 +150,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       } else {
         log("custom onNestedScroll | %d | %d | %d | %d", dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
         mIsOnNestedPreScroll = false;
-        scroll(coordinatorLayout, child, target, dyConsumed);
+        onScrollChanged(coordinatorLayout, child, target, dyConsumed);
       }
     }
 
@@ -196,14 +210,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
 
     protected boolean init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target) {
-      if (mScrollingTarget == null && target != null) {
-        mScrollingTarget = target;
+      if (mScrollTarget == null && target != null) {
+        mScrollTarget = target;
         if (target instanceof RecyclerView) {
-          ((RecyclerView) mScrollingTarget).addOnScrollListener(new RecyclerView.OnScrollListener() {
+          ((RecyclerView) mScrollTarget).addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-              log("custom mScrollingTarget RecyclerView | %d", dy);
-              Behavior.this.onScrollChanged(coordinatorLayout, child, target, dy);
+              log("custom mScrollTarget RecyclerView | %d", dy);
+              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, dy);
             }
           });
         } else if (target instanceof ViewPager) {
@@ -215,8 +229,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-              log("custom mScrollingTarget ViewPager | %d", positionOffsetPixels - mCurrentScrollOffset);
-              Behavior.this.onScrollChanged(coordinatorLayout, child, target, positionOffsetPixels - mCurrentScrollOffset);
+              log("custom mScrollTarget ViewPager | %d", positionOffsetPixels - mCurrentScrollOffset);
+              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, positionOffsetPixels - mCurrentScrollOffset);
             }
 
             @Override
@@ -228,8 +242,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
           target.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-              log("custom mScrollingTarget ViewTreeObserver | %d", target.getScrollY() - mCurrentScrollOffset);
-              Behavior.this.onScrollChanged(coordinatorLayout, child, target, target.getScrollY() - mCurrentScrollOffset);
+              log("custom mScrollTarget ViewTreeObserver | %d", target.getScrollY() - mCurrentScrollOffset);
+              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, target.getScrollY() - mCurrentScrollOffset);
             }
           });
         }
@@ -255,24 +269,81 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
 
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
-      if (mIsOnNestedFling) {
-        log("custom onScrollChanged | %d", dy);
-        scroll(coordinatorLayout, child, target, dy);
-      }
-    }
-
-    protected void scroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
       if (dy != 0) {
+        if (mFlingHandler != null) {
+          mFlingHandler.cancel();
+        }
         int minY = getMinOffset(child);
         int maxY = getMaxOffset(child);
         mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
-        mCurrentTranslationOffset = Math.min(Math.max(-mCurrentScrollOffset, minY), maxY);
-        setTopAndBottomOffset(mCurrentTranslationOffset);
-        if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator) {
-          coordinatorLayout.dispatchDependentViewsChanged(child);
+        log("custom onScrollChanged | %d | %d | %d | %d", dy, mCurrentScrollOffset, minY, maxY);
+        scrolling(coordinatorLayout, child, target, Math.min(Math.max(-mCurrentScrollOffset, minY), maxY));
+      }
+    }
+
+    protected void onScrollTargetChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
+      if (mIsOnNestedFling) {
+        log("custom onScrollTargetChanged | %d", dy);
+        onScrollChanged(coordinatorLayout, child, target, dy);
+      }
+    }
+
+    protected void resetScrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
+      log("custom resetScrolling | %d", offset);
+      scrolling(coordinatorLayout, child, target, 0);
+      mCurrentScrollOffset = 0;
+    }
+
+    protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
+      log("custom scrolling | %d", offset);
+      setTopAndBottomOffset(offset);
+      if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator) {
+        coordinatorLayout.dispatchDependentViewsChanged(child);
+      }
+      dispatchOffsetUpdates(child, offset);
+    }
+
+    public static class FlingHandler {
+
+      protected static final long FAKE_DELAY = 50;
+
+      protected Handler mHandler;
+
+      protected boolean mIsEnabled;
+
+      protected boolean mIsStartPosting;
+
+      protected Runnable mRunnable;
+
+      public FlingHandler(Runnable runnable) {
+        mHandler = new Handler();
+        mRunnable = runnable;
+      }
+
+      public void cancel() {
+        mIsEnabled = false;
+        if (mIsStartPosting) {
+          mIsStartPosting = false;
+          mHandler.removeCallbacks(mRunnable);
         }
-        dispatchOffsetUpdates(child, mCurrentTranslationOffset);
-        log("custom scroll | %d | %d | %d | %d | %d", dy, mCurrentScrollOffset, mCurrentTranslationOffset, minY, maxY);
+      }
+
+      public void post(View view) {
+        post(view, FAKE_DELAY);
+      }
+
+      public void post(View view, final long delayMillis) {
+        mIsEnabled = true;
+        mIsStartPosting = false;
+        ViewCompat.postOnAnimation(view, new Runnable() {
+          @Override
+          public void run() {
+            if (mIsEnabled) {
+              mIsStartPosting = true;
+              mHandler.postDelayed(mRunnable, delayMillis);
+            }
+          }
+        });
       }
     }
   }
