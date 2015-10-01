@@ -10,7 +10,7 @@ If you find that it still doesn't meet your need, don't hesitate to send me a re
 
 ## Installation
 
-```
+``` groovy
 compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 ```
 
@@ -66,7 +66,7 @@ Super easy! Just need to do 2 things:
 
 #### Original AppBarLayout from Google Support Design
 
-```
+``` xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
@@ -100,7 +100,7 @@ Super easy! Just need to do 2 things:
 
 #### SmoothAppBarLayout 
 
-```
+``` xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
@@ -133,7 +133,7 @@ Super easy! Just need to do 2 things:
 
 #### SmoothCollapsingToolbarLayout exmaple
 
-```
+``` xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
