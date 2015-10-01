@@ -33,6 +33,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
+
 /**
  * Created by henrytao on 9/22/15.
  */
@@ -180,7 +182,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       if (mScrollTarget == null && target != null) {
         mScrollTarget = target;
         if (target instanceof RecyclerView) {
-          ((RecyclerView) mScrollTarget).addOnScrollListener(new RecyclerView.OnScrollListener() {
+          ((RecyclerView) target).addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
               log("test custom mScrollTarget RecyclerView | %d | %d", dy, mCurrentScrollOffset);
@@ -203,6 +205,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
             @Override
             public void onPageSelected(int position) {
 
+            }
+          });
+        } else if (target instanceof NestedScrollView) {
+          ((NestedScrollView) target).addOnScrollListener(new NestedScrollView.OnScrollListener() {
+            @Override
+            public void onScrolled(android.support.v4.widget.NestedScrollView nestedScrollView, int dx, int dy) {
+              log("test custom mScrollTarget NestedScrollView | %d | %d", dy, mCurrentScrollOffset);
+              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, dy);
             }
           });
         } else {
