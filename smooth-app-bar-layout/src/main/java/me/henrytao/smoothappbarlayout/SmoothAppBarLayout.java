@@ -17,7 +17,6 @@
 package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -41,7 +40,7 @@ import java.util.List;
 public class SmoothAppBarLayout extends AppBarLayout {
 
   private static void log(String s, Object... args) {
-    //Log.i("info", String.format(s, args));
+    Log.i("info", String.format(s, args));
   }
 
   protected final List<WeakReference<OnOffsetChangedListener>> mListeners;
@@ -89,12 +88,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected int mCurrentScrollOffset;
 
-    protected FlingHandler mFlingHandler;
-
-    protected boolean mIsOnNestedFling;
-
-    protected boolean mIsOnNestedPreScroll;
-
     protected View mScrollTarget;
 
     public Behavior() {
@@ -108,20 +101,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
     public boolean onNestedFling(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target,
         float velocityX, float velocityY, boolean consumed) {
       log("custom onNestedFling | %f | %f | %b", velocityX, velocityY, consumed);
-      mIsOnNestedFling = true;
-      mIsOnNestedPreScroll = false;
-      if (mFlingHandler == null) {
-        mFlingHandler = new FlingHandler(new Runnable() {
-          @Override
-          public void run() {
-            log("custom onNestedFling Runnable");
-            Behavior.this.resetScrolling(coordinatorLayout, child, target, 0);
-          }
-        });
-      }
-      if (velocityY < 0) {
-        mFlingHandler.post(child);
-      }
       return true;
     }
 
@@ -135,30 +114,18 @@ public class SmoothAppBarLayout extends AppBarLayout {
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed) {
       init(coordinatorLayout, child, target);
-      mIsOnNestedFling = false;
-      if (mIsOnNestedPreScroll) {
-        log("custom onNestedPreScroll | %d | %d", dx, dy);
-        onScrollChanged(coordinatorLayout, child, target, dy);
-      }
     }
 
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed,
         int dxUnconsumed, int dyUnconsumed) {
-      if (dyUnconsumed < 0) {
-        mIsOnNestedPreScroll = true;
-      } else {
-        log("custom onNestedScroll | %d | %d | %d | %d", dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        mIsOnNestedPreScroll = false;
-        onScrollChanged(coordinatorLayout, child, target, dyConsumed);
-      }
+      log("custom onNestedScroll | %d | %d | %d | %d", dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
     }
 
     @Override
     public void onNestedScrollAccepted(CoordinatorLayout coordinatorLayout, AppBarLayout child, View directTargetChild, View target,
         int nestedScrollAxes) {
       log("custom onNestedScrollAccepted | %d", nestedScrollAxes);
-      mIsOnNestedPreScroll = false;
     }
 
     @Override
@@ -216,7 +183,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
           ((RecyclerView) mScrollTarget).addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-              log("custom mScrollTarget RecyclerView | %d", dy);
+              log("test custom mScrollTarget RecyclerView | %d | %d", dy, mCurrentScrollOffset);
               Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, dy);
             }
           });
@@ -270,9 +237,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
       if (dy != 0) {
-        if (mFlingHandler != null) {
-          mFlingHandler.cancel();
-        }
         int minY = getMinOffset(child);
         int maxY = getMaxOffset(child);
         mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
@@ -282,10 +246,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
 
     protected void onScrollTargetChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
-      if (mIsOnNestedFling) {
-        log("custom onScrollTargetChanged | %d", dy);
-        onScrollChanged(coordinatorLayout, child, target, dy);
-      }
+      log("custom onScrollTargetChanged | %d", dy);
+      onScrollChanged(coordinatorLayout, child, target, dy);
     }
 
     protected void resetScrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
@@ -301,50 +263,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
         coordinatorLayout.dispatchDependentViewsChanged(child);
       }
       dispatchOffsetUpdates(child, offset);
-    }
-
-    public static class FlingHandler {
-
-      protected static final long FAKE_DELAY = 50;
-
-      protected Handler mHandler;
-
-      protected boolean mIsEnabled;
-
-      protected boolean mIsStartPosting;
-
-      protected Runnable mRunnable;
-
-      public FlingHandler(Runnable runnable) {
-        mHandler = new Handler();
-        mRunnable = runnable;
-      }
-
-      public void cancel() {
-        mIsEnabled = false;
-        if (mIsStartPosting) {
-          mIsStartPosting = false;
-          mHandler.removeCallbacks(mRunnable);
-        }
-      }
-
-      public void post(View view) {
-        post(view, FAKE_DELAY);
-      }
-
-      public void post(View view, final long delayMillis) {
-        mIsEnabled = true;
-        mIsStartPosting = false;
-        ViewCompat.postOnAnimation(view, new Runnable() {
-          @Override
-          public void run() {
-            if (mIsEnabled) {
-              mIsStartPosting = true;
-              mHandler.postDelayed(mRunnable, delayMillis);
-            }
-          }
-        });
-      }
     }
   }
 }
