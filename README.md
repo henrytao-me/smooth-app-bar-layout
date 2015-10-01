@@ -10,11 +10,20 @@ If you find that it still doesn't meet your need, don't hesitate to send me a re
 
 ## Installation
 
-```
+``` groovy
 compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 ```
 
 `smooth-app-bar-layout` is deployed to `jCenter`. Make sure you have `jcenter()` in your project gradle.
+
+
+## Proguard
+
+Please make sure all classes won't be shrinked or minified by proguard.
+
+```
+-keep class me.henrytao.smoothappbarlayout.** { *; }
+```
 
 
 ## Demo
@@ -58,7 +67,7 @@ Super easy! Just need to do 3 steps:
 
 #### Original AppBarLayout from Google Support Design
 
-```
+``` xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
@@ -92,7 +101,7 @@ Super easy! Just need to do 3 steps:
 
 #### SmoothAppBarLayout 
 
-```
+``` xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
@@ -125,7 +134,7 @@ Super easy! Just need to do 3 steps:
 
 #### SmoothCollapsingToolbarLayout exmaple
 
-```
+``` xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"

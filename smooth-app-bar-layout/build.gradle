@@ -13,7 +13,7 @@ ext {
   siteUrl = "https://github.com/henrytao-me/smooth-app-bar-layout"
   gitUrl = "https://github.com/henrytao-me/smooth-app-bar-layout.git"
 
-  libraryVersion = "0.1.0"
+  libraryVersion = rootProject.ext.android.versionName
 
   developerId = "henrytao"
   developerName = "Henry Tao"
