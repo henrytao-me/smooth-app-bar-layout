@@ -92,6 +92,14 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     features.add(new Feature(Constants.Feature.SMOOTH_PARALLAX, "Smooth Parallax"));
     features.add(new Feature(Constants.Feature.GSD_AVATAR, "Avatar"));
     features.add(new Feature(Constants.Feature.SMOOTH_AVATAR, "Smooth Avatar"));
+    features.add(new Feature(Constants.Feature.GSD_ENTER_ALWAYS, "Enter Always"));
+    features.add(new Feature(Constants.Feature.SMOOTH_ENTER_ALWAYS, "Smooth Enter Always"));
+    //features.add(new Feature(Constants.Feature.GSD_ENTER_ALWAYS_COLLAPSED, "Enter Always Collapsed (Quick Return)"));
+    //features.add(new Feature(Constants.Feature.SMOOTH_ENTER_ALWAYS_COLLAPSED, "Smooth Enter Always Collapsed (Quick Return)"));
+    features.add(new Feature(Constants.Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX, "NestedScrollView Parallax"));
+    features.add(new Feature(Constants.Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX, "Smooth NestedScrollView Parallax"));
+    features.add(new Feature(Constants.Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX_2, ""));
+    features.add(new Feature(Constants.Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX_2, "Smooth NestedScrollView Parallax 2"));
     return features;
   }
 

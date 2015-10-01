@@ -33,6 +33,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
+
 /**
  * Created by henrytao on 9/22/15.
  */
@@ -180,7 +182,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       if (mScrollTarget == null && target != null) {
         mScrollTarget = target;
         if (target instanceof RecyclerView) {
-          ((RecyclerView) mScrollTarget).addOnScrollListener(new RecyclerView.OnScrollListener() {
+          ((RecyclerView) target).addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
               log("test custom mScrollTarget RecyclerView | %d | %d", dy, mCurrentScrollOffset);
@@ -203,6 +205,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
             @Override
             public void onPageSelected(int position) {
 
+            }
+          });
+        } else if (target instanceof NestedScrollView) {
+          ((NestedScrollView) target).addOnScrollListener(new NestedScrollView.OnScrollListener() {
+            @Override
+            public void onScrolled(android.support.v4.widget.NestedScrollView nestedScrollView, int dx, int dy) {
+              log("test custom mScrollTarget NestedScrollView | %d | %d", dy, mCurrentScrollOffset);
+              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, dy);
             }
           });
         } else {
@@ -242,18 +252,31 @@ public class SmoothAppBarLayout extends AppBarLayout {
         mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
         log("custom onScrollChanged | %d | %d | %d | %d", dy, mCurrentScrollOffset, minY, maxY);
         scrolling(coordinatorLayout, child, target, Math.min(Math.max(-mCurrentScrollOffset, minY), maxY));
+
+        //mCurrentTranslationOffset = Math.min(Math.max(-mCurrentScrollOffset, minY), maxY);
+        //
+        //int minQuickReturnOffset = -getToolbarHeight(child);
+        //int maxQuickReturnOffset = 0;
+        //mCurrentQuickReturnOffset = Math.min(Math.max(-mCurrentScrollOffset, minQuickReturnOffset), maxQuickReturnOffset);
+        //
+        //if (Math.abs(mCurrentTranslationOffset) == Math.abs(minY)) {
+        //  setTopAndBottomOffset(Math.min(Math.max(mCurrentTranslationOffset + mCurrentQuickReturnOffset, minY), maxY));
+        //} else {
+        //  setTopAndBottomOffset(mCurrentTranslationOffset);
+        //}
+        //
+        //if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator) {
+        //  coordinatorLayout.dispatchDependentViewsChanged(child);
+        //}
+        //dispatchOffsetUpdates(child, mCurrentTranslationOffset);
+        //mLastDy = dy;
+        //log("custom scroll | %d | %d | %d | %d | %d | %d", dy, mLastDy, mCurrentScrollOffset, mCurrentTranslationOffset, minY, maxY);
       }
     }
 
     protected void onScrollTargetChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
       log("custom onScrollTargetChanged | %d", dy);
       onScrollChanged(coordinatorLayout, child, target, dy);
-    }
-
-    protected void resetScrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
-      log("custom resetScrolling | %d", offset);
-      scrolling(coordinatorLayout, child, target, 0);
-      mCurrentScrollOffset = 0;
     }
 
     protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {

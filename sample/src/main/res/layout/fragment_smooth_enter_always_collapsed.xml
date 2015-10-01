@@ -22,10 +22,9 @@
   <android.support.v7.widget.RecyclerView
     android:id="@android:id/list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    android:layout_height="match_parent" />
 
-  <android.support.design.widget.AppBarLayout
+  <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_bar_height">
 
@@ -33,23 +32,13 @@
       android:id="@+id/collapsing_toolbar_layout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:contentScrim="?attr/colorPrimary"
-      app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-      <ImageView
-        android:id="@+id/cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/cover"
-        android:scaleType="centerCrop"
-        app:layout_collapseMode="parallax" />
+      app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
       <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@android:color/transparent"
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/ic_toolbar_arrow_back"
         style="@style/AppStyle.MdToolbar" />
     </android.support.design.widget.CollapsingToolbarLayout>
-  </android.support.design.widget.AppBarLayout>
+  </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -27,11 +27,18 @@ import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.config.Constants.Feature;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdDefaultFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdEnterAlwaysCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdEnterAlwaysFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdExitUntilCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdNestedScrollViewParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothDefaultFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothExitUntilCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothNestedScrollViewParallax2Fragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothNestedScrollViewParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothParallaxFragment;
 
 public class FeatureActivity extends AppCompatActivity {
@@ -89,6 +96,22 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdAvatarFragment.newInstance();
     } else if (Feature.SMOOTH_AVATAR.equal(feature)) {
       fragment = SmoothAvatarFragment.newInstance();
+    } else if (Feature.GSD_ENTER_ALWAYS.equal(feature)) {
+      fragment = GsdEnterAlwaysFragment.newInstance();
+    } else if (Feature.SMOOTH_ENTER_ALWAYS.equal(feature)) {
+      fragment = SmoothEnterAlwaysFragment.newInstance();
+    } else if (Feature.GSD_ENTER_ALWAYS_COLLAPSED.equal(feature)) {
+      fragment = GsdEnterAlwaysCollapsedFragment.newInstance();
+    } else if (Feature.SMOOTH_ENTER_ALWAYS_COLLAPSED.equal(feature)) {
+      fragment = SmoothEnterAlwaysCollapsedFragment.newInstance();
+    } else if (Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX.equal(feature)) {
+      fragment = GsdNestedScrollViewParallaxFragment.newInstance();
+    } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX.equal(feature)) {
+      fragment = SmoothNestedScrollViewParallaxFragment.newInstance();
+    } else if (Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
+      // blank
+    } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
+      fragment = SmoothNestedScrollViewParallax2Fragment.newInstance();
     }
     return fragment;
   }

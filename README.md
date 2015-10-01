@@ -59,10 +59,11 @@ Checkout these demo videos:
  
 ## Usage
 
-Super easy! Just need to do 2 things:
+Super easy! Just need to do 3 steps:
 
-- Change `android.support.design.widget.AppBarLayout` to `me.henrytao.smoothappbarlayout.SmoothAppBarLayout`
-- Remove `app:layout_behavior="@string/appbar_scrolling_view_behavior"`
+- Change `android.support.design.widget.AppBarLayout` to `me.henrytao.smoothappbarlayout.SmoothAppBarLayout`.
+- Remove `app:layout_behavior="@string/appbar_scrolling_view_behavior"`.
+- Add header to your scroll view or recyclerView.
 
 #### Original AppBarLayout from Google Support Design
 
