@@ -174,7 +174,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected int mCurrentScrollOffset;
 
-    protected int mCurrentTransitionOffset;
+    protected int mCurrentTranslationOffset;
 
     protected OnOffsetSyncedListener mOnOffsetSyncedListener;
 
@@ -351,36 +351,31 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
       if (dy != 0) {
-        int minY = getMinOffset(child);
-        int maxY = getMaxOffset(child);
+        int minTranslationOffset = getMinOffset(child);
+        int maxTranslationOffset = getMaxOffset(child);
         mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
-        mCurrentTransitionOffset = Math.min(Math.max(-mCurrentScrollOffset, minY), maxY);
+        mCurrentTranslationOffset = Math.min(Math.max(-mCurrentScrollOffset, minTranslationOffset), maxTranslationOffset);
 
-        if (mCurrentTransitionOffset == 0) {
-          mQuickReturnOffset = 0;
-        }
-
-        int offset = mCurrentTransitionOffset;
+        int offset = mCurrentTranslationOffset;
         View quickReturnView = getQuickReturnView(child, false);
         if (quickReturnView != null) {
-          if (dy < 0) {
-            if (mCurrentTransitionOffset == minY) {
+          if (mCurrentTranslationOffset == 0) {
+            mQuickReturnOffset = 0;
+          }
+          if (mCurrentTranslationOffset == minTranslationOffset) {
+            if (dy < 0) {
               mQuickReturnOffset = Math.max(mQuickReturnOffset + dy, -ViewCompat.getMinimumHeight(quickReturnView));
-              offset -= mQuickReturnOffset;
             } else {
-              offset = Math.min(Math.max(offset - mQuickReturnOffset, minY), maxY);
-            }
-          } else if (dy > 0) {
-            if (mCurrentTransitionOffset == minY) {
               mQuickReturnOffset = Math.min(mQuickReturnOffset + dy, 0);
-              offset -= mQuickReturnOffset;
-            } else {
-              offset = Math.min(Math.max(offset - mQuickReturnOffset, minY), maxY);
             }
+            offset -= mQuickReturnOffset;
+          } else {
+            offset = Math.min(Math.max(offset - mQuickReturnOffset, minTranslationOffset), maxTranslationOffset);
           }
         }
 
-        log("custom onScrollChanged | %d | %d | %d | %d | %d | %d", dy, mCurrentScrollOffset, mQuickReturnOffset, offset, minY, maxY);
+        log("custom onScrollChanged | %d | %d | %d | %d | %d | %d",
+            dy, mCurrentScrollOffset, mQuickReturnOffset, offset, minTranslationOffset, maxTranslationOffset);
         scrolling(coordinatorLayout, child, target, offset);
       }
     }
