@@ -19,7 +19,7 @@ compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 
 ## Proguard
 
-Please make sure all classes won't be shrinked or minified by proguard.
+Please make sure all classes aren't shrinked or minified by proguard.
 
 ```
 -keep class me.henrytao.smoothappbarlayout.** { *; }
