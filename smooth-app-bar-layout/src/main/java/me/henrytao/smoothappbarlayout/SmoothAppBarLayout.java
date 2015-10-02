@@ -17,6 +17,7 @@
 package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -31,6 +32,7 @@ import android.view.animation.Interpolator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
@@ -41,11 +43,17 @@ import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
 @CoordinatorLayout.DefaultBehavior(SmoothAppBarLayout.Behavior.class)
 public class SmoothAppBarLayout extends AppBarLayout {
 
+  protected static final int FAKE_DELAY = 200;
+
   private static void log(String s, Object... args) {
     Log.i("info", String.format(s, args));
   }
 
-  protected final List<WeakReference<OnOffsetChangedListener>> mListeners;
+  protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners;
+
+  protected final List<WeakReference<OnOffsetSyncedListener>> mOffsetSyncedListeners;
+
+  protected Handler mHandler;
 
   protected boolean mHaveChildWithInterpolator;
 
@@ -55,20 +63,38 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   public SmoothAppBarLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
-    this.mListeners = new ArrayList();
+    this.mOffsetChangedListeners = new ArrayList<>();
+    this.mOffsetSyncedListeners = new ArrayList<>();
   }
 
   @Override
   public void addOnOffsetChangedListener(OnOffsetChangedListener listener) {
     super.addOnOffsetChangedListener(listener);
     int i = 0;
-    for (int z = this.mListeners.size(); i < z; ++i) {
-      WeakReference ref = (WeakReference) this.mListeners.get(i);
+    for (int z = this.mOffsetChangedListeners.size(); i < z; ++i) {
+      WeakReference ref = (WeakReference) this.mOffsetChangedListeners.get(i);
       if (ref != null && ref.get() == listener) {
         return;
       }
     }
-    this.mListeners.add(new WeakReference(listener));
+    this.mOffsetChangedListeners.add(new WeakReference(listener));
+  }
+
+  @Override
+  public void removeOnOffsetChangedListener(OnOffsetChangedListener listener) {
+    super.removeOnOffsetChangedListener(listener);
+    Iterator i = mOffsetChangedListeners.iterator();
+    while (true) {
+      OnOffsetChangedListener item;
+      do {
+        if (!i.hasNext()) {
+          return;
+        }
+        WeakReference ref = (WeakReference) i.next();
+        item = (OnOffsetChangedListener) ref.get();
+      } while (item != listener && item != null);
+      i.remove();
+    }
   }
 
   @Override
@@ -86,9 +112,69 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
+  public void addOnOffsetSyncedListener(OnOffsetSyncedListener listener) {
+    int i = 0;
+    for (int z = this.mOffsetSyncedListeners.size(); i < z; ++i) {
+      WeakReference ref = (WeakReference) this.mOffsetSyncedListeners.get(i);
+      if (ref != null && ref.get() == listener) {
+        return;
+      }
+    }
+    this.mOffsetSyncedListeners.add(new WeakReference(listener));
+  }
+
+  public void removeOnOffsetSyncedListener(OnOffsetSyncedListener listener) {
+    Iterator i = mOffsetSyncedListeners.iterator();
+    while (true) {
+      OnOffsetSyncedListener item;
+      do {
+        if (!i.hasNext()) {
+          return;
+        }
+        WeakReference ref = (WeakReference) i.next();
+        item = (OnOffsetSyncedListener) ref.get();
+      } while (item != listener && item != null);
+      i.remove();
+    }
+  }
+
+  public void syncOffset() {
+    int i = 0;
+    for (int z = mOffsetSyncedListeners.size(); i < z; ++i) {
+      WeakReference ref = (WeakReference) mOffsetSyncedListeners.get(i);
+      OnOffsetSyncedListener listener = ref != null ? (OnOffsetSyncedListener) ref.get() : null;
+      if (listener != null) {
+        listener.onOffsetSynced(this);
+      }
+    }
+  }
+
+  public void syncOffsetDelayed() {
+    syncOffsetDelayed(FAKE_DELAY);
+  }
+
+  public void syncOffsetDelayed(int delayMillis) {
+    if (mHandler == null) {
+      mHandler = new Handler();
+    }
+    mHandler.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        SmoothAppBarLayout.this.syncOffset();
+      }
+    }, delayMillis);
+  }
+
+  public interface OnOffsetSyncedListener {
+
+    void onOffsetSynced(AppBarLayout appBarLayout);
+  }
+
   public static class Behavior extends AppBarLayout.Behavior {
 
     protected int mCurrentScrollOffset;
+
+    protected OnOffsetSyncedListener mOnOffsetSyncedListener;
 
     protected View mScrollTarget;
 
@@ -144,11 +230,11 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected void dispatchOffsetUpdates(AppBarLayout layout, int translationOffset) {
       if (layout instanceof SmoothAppBarLayout) {
-        List listeners = ((SmoothAppBarLayout) layout).mListeners;
+        List listeners = ((SmoothAppBarLayout) layout).mOffsetChangedListeners;
         int i = 0;
         for (int z = listeners.size(); i < z; ++i) {
           WeakReference ref = (WeakReference) listeners.get(i);
-          AppBarLayout.OnOffsetChangedListener listener = ref != null ? (AppBarLayout.OnOffsetChangedListener) ref.get() : null;
+          OnOffsetChangedListener listener = ref != null ? (OnOffsetChangedListener) ref.get() : null;
           if (listener != null) {
             listener.onOffsetChanged(layout, translationOffset);
           }
@@ -179,6 +265,15 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
 
     protected boolean init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target) {
+      if (mOnOffsetSyncedListener == null && child instanceof SmoothAppBarLayout) {
+        mOnOffsetSyncedListener = new OnOffsetSyncedListener() {
+          @Override
+          public void onOffsetSynced(AppBarLayout appBarLayout) {
+            Behavior.this.onSyncOffset(coordinatorLayout, child, target);
+          }
+        };
+        ((SmoothAppBarLayout) child).addOnOffsetSyncedListener(mOnOffsetSyncedListener);
+      }
       if (mScrollTarget == null && target != null) {
         mScrollTarget = target;
         if (target instanceof RecyclerView) {
@@ -277,6 +372,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
     protected void onScrollTargetChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
       log("custom onScrollTargetChanged | %d", dy);
       onScrollChanged(coordinatorLayout, child, target, dy);
+    }
+
+    protected void onSyncOffset(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target) {
+      int newOffset = target instanceof RecyclerView ? ((RecyclerView) target).computeVerticalScrollOffset() : mCurrentScrollOffset;
+      log("custom onSyncOffset | %d | %d", mCurrentScrollOffset, newOffset);
+      onScrollChanged(coordinatorLayout, child, target, newOffset - mCurrentScrollOffset);
     }
 
     protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
