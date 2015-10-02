@@ -42,7 +42,7 @@ Please note that the app on the Play store is not always the latest version.
 
 - Default scrolling
 - ExitUntilCollapsed
-- Quick return (coming soon)
+- Quick return
 
 If you want to add header to RecyclerView, checkout this RecyclerView WrapperAdapter [recyclerview-multistate-section-endless-adapter](https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter)
 
