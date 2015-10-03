@@ -17,10 +17,12 @@
 package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -48,22 +50,26 @@ public class SmoothAppBarLayout extends AppBarLayout {
     Log.i("info", String.format(s, args));
   }
 
-  protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners;
+  protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners = new ArrayList<>();
 
-  protected final List<WeakReference<OnOffsetSyncedListener>> mOffsetSyncedListeners;
+  protected final List<WeakReference<OnOffsetSyncedListener>> mOffsetSyncedListeners = new ArrayList<>();
 
   protected Handler mHandler;
 
   protected boolean mHaveChildWithInterpolator;
 
+  protected int mViewPagerId;
+
+  protected ViewPager vViewPager;
+
   public SmoothAppBarLayout(Context context) {
-    this(context, null);
+    super(context);
+    init(null);
   }
 
   public SmoothAppBarLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
-    this.mOffsetChangedListeners = new ArrayList<>();
-    this.mOffsetSyncedListeners = new ArrayList<>();
+    init(attrs);
   }
 
   @Override
@@ -97,6 +103,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
   }
 
   @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    initViews();
+  }
+
+  @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     super.onLayout(changed, l, t, r, b);
     int i = 0;
@@ -120,6 +132,10 @@ public class SmoothAppBarLayout extends AppBarLayout {
       }
     }
     this.mOffsetSyncedListeners.add(new WeakReference(listener));
+  }
+
+  public ViewPager getViewPager() {
+    return vViewPager;
   }
 
   public void removeOnOffsetSyncedListener(OnOffsetSyncedListener listener) {
@@ -148,10 +164,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
-  public void syncOffsetDelayed() {
-    syncOffsetDelayed(FAKE_DELAY);
-  }
-
   public void syncOffsetDelayed(int delayMillis) {
     if (mHandler == null) {
       mHandler = new Handler();
@@ -162,6 +174,36 @@ public class SmoothAppBarLayout extends AppBarLayout {
         SmoothAppBarLayout.this.syncOffset();
       }
     }, delayMillis);
+  }
+
+  public void syncOffsetDelayed() {
+    syncOffsetDelayed(FAKE_DELAY);
+  }
+
+  protected void init(AttributeSet attrs) {
+    TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.SmoothAppBarLayout, 0, 0);
+    try {
+      mViewPagerId = a.getResourceId(R.styleable.SmoothAppBarLayout_sabl_view_pager_id, 0);
+    } finally {
+      a.recycle();
+    }
+  }
+
+  protected void initViews() {
+    if (mViewPagerId > 0) {
+      vViewPager = (ViewPager) getRootView().findViewById(mViewPagerId);
+    } else {
+      int i = 0;
+      ViewGroup parent = (ViewGroup) getParent();
+      View child;
+      for (int z = parent.getChildCount(); i < z; i++) {
+        child = parent.getChildAt(i);
+        if (child instanceof ViewPager) {
+          vViewPager = (ViewPager) child;
+          break;
+        }
+      }
+    }
   }
 
   public interface OnOffsetSyncedListener {

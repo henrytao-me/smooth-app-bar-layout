@@ -31,8 +31,7 @@
     <android.support.v7.widget.Toolbar
       android:id="@+id/toolbar"
       android:background="@android:color/transparent"
-      android:minHeight="?attr/actionBarSize"
-      app:layout_scrollFlags="scroll|enterAlways"
+      app:layout_scrollFlags="scroll"
       app:navigationIcon="@drawable/ic_toolbar_arrow_back"
       style="@style/AppStyle.MdToolbar" />
 

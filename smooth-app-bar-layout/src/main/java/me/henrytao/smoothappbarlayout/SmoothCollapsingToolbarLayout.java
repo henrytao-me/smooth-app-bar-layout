@@ -158,9 +158,12 @@ public class SmoothCollapsingToolbarLayout extends LinearLayout {
     if (vToolbar == null) {
       int i = 0;
       ViewGroup parent = (ViewGroup) getParent();
+      View child;
       for (int z = parent.getChildCount(); i < z; i++) {
-        if (parent.getChildAt(i) instanceof Toolbar) {
-          vToolbar = (Toolbar) parent.getChildAt(i);
+        child = parent.getChildAt(i);
+        if (child instanceof Toolbar) {
+          vToolbar = (Toolbar) child;
+          break;
         }
       }
       if (vToolbar == null) {
@@ -200,17 +203,14 @@ public class SmoothCollapsingToolbarLayout extends LinearLayout {
 
   protected void initViews() {
     updateViews(0);
-    View view;
     if (mAvatarId > 0) {
       vAvatar = findViewById(mAvatarId);
     }
     if (mTitleId > 0) {
-      view = findViewById(mTitleId);
-      vTitle = view == null ? null : (TextView) view;
+      vTitle = (TextView) findViewById(mTitleId);
     }
     if (mSubtitleId > 0) {
-      view = findViewById(mSubtitleId);
-      vSubtitle = view == null ? null : (TextView) view;
+      vSubtitle = (TextView) findViewById(mSubtitleId);
     }
   }
 
