@@ -29,10 +29,10 @@ import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
-public class SmoothDefaultFragment extends BaseFeatureFragment {
+public class SmoothEnterAlwaysCollapsedParallaxFragment extends BaseFeatureFragment {
 
   public static Fragment newInstance() {
-    return new SmoothDefaultFragment();
+    return new SmoothEnterAlwaysCollapsedParallaxFragment();
   }
 
   @Bind(android.R.id.list)
@@ -40,7 +40,7 @@ public class SmoothDefaultFragment extends BaseFeatureFragment {
 
   @Override
   public int getContentLayout() {
-    return R.layout.fragment_smooth_default;
+    return R.layout.fragment_smooth_enter_always_collapsed_parallax;
   }
 
   @Override

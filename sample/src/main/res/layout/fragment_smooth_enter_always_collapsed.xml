@@ -26,20 +26,13 @@
 
   <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="@dimen/app_bar_height">
+    android:layout_height="wrap_content">
 
-    <android.support.design.widget.CollapsingToolbarLayout
-      android:id="@+id/collapsing_toolbar_layout"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:minHeight="?attr/actionBarSize"
-      app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
-
-      <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        app:layout_collapseMode="pin"
-        app:navigationIcon="@drawable/ic_toolbar_arrow_back"
-        style="@style/AppStyle.MdToolbar" />
-    </android.support.design.widget.CollapsingToolbarLayout>
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      app:layout_collapseMode="pin"
+      app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+      app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+      style="@style/AppStyle.MdToolbar" />
   </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

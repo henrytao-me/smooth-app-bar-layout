@@ -56,7 +56,7 @@ public class SmoothExitUntilCollapsedFragment extends BaseFeatureFragment {
 
       @Override
       public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_spacing);
+        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_header_spacing);
       }
     };
     vRecyclerView.hasFixedSize();

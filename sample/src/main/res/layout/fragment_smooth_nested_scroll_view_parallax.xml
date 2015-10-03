@@ -29,7 +29,7 @@
       android:orientation="vertical"
       android:padding="?attr/mdLayout_spacing_md">
 
-      <include layout="@layout/item_spacing" />
+      <include layout="@layout/item_header_spacing" />
 
       <TextView
         android:text="@string/text_long"
