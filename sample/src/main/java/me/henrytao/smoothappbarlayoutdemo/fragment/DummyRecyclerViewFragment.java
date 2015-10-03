@@ -17,6 +17,7 @@
 package me.henrytao.smoothappbarlayoutdemo.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +30,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
@@ -36,13 +38,20 @@ public class DummyRecyclerViewFragment extends Fragment {
 
   private static final String ARG_COUNT = "ARG_COUNT";
 
+  private static final String ARG_HEADER_LAYOUT = "ARG_HEADER_LAYOUT";
+
   private static final String ARG_TITLE = "ARG_TITLE";
 
   public static DummyRecyclerViewFragment newInstance(String title, int count) {
+    return DummyRecyclerViewFragment.newInstance(title, count, 0);
+  }
+
+  public static DummyRecyclerViewFragment newInstance(String title, int count, @LayoutRes int headerLayout) {
     DummyRecyclerViewFragment fragment = new DummyRecyclerViewFragment();
     Bundle bundle = new Bundle();
     bundle.putString(ARG_TITLE, title);
     bundle.putInt(ARG_COUNT, count);
+    bundle.putInt(ARG_HEADER_LAYOUT, headerLayout);
     fragment.setArguments(bundle);
     return fragment;
   }
@@ -71,9 +80,25 @@ public class DummyRecyclerViewFragment extends Fragment {
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
+    // This is RecyclerViewWrapperAdapter. Checkout at https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter
+    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new SimpleAdapter<>(getSampleData(getArgTitle(), getArgCount()), null)) {
+      @Override
+      public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        return null;
+      }
+
+      @Override
+      public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        int headerLayout = getArgHeaderLayout();
+        if (headerLayout > 0) {
+          return new HeaderHolder(layoutInflater, viewGroup, headerLayout);
+        }
+        return null;
+      }
+    };
     vRecyclerView.hasFixedSize();
     vRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    vRecyclerView.setAdapter(new SimpleAdapter<>(getSampleData(getArgTitle(), getArgCount()), null));
+    vRecyclerView.setAdapter(adapter);
   }
 
   protected List<String> getSampleData(String title, int count) {
@@ -89,6 +114,14 @@ public class DummyRecyclerViewFragment extends Fragment {
     Bundle bundle = getArguments();
     if (bundle != null) {
       return bundle.getInt(ARG_COUNT);
+    }
+    return 0;
+  }
+
+  private int getArgHeaderLayout() {
+    Bundle bundle = getArguments();
+    if (bundle != null) {
+      return bundle.getInt(ARG_HEADER_LAYOUT);
     }
     return 0;
   }

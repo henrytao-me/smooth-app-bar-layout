@@ -48,9 +48,9 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
     super.onViewCreated(view, savedInstanceState);
 
     ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100), "Cat");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100), "Dog");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100), "Mouse");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse");
     vViewPager.setAdapter(adapter);
     vTabLayout.setupWithViewPager(vViewPager);
   }
