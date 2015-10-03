@@ -261,6 +261,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
         if (layoutParams instanceof AppBarLayout.LayoutParams) {
           AppBarLayout.LayoutParams childLp = (AppBarLayout.LayoutParams) layoutParams;
           int flags = childLp.getScrollFlags();
+          if ((flags & LayoutParams.SCROLL_FLAG_SCROLL) != 0) {
+            minOffset = child.getMeasuredHeight();
+          }
           if ((flags & LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED) != 0) {
             minOffset -= ViewCompat.getMinimumHeight(child);
             break;
