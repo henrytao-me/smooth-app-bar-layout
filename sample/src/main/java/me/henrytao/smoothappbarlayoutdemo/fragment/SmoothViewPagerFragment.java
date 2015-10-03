@@ -53,5 +53,6 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse");
     vViewPager.setAdapter(adapter);
     vTabLayout.setupWithViewPager(vViewPager);
+    //vViewPager.setOffscreenPageLimit(3);
   }
 }

@@ -21,7 +21,6 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -180,9 +179,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected int mQuickReturnOffset;
 
-    protected View vQuickReturnView;
+    protected ScrollFlagView mScrollFlagView;
 
-    protected View vScrollTarget;
+    protected List<Long> mTargetViews = new ArrayList<>();
 
     public Behavior() {
     }
@@ -254,42 +253,15 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected int getMinOffset(AppBarLayout layout) {
       int minOffset = layout.getMeasuredHeight();
-      int i = 0;
-      for (int z = layout.getChildCount(); i < z; ++i) {
-        View child = layout.getChildAt(i);
-        ViewGroup.LayoutParams layoutParams = child.getLayoutParams();
-        if (layoutParams instanceof AppBarLayout.LayoutParams) {
-          AppBarLayout.LayoutParams childLp = (AppBarLayout.LayoutParams) layoutParams;
-          int flags = childLp.getScrollFlags();
-          if ((flags & LayoutParams.SCROLL_FLAG_SCROLL) != 0) {
-            minOffset = child.getMeasuredHeight();
-          }
-          if ((flags & LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED) != 0) {
-            minOffset -= ViewCompat.getMinimumHeight(child);
-            break;
-          }
+      if (mScrollFlagView != null) {
+        if (mScrollFlagView.isFlagScrollEnabled()) {
+          minOffset = mScrollFlagView.getView().getMeasuredHeight();
+        }
+        if (mScrollFlagView.isFlagExitUntilCollapsedEnabled()) {
+          minOffset -= ViewCompat.getMinimumHeight(mScrollFlagView.getView());
         }
       }
       return -minOffset;
-    }
-
-    protected View getQuickReturnView(AppBarLayout layout, boolean force) {
-      if (vQuickReturnView == null || force) {
-        int i = 0;
-        for (int z = layout.getChildCount(); i < z; ++i) {
-          View child = layout.getChildAt(i);
-          ViewGroup.LayoutParams layoutParams = child.getLayoutParams();
-          if (layoutParams instanceof AppBarLayout.LayoutParams) {
-            AppBarLayout.LayoutParams childLp = (AppBarLayout.LayoutParams) layoutParams;
-            int flags = childLp.getScrollFlags();
-            if ((flags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS) != 0 && (flags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED) != 0) {
-              vQuickReturnView = child;
-              break;
-            }
-          }
-        }
-      }
-      return vQuickReturnView;
     }
 
     protected boolean init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target) {
@@ -302,32 +274,21 @@ public class SmoothAppBarLayout extends AppBarLayout {
         };
         ((SmoothAppBarLayout) child).addOnOffsetSyncedListener(mOnOffsetSyncedListener);
       }
-      if (vScrollTarget == null && target != null) {
-        vScrollTarget = target;
+
+      if (mScrollFlagView == null) {
+        mScrollFlagView = new ScrollFlagView(child);
+      }
+
+      long tag = obtainViewTag(target, true);
+      if (!mTargetViews.contains(tag)) {
+        mTargetViews.add(tag);
+        log("test custom vScrollTarget init | %d | %d", tag, mTargetViews.size());
         if (target instanceof RecyclerView) {
           ((RecyclerView) target).addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
               log("test custom vScrollTarget RecyclerView | %d | %d", dy, mCurrentScrollOffset);
               Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, dy);
-            }
-          });
-        } else if (target instanceof ViewPager) {
-          ((ViewPager) target).addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-              log("custom vScrollTarget ViewPager | %d", positionOffsetPixels - mCurrentScrollOffset);
-              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, positionOffsetPixels - mCurrentScrollOffset);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
             }
           });
         } else if (target instanceof NestedScrollView) {
@@ -352,6 +313,21 @@ public class SmoothAppBarLayout extends AppBarLayout {
       return true;
     }
 
+    protected long obtainViewTag(View target, boolean createIfNotExist) {
+      if (target == null) {
+        return 0;
+      }
+      Object tag = target.getTag(R.id.tag_view_target);
+      if (tag == null) {
+        if (!createIfNotExist) {
+          return 0;
+        }
+        tag = System.currentTimeMillis();
+        target.setTag(R.id.tag_view_target, tag);
+      }
+      return (long) tag;
+    }
+
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
       if (dy != 0) {
         int minTranslationOffset = getMinOffset(child);
@@ -360,14 +336,13 @@ public class SmoothAppBarLayout extends AppBarLayout {
         mCurrentTranslationOffset = Math.min(Math.max(-mCurrentScrollOffset, minTranslationOffset), maxTranslationOffset);
 
         int offset = mCurrentTranslationOffset;
-        View quickReturnView = getQuickReturnView(child, false);
-        if (quickReturnView != null) {
+        if (mScrollFlagView != null && mScrollFlagView.isQuickReturnEnabled()) {
           if (mCurrentTranslationOffset == 0) {
             mQuickReturnOffset = 0;
           }
           if (mCurrentTranslationOffset == minTranslationOffset) {
             if (dy < 0) {
-              mQuickReturnOffset = Math.max(mQuickReturnOffset + dy, -ViewCompat.getMinimumHeight(quickReturnView));
+              mQuickReturnOffset = Math.max(mQuickReturnOffset + dy, -ViewCompat.getMinimumHeight(mScrollFlagView.getView()));
             } else {
               mQuickReturnOffset = Math.min(mQuickReturnOffset + dy, 0);
             }
@@ -401,6 +376,68 @@ public class SmoothAppBarLayout extends AppBarLayout {
         coordinatorLayout.dispatchDependentViewsChanged(child);
       }
       dispatchOffsetUpdates(child, offset);
+    }
+  }
+
+  public static class ScrollFlagView {
+
+    private int mFlags;
+
+    private View vView;
+
+    public ScrollFlagView(AppBarLayout layout) {
+      if (layout != null) {
+        int i = 0;
+        for (int z = layout.getChildCount(); i < z; ++i) {
+          View child = layout.getChildAt(i);
+          ViewGroup.LayoutParams layoutParams = child.getLayoutParams();
+          if (layoutParams instanceof AppBarLayout.LayoutParams) {
+            AppBarLayout.LayoutParams childLp = (AppBarLayout.LayoutParams) layoutParams;
+            int flags = childLp.getScrollFlags();
+            if ((flags & LayoutParams.SCROLL_FLAG_SCROLL) != 0) {
+              vView = child;
+              mFlags = flags;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    public View getView() {
+      return vView;
+    }
+
+    public boolean isFlagEnterAlwaysCollapsedEnabled() {
+      if (vView != null && (mFlags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS) != 0) {
+        return true;
+      }
+      return false;
+    }
+
+    public boolean isFlagEnterAlwaysEnabled() {
+      if (vView != null && (mFlags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED) != 0) {
+        return true;
+      }
+      return false;
+    }
+
+    public boolean isFlagExitUntilCollapsedEnabled() {
+      if (vView != null && (mFlags & LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED) != 0) {
+        return true;
+      }
+      return false;
+    }
+
+    public boolean isFlagScrollEnabled() {
+      if (vView != null && (mFlags & LayoutParams.SCROLL_FLAG_SCROLL) != 0) {
+        return true;
+      }
+      return false;
+    }
+
+    public boolean isQuickReturnEnabled() {
+      return isFlagEnterAlwaysEnabled() && isFlagEnterAlwaysCollapsedEnabled();
     }
   }
 }
