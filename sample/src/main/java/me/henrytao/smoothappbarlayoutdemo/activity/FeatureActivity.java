@@ -32,6 +32,7 @@ import me.henrytao.smoothappbarlayoutdemo.fragment.GsdEnterAlwaysFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdExitUntilCollapsedFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdNestedScrollViewParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdParallaxFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdViewPagerFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysCollapsedFragment;
@@ -110,6 +111,10 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = SmoothNestedScrollViewParallaxFragment.newInstance();
     } else if (Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
       // blank
+    } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
+      fragment = SmoothNestedScrollViewParallax2Fragment.newInstance();
+    } else if (Feature.GSD_VIEW_PAGER.equal(feature)) {
+      fragment = GsdViewPagerFragment.newInstance();
     } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
       fragment = SmoothNestedScrollViewParallax2Fragment.newInstance();
     }
