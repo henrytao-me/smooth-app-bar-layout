@@ -33,8 +33,10 @@ import android.view.animation.Interpolator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
 
@@ -219,11 +221,17 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected OnOffsetSyncedListener mOnOffsetSyncedListener;
 
+    protected ViewPager.OnPageChangeListener mOnPageChangeListener;
+
     protected int mQuickReturnOffset;
 
     protected ScrollFlagView mScrollFlagView;
 
     protected List<Long> mTargetViews = new ArrayList<>();
+
+    protected Map<Integer, Integer> mViewPagerOffset = new HashMap<>();
+
+    protected ViewPager vViewPager;
 
     public Behavior() {
     }
@@ -306,6 +314,21 @@ public class SmoothAppBarLayout extends AppBarLayout {
       return -minOffset;
     }
 
+    protected long getViewTag(View target, boolean createIfNotExist) {
+      if (target == null) {
+        return 0;
+      }
+      Object tag = target.getTag(R.id.tag_view_target);
+      if (tag == null) {
+        if (!createIfNotExist) {
+          return 0;
+        }
+        tag = System.currentTimeMillis();
+        target.setTag(R.id.tag_view_target, tag);
+      }
+      return (long) tag;
+    }
+
     protected boolean init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target) {
       if (mOnOffsetSyncedListener == null && child instanceof SmoothAppBarLayout) {
         mOnOffsetSyncedListener = new OnOffsetSyncedListener() {
@@ -317,11 +340,34 @@ public class SmoothAppBarLayout extends AppBarLayout {
         ((SmoothAppBarLayout) child).addOnOffsetSyncedListener(mOnOffsetSyncedListener);
       }
 
+      if (mOnPageChangeListener == null && child instanceof SmoothAppBarLayout) {
+        mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+          @Override
+          public void onPageScrollStateChanged(int state) {
+
+          }
+
+          @Override
+          public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+          }
+
+          @Override
+          public void onPageSelected(int position) {
+            Behavior.this.onViewPagerSelected(coordinatorLayout, child, target, position);
+          }
+        };
+        vViewPager = ((SmoothAppBarLayout) child).getViewPager();
+        if (vViewPager != null) {
+          vViewPager.addOnPageChangeListener(mOnPageChangeListener);
+        }
+      }
+
       if (mScrollFlagView == null) {
         mScrollFlagView = new ScrollFlagView(child);
       }
 
-      long tag = obtainViewTag(target, true);
+      long tag = getViewTag(target, true);
       if (!mTargetViews.contains(tag)) {
         mTargetViews.add(tag);
         log("test custom vScrollTarget init | %d | %d", tag, mTargetViews.size());
@@ -355,19 +401,34 @@ public class SmoothAppBarLayout extends AppBarLayout {
       return true;
     }
 
-    protected long obtainViewTag(View target, boolean createIfNotExist) {
-      if (target == null) {
-        return 0;
-      }
-      Object tag = target.getTag(R.id.tag_view_target);
-      if (tag == null) {
-        if (!createIfNotExist) {
-          return 0;
+    protected void onPropagateViewPagerScrollState(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy,
+        int offset) {
+      if (vViewPager != null) {
+        int newOffset;
+        View scrollView;
+        if (vViewPager.getAdapter() instanceof PagerAdapter) {
+          PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
+          int i = 0;
+          for (int n = vViewPager.getAdapter().getCount(); i < n; i++) {
+            scrollView = adapter.getScrollView(i);
+
+            newOffset = Math.abs(offset);
+            if (scrollView instanceof RecyclerView) {
+              newOffset = Math.max(((RecyclerView) scrollView).computeVerticalScrollOffset(), newOffset);
+            }
+            mViewPagerOffset.put(i, newOffset);
+
+            if (scrollView != target) {
+              if (scrollView instanceof RecyclerView) {
+                dy = newOffset - ((RecyclerView) scrollView).computeVerticalScrollOffset();
+                scrollView.scrollBy(0, dy);
+              }
+            }
+
+            log("custom onPropagateViewPagerScrollState | %d | %d | %d", i, dy, newOffset);
+          }
         }
-        tag = System.currentTimeMillis();
-        target.setTag(R.id.tag_view_target, tag);
       }
-      return (long) tag;
     }
 
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
@@ -375,28 +436,28 @@ public class SmoothAppBarLayout extends AppBarLayout {
         int minTranslationOffset = getMinOffset(child);
         int maxTranslationOffset = getMaxOffset(child);
         mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
-        mCurrentTranslationOffset = Math.min(Math.max(-mCurrentScrollOffset, minTranslationOffset), maxTranslationOffset);
+        int translationOffset = Math.min(Math.max(-mCurrentScrollOffset, minTranslationOffset), maxTranslationOffset);
 
-        int offset = mCurrentTranslationOffset;
         if (mScrollFlagView != null && mScrollFlagView.isQuickReturnEnabled()) {
-          if (mCurrentTranslationOffset == 0) {
+          if (translationOffset == 0) {
             mQuickReturnOffset = 0;
           }
-          if (mCurrentTranslationOffset == minTranslationOffset) {
+          if (translationOffset == minTranslationOffset) {
             if (dy < 0) {
               mQuickReturnOffset = Math.max(mQuickReturnOffset + dy, -ViewCompat.getMinimumHeight(mScrollFlagView.getView()));
             } else {
               mQuickReturnOffset = Math.min(mQuickReturnOffset + dy, 0);
             }
-            offset -= mQuickReturnOffset;
+            translationOffset -= mQuickReturnOffset;
           } else {
-            offset = Math.min(Math.max(offset - mQuickReturnOffset, minTranslationOffset), maxTranslationOffset);
+            translationOffset = Math.min(Math.max(translationOffset - mQuickReturnOffset, minTranslationOffset), maxTranslationOffset);
           }
         }
 
         log("custom onScrollChanged | %d | %d | %d | %d | %d | %d",
-            dy, mCurrentScrollOffset, mQuickReturnOffset, offset, minTranslationOffset, maxTranslationOffset);
-        scrolling(coordinatorLayout, child, target, offset);
+            dy, mCurrentScrollOffset, mQuickReturnOffset, translationOffset, minTranslationOffset, maxTranslationOffset);
+        scrolling(coordinatorLayout, child, target, translationOffset);
+        onPropagateViewPagerScrollState(coordinatorLayout, child, target, dy, translationOffset);
       }
     }
 
@@ -411,8 +472,26 @@ public class SmoothAppBarLayout extends AppBarLayout {
       onScrollChanged(coordinatorLayout, child, target, newOffset - mCurrentScrollOffset);
     }
 
+    protected void onViewPagerSelected(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int position) {
+      if (vViewPager != null && vViewPager.getAdapter() instanceof PagerAdapter) {
+        int newOffset = 0;
+        int currentOffset = 0;
+        int dy = 0;
+        View scrollView = ((PagerAdapter) vViewPager.getAdapter()).getScrollView(position);
+        if (scrollView instanceof RecyclerView) {
+          currentOffset = ((RecyclerView) scrollView).computeVerticalScrollOffset();
+          newOffset = Math.max(currentOffset, mViewPagerOffset.get(position));
+          dy = newOffset - currentOffset;
+          scrollView.scrollBy(0, dy);
+        }
+        mCurrentScrollOffset = Math.abs(mCurrentTranslationOffset);
+        log("custom onViewPagerSelected | %d | %d | %d | %d", position, dy, newOffset, mCurrentScrollOffset);
+      }
+    }
+
     protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
       log("custom scrolling | %d", offset);
+      mCurrentTranslationOffset = offset;
       setTopAndBottomOffset(offset);
       if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator) {
         coordinatorLayout.dispatchDependentViewsChanged(child);

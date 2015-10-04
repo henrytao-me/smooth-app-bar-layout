@@ -23,6 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import butterknife.Bind;
+import me.henrytao.smoothappbarlayout.PagerAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
 
@@ -48,10 +49,21 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
     super.onViewCreated(view, savedInstanceState);
 
     ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse");
-    vViewPager.setAdapter(adapter);
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat",
+        android.R.id.list);
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog",
+        android.R.id.list);
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse",
+        android.R.id.list);
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Bird",
+        android.R.id.list);
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken",
+        android.R.id.list);
+
+    // PagerAdapter have to implement `me.henrytao.smoothappbarlayout.PagerAdapter` in order to make it work with `SmoothAppBarLayout`
+    if (adapter instanceof PagerAdapter) {
+      vViewPager.setAdapter(adapter);
+    }
     vTabLayout.setupWithViewPager(vViewPager);
     //vViewPager.setOffscreenPageLimit(3);
   }

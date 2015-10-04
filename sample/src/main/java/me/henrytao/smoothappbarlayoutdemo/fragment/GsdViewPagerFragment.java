@@ -50,7 +50,7 @@ public class GsdViewPagerFragment extends BaseFeatureFragment {
     ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100), "Cat");
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100), "Dog");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100), "Mouse");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 5), "Mouse");
     vViewPager.setAdapter(adapter);
     vTabLayout.setupWithViewPager(vViewPager);
   }
