@@ -38,7 +38,7 @@ public class GsdEnterAlwaysCollapsedParallaxFragment extends BaseFeatureFragment
 
   @Override
   public int getContentLayout() {
-    return R.layout.fragment_gsd_enter_always_collapsed;
+    return R.layout.fragment_gsd_enter_always_collapsed_parallax;
   }
 
   @Override
