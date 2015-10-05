@@ -32,8 +32,10 @@ import android.view.animation.Interpolator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by henrytao on 9/22/15.
@@ -202,14 +204,20 @@ public class SmoothAppBarLayout extends AppBarLayout {
   public static class Behavior extends BaseBehavior {
 
     private static void log(String s, Object... args) {
-      Log.i("info", String.format("Behavior %s", String.format(s, args)));
+      Log.i("info", String.format("SmoothAppBarLayout.Behavior %s", String.format(s, args)));
     }
 
     protected int mCurrentScrollOffset;
 
+    protected int mCurrentTranslationOffset;
+
     protected int mQuickReturnOffset;
 
     protected ScrollFlag mScrollFlag;
+
+    protected Map<Integer, Integer> mViewPagerOffset = new HashMap<>();
+
+    protected ViewPager vViewPager;
 
     public Behavior() {
     }
@@ -274,20 +282,18 @@ public class SmoothAppBarLayout extends AppBarLayout {
     @Override
     protected void onViewPagerSelected(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, ViewPager viewPager,
         int position) {
-      //if (vViewPager != null && vViewPager.getAdapter() instanceof PagerAdapter) {
-      //  int newOffset = 0;
-      //  int currentOffset = 0;
-      //  int dy = 0;
-      //  View scrollView = ((PagerAdapter) vViewPager.getAdapter()).getScrollView(position);
-      //  if (scrollView instanceof RecyclerView) {
-      //    currentOffset = ((RecyclerView) scrollView).computeVerticalScrollOffset();
-      //    newOffset = Math.max(currentOffset, mViewPagerOffset.get(position));
-      //    dy = newOffset - currentOffset;
-      //    scrollView.scrollBy(0, dy);
-      //  }
-      //  mCurrentScrollOffset = Math.abs(mCurrentTranslationOffset);
-      //  log("custom onViewPagerSelected | %d | %d | %d | %d", position, dy, newOffset, mCurrentScrollOffset);
-      //}
+      vViewPager = viewPager;
+
+      int scrollOffset = mViewPagerOffset.containsKey(position) ? mViewPagerOffset.get(position) : 0;
+      log("onViewPagerSelected | %d | %d | %d | %d", position, mCurrentScrollOffset, scrollOffset, Math.abs(mCurrentTranslationOffset));
+      mCurrentScrollOffset = Math.max(scrollOffset, Math.abs(mCurrentTranslationOffset));
+      mCurrentScrollOffset = Math.abs(mCurrentTranslationOffset);
+    }
+
+    @Override
+    protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
+      super.scrolling(coordinatorLayout, child, target, offset);
+      mCurrentTranslationOffset = offset;
     }
 
     protected int getMaxOffset(AppBarLayout layout) {
@@ -309,32 +315,29 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected void onPropagateViewPagerScrollState(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target,
         int dy, int offset) {
-      //if (vViewPager != null) {
-      //  int newOffset;
-      //  View scrollView;
-      //  if (vViewPager.getAdapter() instanceof PagerAdapter) {
-      //    PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
-      //    int i = 0;
-      //    for (int n = vViewPager.getAdapter().getCount(); i < n; i++) {
-      //      scrollView = adapter.getScrollView(i);
-      //
-      //      newOffset = Math.abs(offset);
-      //      if (scrollView instanceof RecyclerView) {
-      //        newOffset = Math.max(((RecyclerView) scrollView).computeVerticalScrollOffset(), newOffset);
-      //      }
-      //      mViewPagerOffset.put(i, newOffset);
-      //
-      //      if (scrollView != target) {
-      //        if (scrollView instanceof RecyclerView) {
-      //          dy = newOffset - ((RecyclerView) scrollView).computeVerticalScrollOffset();
-      //          scrollView.scrollBy(0, dy);
-      //        }
-      //      }
-      //
-      //      log("custom onPropagateViewPagerScrollState | %d | %d | %d", i, dy, newOffset);
-      //    }
-      //  }
-      //}
+      if (vViewPager != null) {
+        offset = Math.abs(offset);
+        int scrollOffset;
+        View scrollView;
+        PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
+        int i = 0;
+        for (int n = vViewPager.getAdapter().getCount(); i < n; i++) {
+          scrollOffset = offset;
+          scrollView = adapter.getScrollView(i);
+          if (scrollView instanceof RecyclerView) {
+            scrollOffset = ((RecyclerView) scrollView).computeVerticalScrollOffset();
+          }
+          mViewPagerOffset.put(i, Math.max(offset, scrollOffset));
+
+          if (scrollView != target) {
+            dy = mViewPagerOffset.get(i) - scrollOffset;
+            if (scrollView instanceof RecyclerView) {
+              scrollView.scrollBy(0, dy);
+            }
+          }
+          log("onPropagateViewPagerScrollState | %d | %d | %d", i, scrollOffset, dy);
+        }
+      }
     }
   }
 }
