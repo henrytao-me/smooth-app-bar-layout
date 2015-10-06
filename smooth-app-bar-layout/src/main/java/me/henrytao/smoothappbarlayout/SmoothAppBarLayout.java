@@ -215,7 +215,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected ScrollFlag mScrollFlag;
 
-    protected Map<Integer, Integer> mViewPagerOffset = new HashMap<>();
+    protected int mViewPagerScrollOffset;
+
+    protected Map<Integer, ScrollState> mViewPagerScrollStates = new HashMap<>();
 
     protected ViewPager vViewPager;
 
@@ -244,6 +246,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
         int minTranslationOffset = getMinOffset(child);
         int maxTranslationOffset = getMaxOffset(child);
         mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
+        mViewPagerScrollOffset = Math.max(mViewPagerScrollOffset + dy, 0);
         int translationOffset = Math.min(Math.max(-mCurrentScrollOffset, minTranslationOffset), maxTranslationOffset);
 
         if (mScrollFlag != null && mScrollFlag.isQuickReturnEnabled()) {
@@ -262,10 +265,11 @@ public class SmoothAppBarLayout extends AppBarLayout {
           }
         }
 
-        log("onScrollChanged | %d | %d | %d | %d | %d | %d",
-            dy, mCurrentScrollOffset, mQuickReturnOffset, translationOffset, minTranslationOffset, maxTranslationOffset);
+        log("onScrollChanged | %d | %d | %d | %d | %d | %d | %d",
+            dy, mCurrentScrollOffset, mViewPagerScrollOffset, mQuickReturnOffset, translationOffset, minTranslationOffset,
+            maxTranslationOffset);
         scrolling(coordinatorLayout, child, target, translationOffset);
-        onPropagateViewPagerScrollState(coordinatorLayout, child, target, dy, translationOffset);
+        onPropagateViewPagerScrollState(coordinatorLayout, child, target, dy, Math.abs(translationOffset));
       }
     }
 
@@ -283,11 +287,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
     protected void onViewPagerSelected(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, ViewPager viewPager,
         int position) {
       vViewPager = viewPager;
-
-      int scrollOffset = mViewPagerOffset.containsKey(position) ? mViewPagerOffset.get(position) : 0;
-      log("onViewPagerSelected | %d | %d | %d | %d", position, mCurrentScrollOffset, scrollOffset, Math.abs(mCurrentTranslationOffset));
-      mCurrentScrollOffset = Math.max(scrollOffset, Math.abs(mCurrentTranslationOffset));
+      if (!mViewPagerScrollStates.containsKey(position)) {
+        mViewPagerScrollStates.put(position, new ScrollState());
+      }
+      mViewPagerScrollOffset = mViewPagerScrollStates.get(position).getOffset();
       mCurrentScrollOffset = Math.abs(mCurrentTranslationOffset);
+      log("onViewPagerSelected | %d | %d | %d", position, mCurrentScrollOffset, mViewPagerScrollOffset);
     }
 
     @Override
@@ -316,26 +321,34 @@ public class SmoothAppBarLayout extends AppBarLayout {
     protected void onPropagateViewPagerScrollState(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target,
         int dy, int offset) {
       if (vViewPager != null) {
-        offset = Math.abs(offset);
+        PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
+
         int scrollOffset;
         View scrollView;
-        PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
+
         int i = 0;
         for (int n = vViewPager.getAdapter().getCount(); i < n; i++) {
+          if (!mViewPagerScrollStates.containsKey(i)) {
+            mViewPagerScrollStates.put(i, new ScrollState());
+          }
           scrollOffset = offset;
           scrollView = adapter.getScrollView(i);
           if (scrollView instanceof RecyclerView) {
             scrollOffset = ((RecyclerView) scrollView).computeVerticalScrollOffset();
           }
-          mViewPagerOffset.put(i, Math.max(offset, scrollOffset));
+          mViewPagerScrollStates.get(i).setOffset(scrollOffset, offset);
 
-          if (scrollView != target) {
-            dy = mViewPagerOffset.get(i) - scrollOffset;
+          if (scrollView == target) {
+            mViewPagerScrollStates.get(i).setState(ScrollState.State.SCROLLED);
+          } else {
+            if (offset == 0) {
+              mViewPagerScrollStates.get(i).setState(ScrollState.State.DEFAULT);
+            }
             if (scrollView instanceof RecyclerView) {
-              scrollView.scrollBy(0, dy);
+              scrollView.scrollBy(0, mViewPagerScrollStates.get(i).getOffset() - scrollOffset);
             }
           }
-          log("onPropagateViewPagerScrollState | %d | %d | %d", i, scrollOffset, dy);
+          log("onPropagateViewPagerScrollState | %d | %d | %d", i, scrollOffset, mViewPagerScrollStates.get(i).getOffset());
         }
       }
     }
