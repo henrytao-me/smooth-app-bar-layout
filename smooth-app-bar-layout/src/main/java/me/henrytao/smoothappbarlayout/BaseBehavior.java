@@ -20,6 +20,7 @@ import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -98,7 +99,7 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed) {
     log("onNestedPreScroll | %d | %d", dx, dy);
     if (vViewPager == null) {
-      vScrollTarget = target;
+      vScrollTarget = getScrollTarget(target);
     }
     onScrollChanged(coordinatorLayout, child);
   }
@@ -148,6 +149,13 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
       coordinatorLayout.dispatchDependentViewsChanged(child);
     }
     dispatchOffsetUpdates(child, offset);
+  }
+
+  private View getScrollTarget(View target) {
+    if (target instanceof SwipeRefreshLayout && ((SwipeRefreshLayout) target).getChildCount() > 0) {
+      return ((SwipeRefreshLayout) target).getChildAt(0);
+    }
+    return target;
   }
 
   private long getViewTag(View target, boolean createIfNotExist) {
@@ -267,7 +275,7 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     log("onSyncOffset | %b", vViewPager.getAdapter() instanceof PagerAdapter);
     if (vViewPager.getAdapter() instanceof PagerAdapter) {
       PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
-      vScrollTarget = adapter.getScrollView(position);
+      vScrollTarget = getScrollTarget(adapter.getScrollView(position));
       onViewPagerSelected(coordinatorLayout, child, vScrollTarget, vViewPager, position);
     }
   }
