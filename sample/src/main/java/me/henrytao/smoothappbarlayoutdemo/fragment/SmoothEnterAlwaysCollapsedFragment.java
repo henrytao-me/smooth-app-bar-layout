@@ -56,7 +56,7 @@ public class SmoothEnterAlwaysCollapsedFragment extends BaseFeatureFragment {
 
       @Override
       public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_spacing);
+        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_action_bar_spacing);
       }
     };
     vRecyclerView.hasFixedSize();

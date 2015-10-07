@@ -19,21 +19,33 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <android.support.v7.widget.RecyclerView
-    android:id="@android:id/list"
+  <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@android:id/list"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+  </android.support.v4.widget.SwipeRefreshLayout>
 
   <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/app_bar_height">
 
-    <android.support.v7.widget.Toolbar
-      android:id="@+id/toolbar"
-      app:layout_collapseMode="pin"
-      app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-      app:navigationIcon="@drawable/ic_toolbar_arrow_back"
-      style="@style/AppStyle.MdToolbar" />
+    <android.support.design.widget.CollapsingToolbarLayout
+      android:id="@+id/collapsing_toolbar_layout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_collapseMode="pin"
+        app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+        style="@style/AppStyle.MdToolbar" />
+    </android.support.design.widget.CollapsingToolbarLayout>
   </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -16,23 +16,21 @@
 
 package me.henrytao.smoothappbarlayoutdemo.fragment;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import butterknife.Bind;
-import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
-public class SmoothDefaultFragment extends BaseFeatureFragment {
+public class GsdEnterAlwaysCollapsedParallaxFragment extends BaseFeatureFragment {
 
   public static Fragment newInstance() {
-    return new SmoothDefaultFragment();
+    return new GsdEnterAlwaysCollapsedParallaxFragment();
   }
 
   @Bind(android.R.id.list)
@@ -40,27 +38,15 @@ public class SmoothDefaultFragment extends BaseFeatureFragment {
 
   @Override
   public int getContentLayout() {
-    return R.layout.fragment_smooth_default;
+    return R.layout.fragment_gsd_enter_always_collapsed_parallax;
   }
 
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    // This is RecyclerViewWrapperAdapter. Checkout at https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter
-    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new SimpleAdapter<>(getSampleData(), null)) {
-      @Override
-      public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return null;
-      }
-
-      @Override
-      public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_header_spacing);
-      }
-    };
     vRecyclerView.hasFixedSize();
     vRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    vRecyclerView.setAdapter(adapter);
+    vRecyclerView.setAdapter(new SimpleAdapter<>(getSampleData(), null));
   }
 }

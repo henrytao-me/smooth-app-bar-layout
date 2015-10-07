@@ -28,18 +28,24 @@ import me.henrytao.smoothappbarlayoutdemo.config.Constants.Feature;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdEnterAlwaysCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdEnterAlwaysCollapsedParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdEnterAlwaysFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdExitUntilCollapsedFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdNestedScrollViewParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdParallaxFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdSwipeRefreshLayoutFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.GsdViewPagerFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysCollapsedFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysCollapsedParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothExitUntilCollapsedFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothNestedScrollViewParallax2Fragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothNestedScrollViewParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothParallaxFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothSwipeRefreshLayoutFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerFragment;
 
 public class FeatureActivity extends AppCompatActivity {
 
@@ -104,6 +110,10 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdEnterAlwaysCollapsedFragment.newInstance();
     } else if (Feature.SMOOTH_ENTER_ALWAYS_COLLAPSED.equal(feature)) {
       fragment = SmoothEnterAlwaysCollapsedFragment.newInstance();
+    } else if (Feature.GSD_ENTER_ALWAYS_COLLAPSED_PARALLAX.equal(feature)) {
+      fragment = GsdEnterAlwaysCollapsedParallaxFragment.newInstance();
+    } else if (Feature.SMOOTH_ENTER_ALWAYS_COLLAPSED_PARALLAX.equal(feature)) {
+      fragment = SmoothEnterAlwaysCollapsedParallaxFragment.newInstance();
     } else if (Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX.equal(feature)) {
       fragment = GsdNestedScrollViewParallaxFragment.newInstance();
     } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX.equal(feature)) {
@@ -112,6 +122,14 @@ public class FeatureActivity extends AppCompatActivity {
       // blank
     } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
       fragment = SmoothNestedScrollViewParallax2Fragment.newInstance();
+    } else if (Feature.GSD_SWIPE_REFRESH_LAYOUT.equal(feature)) {
+      fragment = GsdSwipeRefreshLayoutFragment.newInstance();
+    } else if (Feature.SMOOTH_SWIPE_REFRESH_LAYOUT.equal(feature)) {
+      fragment = SmoothSwipeRefreshLayoutFragment.newInstance();
+    } else if (Feature.GSD_VIEW_PAGER.equal(feature)) {
+      fragment = GsdViewPagerFragment.newInstance();
+    } else if (Feature.SMOOTH_VIEW_PAGER.equal(feature)) {
+      fragment = SmoothViewPagerFragment.newInstance();
     }
     return fragment;
   }

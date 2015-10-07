@@ -14,22 +14,16 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".MainActivity">
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
 
-  <android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
-    style="@style/AppStyle.MdToolbar" />
-
-  <android.support.v7.widget.RecyclerView
-    android:id="@android:id/list"
+  <View
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@+id/toolbar"
-    android:clipToPadding="false"
-    android:paddingBottom="?attr/mdLayout_spacing_sm"
-    android:paddingTop="?attr/mdLayout_spacing_sm" />
-</RelativeLayout>
+    android:layout_height="?attr/actionBarSize" />
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="48dp" />
+</LinearLayout>

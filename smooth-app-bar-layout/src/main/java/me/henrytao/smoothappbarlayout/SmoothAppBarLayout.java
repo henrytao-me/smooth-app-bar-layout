@@ -17,7 +17,7 @@
 package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
-import android.os.Handler;
+import android.content.res.TypedArray;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -27,15 +27,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.Interpolator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
+import java.util.Map;
 
 /**
  * Created by henrytao on 9/22/15.
@@ -43,28 +42,26 @@ import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
 @CoordinatorLayout.DefaultBehavior(SmoothAppBarLayout.Behavior.class)
 public class SmoothAppBarLayout extends AppBarLayout {
 
-  protected static final int FAKE_DELAY = 200;
+  protected static final int FAKE_DELAY = 120;
 
-  private static void log(String s, Object... args) {
-    Log.i("info", String.format(s, args));
-  }
+  protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners = new ArrayList<>();
 
-  protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners;
-
-  protected final List<WeakReference<OnOffsetSyncedListener>> mOffsetSyncedListeners;
-
-  protected Handler mHandler;
+  protected final List<WeakReference<OnOffsetSyncedListener>> mOffsetSyncedListeners = new ArrayList<>();
 
   protected boolean mHaveChildWithInterpolator;
 
+  protected int mViewPagerId;
+
+  protected ViewPager vViewPager;
+
   public SmoothAppBarLayout(Context context) {
-    this(context, null);
+    super(context);
+    init(null);
   }
 
   public SmoothAppBarLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
-    this.mOffsetChangedListeners = new ArrayList<>();
-    this.mOffsetSyncedListeners = new ArrayList<>();
+    init(attrs);
   }
 
   @Override
@@ -98,6 +95,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
   }
 
   @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    initViews();
+  }
+
+  @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     super.onLayout(changed, l, t, r, b);
     int i = 0;
@@ -121,6 +124,10 @@ public class SmoothAppBarLayout extends AppBarLayout {
       }
     }
     this.mOffsetSyncedListeners.add(new WeakReference(listener));
+  }
+
+  public ViewPager getViewPager() {
+    return vViewPager;
   }
 
   public void removeOnOffsetSyncedListener(OnOffsetSyncedListener listener) {
@@ -149,15 +156,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
-  public void syncOffsetDelayed() {
-    syncOffsetDelayed(FAKE_DELAY);
-  }
-
   public void syncOffsetDelayed(int delayMillis) {
-    if (mHandler == null) {
-      mHandler = new Handler();
-    }
-    mHandler.postDelayed(new Runnable() {
+    postDelayed(new Runnable() {
       @Override
       public void run() {
         SmoothAppBarLayout.this.syncOffset();
@@ -165,24 +165,55 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }, delayMillis);
   }
 
-  public interface OnOffsetSyncedListener {
-
-    void onOffsetSynced(AppBarLayout appBarLayout);
+  public void syncOffsetDelayed() {
+    syncOffsetDelayed(FAKE_DELAY);
   }
 
-  public static class Behavior extends AppBarLayout.Behavior {
+  protected void init(AttributeSet attrs) {
+    TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.SmoothAppBarLayout, 0, 0);
+    try {
+      mViewPagerId = a.getResourceId(R.styleable.SmoothAppBarLayout_sabl_view_pager_id, 0);
+    } finally {
+      a.recycle();
+    }
+  }
+
+  protected void initViews() {
+    if (mViewPagerId > 0) {
+      vViewPager = (ViewPager) getRootView().findViewById(mViewPagerId);
+    } else {
+      int i = 0;
+      ViewGroup parent = (ViewGroup) getParent();
+      View child;
+      for (int z = parent.getChildCount(); i < z; i++) {
+        child = parent.getChildAt(i);
+        if (child instanceof ViewPager) {
+          vViewPager = (ViewPager) child;
+          break;
+        }
+      }
+    }
+  }
+
+  public static class Behavior extends BaseBehavior {
+
+    private static void log(String s, Object... args) {
+      Log.i("info", String.format("SmoothAppBarLayout.Behavior %s", String.format(s, args)));
+    }
 
     protected int mCurrentScrollOffset;
 
     protected int mCurrentTranslationOffset;
 
-    protected OnOffsetSyncedListener mOnOffsetSyncedListener;
-
     protected int mQuickReturnOffset;
 
-    protected View vQuickReturnView;
+    protected ScrollFlag mScrollFlag;
 
-    protected View vScrollTarget;
+    protected int mViewPagerScrollOffset;
+
+    protected Map<Integer, ScrollState> mViewPagerScrollStates = new HashMap<>();
+
+    protected ViewPager vViewPager;
 
     public Behavior() {
     }
@@ -192,60 +223,79 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
 
     @Override
-    public boolean onNestedFling(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target,
-        float velocityX, float velocityY, boolean consumed) {
-      log("custom onNestedFling | %f | %f | %b", velocityX, velocityY, consumed);
-      return true;
+    protected int getCurrentScrollOffset() {
+      return mCurrentScrollOffset;
     }
 
     @Override
-    public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, float velocityX,
-        float velocityY) {
-      log("custom onNestedPreFling | %f | %f", velocityX, velocityY);
-      return false;
+    protected void onInit(CoordinatorLayout coordinatorLayout, AppBarLayout child) {
+      if (mScrollFlag == null) {
+        mScrollFlag = new ScrollFlag(child);
+      }
     }
 
     @Override
-    public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed) {
-      init(coordinatorLayout, child, target);
-    }
+    protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
+      if (dy != 0) {
+        int minTranslationOffset = getMinOffset(child);
+        int maxTranslationOffset = getMaxOffset(child);
+        mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
+        mViewPagerScrollOffset = Math.max(mViewPagerScrollOffset + dy, 0);
+        int translationOffset = Math.min(Math.max(-mCurrentScrollOffset, minTranslationOffset), maxTranslationOffset);
 
-    @Override
-    public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed,
-        int dxUnconsumed, int dyUnconsumed) {
-      log("custom onNestedScroll | %d | %d | %d | %d", dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-    }
-
-    @Override
-    public void onNestedScrollAccepted(CoordinatorLayout coordinatorLayout, AppBarLayout child, View directTargetChild, View target,
-        int nestedScrollAxes) {
-      log("custom onNestedScrollAccepted | %d", nestedScrollAxes);
-    }
-
-    @Override
-    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View directTargetChild, View target,
-        int nestedScrollAxes) {
-      log("custom onStartNestedScroll | %d", nestedScrollAxes);
-      return true;
-    }
-
-    @Override
-    public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target) {
-      log("custom onStopNestedScroll");
-    }
-
-    protected void dispatchOffsetUpdates(AppBarLayout layout, int translationOffset) {
-      if (layout instanceof SmoothAppBarLayout) {
-        List listeners = ((SmoothAppBarLayout) layout).mOffsetChangedListeners;
-        int i = 0;
-        for (int z = listeners.size(); i < z; ++i) {
-          WeakReference ref = (WeakReference) listeners.get(i);
-          OnOffsetChangedListener listener = ref != null ? (OnOffsetChangedListener) ref.get() : null;
-          if (listener != null) {
-            listener.onOffsetChanged(layout, translationOffset);
+        if (mScrollFlag != null && mScrollFlag.isQuickReturnEnabled()) {
+          if (translationOffset == 0) {
+            mQuickReturnOffset = 0;
+          }
+          if (translationOffset == minTranslationOffset) {
+            if (dy < 0) {
+              mQuickReturnOffset = Math.max(mQuickReturnOffset + dy, -ViewCompat.getMinimumHeight(mScrollFlag.getView()));
+            } else {
+              mQuickReturnOffset = Math.min(mQuickReturnOffset + dy, 0);
+            }
+            translationOffset -= mQuickReturnOffset;
+          } else {
+            translationOffset = Math.min(Math.max(translationOffset - mQuickReturnOffset, minTranslationOffset), maxTranslationOffset);
           }
         }
+
+        log("onScrollChanged | %d | %d | %d | %d | %d | %d | %d",
+            dy, mCurrentScrollOffset, mViewPagerScrollOffset, mQuickReturnOffset, translationOffset, minTranslationOffset,
+            maxTranslationOffset);
+        scrolling(coordinatorLayout, child, target, translationOffset);
+        onPropagateViewPagerScrollState(coordinatorLayout, child, target, dy, Math.abs(translationOffset));
       }
+    }
+
+    @Override
+    protected void onSyncOffset(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target) {
+      int newOffset = mCurrentScrollOffset;
+      if (target instanceof RecyclerView) {
+        newOffset = ((RecyclerView) target).computeVerticalScrollOffset();
+      }
+      log("custom onSyncOffset | %d | %d", mCurrentScrollOffset, newOffset);
+      onScrollChanged(coordinatorLayout, child, target, newOffset - mCurrentScrollOffset);
+    }
+
+    @Override
+    protected void onViewPagerSelected(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, ViewPager viewPager,
+        int position) {
+      vViewPager = viewPager;
+      if (!mViewPagerScrollStates.containsKey(position)) {
+        mViewPagerScrollStates.put(position, new ScrollState());
+      }
+      mViewPagerScrollOffset = mViewPagerScrollStates.get(position).getOffset();
+      mCurrentScrollOffset = Math.abs(mCurrentTranslationOffset);
+      if (viewPager.getAdapter() instanceof PagerAdapter) {
+        ((PagerAdapter) vViewPager.getAdapter()).onViewPagerSelected(position, mViewPagerScrollStates.get(position).getOffset());
+      }
+      log("onViewPagerSelected | %d | %d | %d", position, mCurrentScrollOffset, mViewPagerScrollOffset);
+    }
+
+    @Override
+    protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
+      super.scrolling(coordinatorLayout, child, target, offset);
+      mCurrentTranslationOffset = offset;
     }
 
     protected int getMaxOffset(AppBarLayout layout) {
@@ -254,150 +304,48 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected int getMinOffset(AppBarLayout layout) {
       int minOffset = layout.getMeasuredHeight();
-      int i = 0;
-      for (int z = layout.getChildCount(); i < z; ++i) {
-        View child = layout.getChildAt(i);
-        ViewGroup.LayoutParams layoutParams = child.getLayoutParams();
-        if (layoutParams instanceof AppBarLayout.LayoutParams) {
-          AppBarLayout.LayoutParams childLp = (AppBarLayout.LayoutParams) layoutParams;
-          int flags = childLp.getScrollFlags();
-          if ((flags & LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED) != 0) {
-            minOffset -= ViewCompat.getMinimumHeight(child);
-            break;
-          }
+      if (mScrollFlag != null) {
+        if (mScrollFlag.isFlagScrollEnabled()) {
+          minOffset = mScrollFlag.getView().getMeasuredHeight();
+        }
+        if (mScrollFlag.isFlagExitUntilCollapsedEnabled()) {
+          minOffset -= ViewCompat.getMinimumHeight(mScrollFlag.getView());
         }
       }
       return -minOffset;
     }
 
-    protected View getQuickReturnView(AppBarLayout layout, boolean force) {
-      if (vQuickReturnView == null || force) {
+    protected void onPropagateViewPagerScrollState(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target,
+        int dy, int offset) {
+      if (vViewPager != null && vViewPager.getAdapter() instanceof PagerAdapter) {
+        PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
+
+        int scrollOffset;
+        View scrollView;
+
         int i = 0;
-        for (int z = layout.getChildCount(); i < z; ++i) {
-          View child = layout.getChildAt(i);
-          ViewGroup.LayoutParams layoutParams = child.getLayoutParams();
-          if (layoutParams instanceof AppBarLayout.LayoutParams) {
-            AppBarLayout.LayoutParams childLp = (AppBarLayout.LayoutParams) layoutParams;
-            int flags = childLp.getScrollFlags();
-            if ((flags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS) != 0 && (flags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED) != 0) {
-              vQuickReturnView = child;
-              break;
-            }
+        for (int n = vViewPager.getAdapter().getCount(); i < n; i++) {
+          if (!mViewPagerScrollStates.containsKey(i)) {
+            mViewPagerScrollStates.put(i, new ScrollState());
           }
-        }
-      }
-      return vQuickReturnView;
-    }
-
-    protected boolean init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target) {
-      if (mOnOffsetSyncedListener == null && child instanceof SmoothAppBarLayout) {
-        mOnOffsetSyncedListener = new OnOffsetSyncedListener() {
-          @Override
-          public void onOffsetSynced(AppBarLayout appBarLayout) {
-            Behavior.this.onSyncOffset(coordinatorLayout, child, target);
+          scrollOffset = offset;
+          scrollView = adapter.getScrollView(i);
+          if (scrollView instanceof RecyclerView) {
+            scrollOffset = ((RecyclerView) scrollView).computeVerticalScrollOffset();
           }
-        };
-        ((SmoothAppBarLayout) child).addOnOffsetSyncedListener(mOnOffsetSyncedListener);
-      }
-      if (vScrollTarget == null && target != null) {
-        vScrollTarget = target;
-        if (target instanceof RecyclerView) {
-          ((RecyclerView) target).addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-              log("test custom vScrollTarget RecyclerView | %d | %d", dy, mCurrentScrollOffset);
-              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, dy);
-            }
-          });
-        } else if (target instanceof ViewPager) {
-          ((ViewPager) target).addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrollStateChanged(int state) {
+          mViewPagerScrollStates.get(i).setOffset(scrollOffset, offset);
 
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-              log("custom vScrollTarget ViewPager | %d", positionOffsetPixels - mCurrentScrollOffset);
-              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, positionOffsetPixels - mCurrentScrollOffset);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-          });
-        } else if (target instanceof NestedScrollView) {
-          ((NestedScrollView) target).addOnScrollListener(new NestedScrollView.OnScrollListener() {
-            @Override
-            public void onScrolled(android.support.v4.widget.NestedScrollView nestedScrollView, int dx, int dy) {
-              log("test custom vScrollTarget NestedScrollView | %d | %d", dy, mCurrentScrollOffset);
-              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, dy);
-            }
-          });
-        } else {
-          target.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-              log("custom vScrollTarget ViewTreeObserver | %d", target.getScrollY() - mCurrentScrollOffset);
-              Behavior.this.onScrollTargetChanged(coordinatorLayout, child, target, target.getScrollY() - mCurrentScrollOffset);
-            }
-          });
-        }
-        return false;
-      }
-      return true;
-    }
-
-    protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
-      if (dy != 0) {
-        int minTranslationOffset = getMinOffset(child);
-        int maxTranslationOffset = getMaxOffset(child);
-        mCurrentScrollOffset = Math.max(mCurrentScrollOffset + dy, 0);
-        mCurrentTranslationOffset = Math.min(Math.max(-mCurrentScrollOffset, minTranslationOffset), maxTranslationOffset);
-
-        int offset = mCurrentTranslationOffset;
-        View quickReturnView = getQuickReturnView(child, false);
-        if (quickReturnView != null) {
-          if (mCurrentTranslationOffset == 0) {
-            mQuickReturnOffset = 0;
+          if (offset == 0) {
+            mViewPagerScrollStates.get(i).setState(ScrollState.State.DEFAULT);
           }
-          if (mCurrentTranslationOffset == minTranslationOffset) {
-            if (dy < 0) {
-              mQuickReturnOffset = Math.max(mQuickReturnOffset + dy, -ViewCompat.getMinimumHeight(quickReturnView));
-            } else {
-              mQuickReturnOffset = Math.min(mQuickReturnOffset + dy, 0);
-            }
-            offset -= mQuickReturnOffset;
+          if (scrollView == target) {
+            mViewPagerScrollStates.get(i).setState(ScrollState.State.SCROLLED);
           } else {
-            offset = Math.min(Math.max(offset - mQuickReturnOffset, minTranslationOffset), maxTranslationOffset);
+            adapter.onViewPagerSelected(i, mViewPagerScrollStates.get(i).getOffset());
           }
+          log("onPropagateViewPagerScrollState | %d | %d", i, scrollOffset);
         }
-
-        log("custom onScrollChanged | %d | %d | %d | %d | %d | %d",
-            dy, mCurrentScrollOffset, mQuickReturnOffset, offset, minTranslationOffset, maxTranslationOffset);
-        scrolling(coordinatorLayout, child, target, offset);
       }
-    }
-
-    protected void onScrollTargetChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dy) {
-      log("custom onScrollTargetChanged | %d", dy);
-      onScrollChanged(coordinatorLayout, child, target, dy);
-    }
-
-    protected void onSyncOffset(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target) {
-      int newOffset = target instanceof RecyclerView ? ((RecyclerView) target).computeVerticalScrollOffset() : mCurrentScrollOffset;
-      log("custom onSyncOffset | %d | %d", mCurrentScrollOffset, newOffset);
-      onScrollChanged(coordinatorLayout, child, target, newOffset - mCurrentScrollOffset);
-    }
-
-    protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
-      log("custom scrolling | %d", offset);
-      setTopAndBottomOffset(offset);
-      if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator) {
-        coordinatorLayout.dispatchDependentViewsChanged(child);
-      }
-      dispatchOffsetUpdates(child, offset);
     }
   }
 }
