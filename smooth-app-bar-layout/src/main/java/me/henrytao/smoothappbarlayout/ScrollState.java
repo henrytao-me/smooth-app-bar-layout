@@ -38,12 +38,15 @@ public class ScrollState {
   }
 
   public void setOffset(int offset, int idealOffset) {
-    mOffset = offset;
+    mOffset = mState == State.SCROLLED ? Math.max(mOffset, offset) : offset;
     mIdealOffset = idealOffset;
   }
 
   public void setState(State state) {
     mState = state;
+    if (mState == State.DEFAULT) {
+      mOffset = 0;
+    }
   }
 
   public enum State {

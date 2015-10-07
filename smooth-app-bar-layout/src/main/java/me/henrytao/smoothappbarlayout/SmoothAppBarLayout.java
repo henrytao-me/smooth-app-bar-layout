@@ -18,7 +18,6 @@ package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -43,13 +42,11 @@ import java.util.Map;
 @CoordinatorLayout.DefaultBehavior(SmoothAppBarLayout.Behavior.class)
 public class SmoothAppBarLayout extends AppBarLayout {
 
-  protected static final int FAKE_DELAY = 200;
+  protected static final int FAKE_DELAY = 120;
 
   protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners = new ArrayList<>();
 
   protected final List<WeakReference<OnOffsetSyncedListener>> mOffsetSyncedListeners = new ArrayList<>();
-
-  protected Handler mHandler;
 
   protected boolean mHaveChildWithInterpolator;
 
@@ -160,10 +157,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
   }
 
   public void syncOffsetDelayed(int delayMillis) {
-    if (mHandler == null) {
-      mHandler = new Handler();
-    }
-    mHandler.postDelayed(new Runnable() {
+    postDelayed(new Runnable() {
       @Override
       public void run() {
         SmoothAppBarLayout.this.syncOffset();
@@ -292,6 +286,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
       }
       mViewPagerScrollOffset = mViewPagerScrollStates.get(position).getOffset();
       mCurrentScrollOffset = Math.abs(mCurrentTranslationOffset);
+      if (viewPager.getAdapter() instanceof PagerAdapter) {
+        ((PagerAdapter) vViewPager.getAdapter()).onViewPagerSelected(position, mViewPagerScrollStates.get(position).getOffset());
+      }
       log("onViewPagerSelected | %d | %d | %d", position, mCurrentScrollOffset, mViewPagerScrollOffset);
     }
 
@@ -320,7 +317,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected void onPropagateViewPagerScrollState(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target,
         int dy, int offset) {
-      if (vViewPager != null) {
+      if (vViewPager != null && vViewPager.getAdapter() instanceof PagerAdapter) {
         PagerAdapter adapter = (PagerAdapter) vViewPager.getAdapter();
 
         int scrollOffset;
@@ -338,17 +335,15 @@ public class SmoothAppBarLayout extends AppBarLayout {
           }
           mViewPagerScrollStates.get(i).setOffset(scrollOffset, offset);
 
+          if (offset == 0) {
+            mViewPagerScrollStates.get(i).setState(ScrollState.State.DEFAULT);
+          }
           if (scrollView == target) {
             mViewPagerScrollStates.get(i).setState(ScrollState.State.SCROLLED);
           } else {
-            if (offset == 0) {
-              mViewPagerScrollStates.get(i).setState(ScrollState.State.DEFAULT);
-            }
-            if (scrollView instanceof RecyclerView) {
-              scrollView.scrollBy(0, mViewPagerScrollStates.get(i).getOffset() - scrollOffset);
-            }
+            adapter.onViewPagerSelected(i, mViewPagerScrollStates.get(i).getOffset());
           }
-          log("onPropagateViewPagerScrollState | %d | %d | %d", i, scrollOffset, mViewPagerScrollStates.get(i).getOffset());
+          log("onPropagateViewPagerScrollState | %d | %d", i, scrollOffset);
         }
       }
     }

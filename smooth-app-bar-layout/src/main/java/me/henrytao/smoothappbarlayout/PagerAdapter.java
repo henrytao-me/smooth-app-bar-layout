@@ -24,4 +24,6 @@ import android.view.View;
 public interface PagerAdapter {
 
   View getScrollView(int position);
+
+  int onViewPagerSelected(int position, int offset);
 }

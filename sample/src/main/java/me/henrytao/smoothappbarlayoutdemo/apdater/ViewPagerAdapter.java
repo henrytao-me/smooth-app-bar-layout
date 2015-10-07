@@ -20,6 +20,7 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ import me.henrytao.smoothappbarlayout.PagerAdapter;
  * Created by henrytao on 10/3/15.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter implements PagerAdapter {
+
+  private static final int FAKE_DELAY = 50;
 
   private final List<Fragment> mFragments = new ArrayList<>();
 
@@ -68,6 +71,20 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements PagerAdapt
       mScrollViews.put(position, view.findViewById(mScrollViewIds.get(position)));
     }
     return mScrollViews.get(position);
+  }
+
+  @Override
+  public int onViewPagerSelected(int position, final int offset) {
+    final View scrollView = getScrollView(position);
+    if (scrollView instanceof RecyclerView) {
+      scrollView.postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          scrollView.scrollBy(0, offset - ((RecyclerView) scrollView).computeVerticalScrollOffset());
+        }
+      }, FAKE_DELAY);
+    }
+    return (int) (FAKE_DELAY * 1.5f);
   }
 
   public void addFragment(Fragment fragment, String title) {
