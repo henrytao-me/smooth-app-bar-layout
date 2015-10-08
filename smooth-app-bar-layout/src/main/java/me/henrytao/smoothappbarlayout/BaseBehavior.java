@@ -61,6 +61,8 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
 
   private ViewPager.OnPageChangeListener mOnPageChangeListener;
 
+  private boolean mSkipNestedPreScroll;
+
   private View vScrollTarget;
 
   private ViewPager vViewPager;
@@ -102,11 +104,19 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
       vScrollTarget = getScrollTarget(target);
     }
     onScrollChanged(coordinatorLayout, child);
+    if (dy < 0 && mSkipNestedPreScroll) {
+      onScrollChanged(coordinatorLayout, child, vScrollTarget, dy);
+    }
   }
 
   @Override
   public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed,
       int dxUnconsumed, int dyUnconsumed) {
+    if (dyUnconsumed < 0) {
+      mSkipNestedPreScroll = true;
+    } else {
+      mSkipNestedPreScroll = false;
+    }
     log("onNestedScroll | %d | %d | %d | %d", dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
   }
 

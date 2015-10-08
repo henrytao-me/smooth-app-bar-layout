@@ -105,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     features.add(new Feature(Constants.Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX_2, "Smooth NestedScrollView Parallax 2"));
     features.add(new Feature(Constants.Feature.GSD_SWIPE_REFRESH_LAYOUT, "SwipeRefreshLayout"));
     features.add(new Feature(Constants.Feature.SMOOTH_SWIPE_REFRESH_LAYOUT, "Smooth SwipeRefreshLayout"));
-    //features.add(new Feature(Constants.Feature.GSD_VIEW_PAGER, "ViewPager"));
-    //features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER, "Smooth ViewPager"));
+    features.add(new Feature(Constants.Feature.GSD_VIEW_PAGER, "ViewPager"));
+    features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER, "Smooth ViewPager"));
     return features;
   }
 
