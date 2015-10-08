@@ -66,7 +66,16 @@ Super easy! Just need to do 3 steps:
 
 - Change `android.support.design.widget.AppBarLayout` to `me.henrytao.smoothappbarlayout.SmoothAppBarLayout`.
 - Remove `app:layout_behavior="@string/appbar_scrolling_view_behavior"`.
-- Add header to your scroll view or recyclerView.
+- Add header to your scroll view or recyclerView. 
+  **OR** set `paddingTop` and `clipToPadding="false"` to your `RecyclerView`, like this:
+```xml
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/rv_gank"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/app_header_height"
+    android:clipToPadding="false"/>
+```
 
 #### Original AppBarLayout from Google Support Design
 
