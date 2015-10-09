@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
 
   @Override
   public void onItemClick(Feature data) {
-    if (data == null) {
+    if (data == null || TextUtils.isEmpty(data.mValue)) {
       return;
     }
     startActivity(FeatureActivity.newIntent(this, data.mKey, data.mValue));
@@ -88,10 +89,6 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     features.add(new Feature(Constants.Feature.SMOOTH_DEFAULT, "Smooth Default"));
     features.add(new Feature(Constants.Feature.GSD_EXIT_UNTIL_COLLAPSED, "ExitUntilCollapsed"));
     features.add(new Feature(Constants.Feature.SMOOTH_EXIT_UNTIL_COLLAPSED, "Smooth ExitUntilCollapsed"));
-    features.add(new Feature(Constants.Feature.GSD_PARALLAX, "Parallax"));
-    features.add(new Feature(Constants.Feature.SMOOTH_PARALLAX, "Smooth Parallax"));
-    features.add(new Feature(Constants.Feature.GSD_AVATAR, "Avatar"));
-    features.add(new Feature(Constants.Feature.SMOOTH_AVATAR, "Smooth Avatar"));
     features.add(new Feature(Constants.Feature.GSD_ENTER_ALWAYS, "Enter Always"));
     features.add(new Feature(Constants.Feature.SMOOTH_ENTER_ALWAYS, "Smooth Enter Always"));
     features.add(new Feature(Constants.Feature.GSD_ENTER_ALWAYS_COLLAPSED, "Enter Always Collapsed (Quick Return)"));
@@ -99,6 +96,10 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     features.add(new Feature(Constants.Feature.GSD_ENTER_ALWAYS_COLLAPSED_PARALLAX, "Enter Always Collapsed Parallax (Quick Return)"));
     features.add(new Feature(Constants.Feature.SMOOTH_ENTER_ALWAYS_COLLAPSED_PARALLAX,
         "Smooth Enter Always Collapsed Parallax (Quick Return)"));
+    features.add(new Feature(Constants.Feature.GSD_AVATAR, ""));
+    features.add(new Feature(Constants.Feature.SMOOTH_AVATAR, "Smooth Avatar"));
+    features.add(new Feature(Constants.Feature.GSD_PARALLAX, "Parallax"));
+    features.add(new Feature(Constants.Feature.SMOOTH_PARALLAX, "Smooth Parallax"));
     features.add(new Feature(Constants.Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX, "NestedScrollView Parallax"));
     features.add(new Feature(Constants.Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX, "Smooth NestedScrollView Parallax"));
     features.add(new Feature(Constants.Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX_2, ""));
