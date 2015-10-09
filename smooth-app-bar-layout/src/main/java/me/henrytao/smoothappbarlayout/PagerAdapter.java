@@ -16,6 +16,7 @@
 
 package me.henrytao.smoothappbarlayout;
 
+import android.database.Observable;
 import android.view.View;
 
 /**
@@ -25,5 +26,18 @@ public interface PagerAdapter {
 
   View getScrollView(int position);
 
-  int onViewPagerSelected(int position, int offset);
+  interface OnSyncOffset {
+
+    int onSyncOffset(int position, int offset);
+  }
+
+  interface OnSyncOffsetObservable {
+
+    Observable<Void> onSyncOffset(int position, int offset);
+  }
+
+  interface OnSyncOffsetRunnable {
+
+    void onSyncOffset(int position, int offset, Runnable callback);
+  }
 }

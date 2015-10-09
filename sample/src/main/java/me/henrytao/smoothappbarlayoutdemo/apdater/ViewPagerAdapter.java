@@ -33,7 +33,7 @@ import me.henrytao.smoothappbarlayout.PagerAdapter;
 /**
  * Created by henrytao on 10/3/15.
  */
-public class ViewPagerAdapter extends FragmentPagerAdapter implements PagerAdapter {
+public class ViewPagerAdapter extends FragmentPagerAdapter implements PagerAdapter, PagerAdapter.OnSyncOffset {
 
   private static final int FAKE_DELAY = 50;
 
@@ -74,13 +74,17 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements PagerAdapt
   }
 
   @Override
-  public int onViewPagerSelected(int position, final int offset) {
+  public int onSyncOffset(int position, final int offset) {
     final View scrollView = getScrollView(position);
     if (scrollView instanceof RecyclerView) {
       scrollView.postDelayed(new Runnable() {
         @Override
         public void run() {
-          scrollView.scrollBy(0, offset - ((RecyclerView) scrollView).computeVerticalScrollOffset());
+          if (offset == 0) {
+            ((RecyclerView) scrollView).scrollToPosition(0);
+          } else {
+            scrollView.scrollBy(0, offset - ((RecyclerView) scrollView).computeVerticalScrollOffset());
+          }
         }
       }, FAKE_DELAY);
     }
