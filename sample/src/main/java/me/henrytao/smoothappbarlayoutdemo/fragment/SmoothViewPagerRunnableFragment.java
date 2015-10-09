@@ -25,12 +25,12 @@ import android.view.View;
 import butterknife.Bind;
 import me.henrytao.smoothappbarlayout.PagerAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
-import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
+import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerRunnableAdapter;
 
-public class SmoothViewPagerFragment extends BaseFeatureFragment {
+public class SmoothViewPagerRunnableFragment extends BaseFeatureFragment {
 
   public static Fragment newInstance() {
-    return new SmoothViewPagerFragment();
+    return new SmoothViewPagerRunnableFragment();
   }
 
   @Bind(R.id.tab_layout)
@@ -48,28 +48,23 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+    ViewPagerRunnableAdapter adapter = new ViewPagerRunnableAdapter(getChildFragmentManager());
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat",
         android.R.id.list);
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog",
         android.R.id.list);
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse",
         android.R.id.list);
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken",
-        android.R.id.list);
-    //adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_long),
-    //    R.layout.item_action_bar_tab_layout_spacing), "Duck", android.R.id.list);
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100, R.layout.item_action_bar_tab_layout_spacing), "Bird",
         android.R.id.list);
-    //adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_short),
-    //    R.layout.item_action_bar_tab_layout_spacing), "Tiger", android.R.id.list);
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken",
+        android.R.id.list);
 
     // PagerAdapter have to implement `me.henrytao.smoothappbarlayout.PagerAdapter` in order to make it work with `SmoothAppBarLayout`
     if (adapter instanceof PagerAdapter) {
       vViewPager.setAdapter(adapter);
     }
     vTabLayout.setupWithViewPager(vViewPager);
-    vTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     //vViewPager.setOffscreenPageLimit(3);
   }
 }

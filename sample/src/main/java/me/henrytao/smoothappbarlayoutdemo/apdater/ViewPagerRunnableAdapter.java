@@ -25,14 +25,14 @@ import me.henrytao.smoothappbarlayout.PagerAdapter;
 /**
  * Created by henrytao on 10/3/15.
  */
-public class ViewPagerAdapter extends BaseViewPagerAdapter implements PagerAdapter.OnSyncOffset {
+public class ViewPagerRunnableAdapter extends BaseViewPagerAdapter implements PagerAdapter.OnSyncOffsetRunnable {
 
-  public ViewPagerAdapter(FragmentManager fm) {
+  public ViewPagerRunnableAdapter(FragmentManager fm) {
     super(fm);
   }
 
   @Override
-  public int onSyncOffset(int position, final int offset) {
+  public void onSyncOffset(int position, final int offset, final Runnable callback) {
     final View scrollView = getScrollView(position);
     if (scrollView instanceof RecyclerView) {
       scrollView.postDelayed(new Runnable() {
@@ -43,9 +43,11 @@ public class ViewPagerAdapter extends BaseViewPagerAdapter implements PagerAdapt
           } else {
             scrollView.scrollBy(0, offset - ((RecyclerView) scrollView).computeVerticalScrollOffset());
           }
+          if (callback != null) {
+            callback.run();
+          }
         }
       }, FAKE_DELAY);
     }
-    return (int) (FAKE_DELAY * 1.5f);
   }
 }

@@ -377,6 +377,13 @@ public class SmoothAppBarLayout extends AppBarLayout {
             onViewPagerSyncOffsetCallback(coordinatorLayout, child, target, adapter, position, offset);
           }
         }, delay);
+      } else if (adapter instanceof PagerAdapter.OnSyncOffsetRunnable) {
+        ((PagerAdapter.OnSyncOffsetRunnable) adapter).onSyncOffset(position, offset, new Runnable() {
+          @Override
+          public void run() {
+            onViewPagerSyncOffsetCallback(coordinatorLayout, child, target, adapter, position, offset);
+          }
+        });
       }
     }
 

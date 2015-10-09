@@ -46,6 +46,7 @@ import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothNestedScrollViewParalla
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothSwipeRefreshLayoutFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerRunnableFragment;
 
 public class FeatureActivity extends AppCompatActivity {
 
@@ -94,14 +95,8 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdExitUntilCollapsedFragment.newInstance();
     } else if (Feature.SMOOTH_EXIT_UNTIL_COLLAPSED.equal(feature)) {
       fragment = SmoothExitUntilCollapsedFragment.newInstance();
-    } else if (Feature.GSD_PARALLAX.equal(feature)) {
-      fragment = GsdParallaxFragment.newInstance();
-    } else if (Feature.SMOOTH_PARALLAX.equal(feature)) {
-      fragment = SmoothParallaxFragment.newInstance();
     } else if (Feature.GSD_AVATAR.equal(feature)) {
       fragment = GsdAvatarFragment.newInstance();
-    } else if (Feature.SMOOTH_AVATAR.equal(feature)) {
-      fragment = SmoothAvatarFragment.newInstance();
     } else if (Feature.GSD_ENTER_ALWAYS.equal(feature)) {
       fragment = GsdEnterAlwaysFragment.newInstance();
     } else if (Feature.SMOOTH_ENTER_ALWAYS.equal(feature)) {
@@ -110,6 +105,12 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdEnterAlwaysCollapsedFragment.newInstance();
     } else if (Feature.SMOOTH_ENTER_ALWAYS_COLLAPSED.equal(feature)) {
       fragment = SmoothEnterAlwaysCollapsedFragment.newInstance();
+    } else if (Feature.SMOOTH_AVATAR.equal(feature)) {
+      fragment = SmoothAvatarFragment.newInstance();
+    } else if (Feature.GSD_PARALLAX.equal(feature)) {
+      fragment = GsdParallaxFragment.newInstance();
+    } else if (Feature.SMOOTH_PARALLAX.equal(feature)) {
+      fragment = SmoothParallaxFragment.newInstance();
     } else if (Feature.GSD_ENTER_ALWAYS_COLLAPSED_PARALLAX.equal(feature)) {
       fragment = GsdEnterAlwaysCollapsedParallaxFragment.newInstance();
     } else if (Feature.SMOOTH_ENTER_ALWAYS_COLLAPSED_PARALLAX.equal(feature)) {
@@ -118,8 +119,6 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdNestedScrollViewParallaxFragment.newInstance();
     } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX.equal(feature)) {
       fragment = SmoothNestedScrollViewParallaxFragment.newInstance();
-    } else if (Feature.GSD_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
-      // blank
     } else if (Feature.SMOOTH_NESTED_SCROLL_VIEW_PARALLAX_2.equal(feature)) {
       fragment = SmoothNestedScrollViewParallax2Fragment.newInstance();
     } else if (Feature.GSD_SWIPE_REFRESH_LAYOUT.equal(feature)) {
@@ -130,6 +129,8 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = GsdViewPagerFragment.newInstance();
     } else if (Feature.SMOOTH_VIEW_PAGER.equal(feature)) {
       fragment = SmoothViewPagerFragment.newInstance();
+    } else if (Feature.SMOOTH_VIEW_PAGER_RUNNABLE.equal(feature)) {
+      fragment = SmoothViewPagerRunnableFragment.newInstance();
     }
     return fragment;
   }
