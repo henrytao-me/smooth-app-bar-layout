@@ -341,7 +341,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
             }
             mViewPagerScrollStates.get(i).setOffset(scrollOffset, offset);
             if (offset == 0) {
-              mViewPagerScrollStates.get(i).setState(ScrollState.State.DEFAULT);
+              mViewPagerScrollStates.get(i).reset();
             }
             if (scrollView == target) {
               mViewPagerScrollStates.get(i).setState(ScrollState.State.SCROLLED);
@@ -363,7 +363,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
     protected void onViewPagerReset() {
       int i = 0;
       for (int n = mViewPagerScrollStates.size(); i < n; i++) {
-        mViewPagerScrollStates.get(i).setState(ScrollState.State.DEFAULT);
+        mViewPagerScrollStates.get(i).reset();
       }
     }
 

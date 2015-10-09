@@ -16,7 +16,6 @@
 
 package me.henrytao.smoothappbarlayout;
 
-import android.database.Observable;
 import android.view.View;
 
 /**
@@ -33,7 +32,6 @@ public interface PagerAdapter {
 
   interface OnSyncOffsetObservable {
 
-    Observable<Void> onSyncOffset(int position, int offset);
   }
 
   interface OnSyncOffsetRunnable {
