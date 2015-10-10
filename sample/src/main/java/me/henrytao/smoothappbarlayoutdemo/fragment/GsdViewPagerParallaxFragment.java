@@ -17,21 +17,24 @@
 package me.henrytao.smoothappbarlayoutdemo.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import butterknife.Bind;
-import me.henrytao.smoothappbarlayout.PagerAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
 
-public class SmoothViewPagerFragment extends BaseFeatureFragment {
+public class GsdViewPagerParallaxFragment extends BaseFeatureFragment {
 
   public static Fragment newInstance() {
-    return new SmoothViewPagerFragment();
+    return new GsdViewPagerParallaxFragment();
   }
+
+  @Bind(R.id.collapsing_toolbar_layout)
+  CollapsingToolbarLayout vCollapsingToolbarLayout;
 
   @Bind(R.id.tab_layout)
   TabLayout vTabLayout;
@@ -41,28 +44,25 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
 
   @Override
   public int getContentLayout() {
-    return R.layout.fragment_smooth_view_pager;
+    return R.layout.fragment_gsd_view_pager_parallax;
   }
 
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken");
-    adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_long),
-        R.layout.item_action_bar_tab_layout_spacing), "Duck");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100, R.layout.item_action_bar_tab_layout_spacing), "Bird");
-    adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_short),
-        R.layout.item_action_bar_tab_layout_spacing), "Tiger");
+    vCollapsingToolbarLayout.setTitleEnabled(false);
 
-    // PagerAdapter have to implement `me.henrytao.smoothappbarlayout.PagerAdapter` in order to make it work with `SmoothAppBarLayout`
-    if (adapter instanceof PagerAdapter) {
-      vViewPager.setAdapter(adapter);
-    }
+    ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100), "Cat");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100), "Dog");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100), "Mouse");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5), "Chicken");
+    adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_long)), "Duck");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100), "Bird");
+    adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_short)), "Tiger");
+
+    vViewPager.setAdapter(adapter);
     vTabLayout.setupWithViewPager(vViewPager);
     vTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
   }

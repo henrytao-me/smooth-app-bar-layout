@@ -30,10 +30,6 @@ public interface PagerAdapter {
     int onSyncOffset(int position, int offset);
   }
 
-  interface OnSyncOffsetObservable {
-
-  }
-
   interface OnSyncOffsetRunnable {
 
     void onSyncOffset(int position, int offset, Runnable callback);
