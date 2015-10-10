@@ -49,16 +49,11 @@ public class SmoothViewPagerRunnableFragment extends BaseFeatureFragment {
     super.onViewCreated(view, savedInstanceState);
 
     ViewPagerRunnableAdapter adapter = new ViewPagerRunnableAdapter(getChildFragmentManager());
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat",
-        android.R.id.list);
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog",
-        android.R.id.list);
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse",
-        android.R.id.list);
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100, R.layout.item_action_bar_tab_layout_spacing), "Bird",
-        android.R.id.list);
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken",
-        android.R.id.list);
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100, R.layout.item_action_bar_tab_layout_spacing), "Bird");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken");
 
     // PagerAdapter have to implement `me.henrytao.smoothappbarlayout.PagerAdapter` in order to make it work with `SmoothAppBarLayout`
     if (adapter instanceof PagerAdapter) {

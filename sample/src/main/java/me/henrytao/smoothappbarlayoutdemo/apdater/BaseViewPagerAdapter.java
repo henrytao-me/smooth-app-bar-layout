@@ -16,18 +16,16 @@
 
 package me.henrytao.smoothappbarlayoutdemo.apdater;
 
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.henrytao.smoothappbarlayout.PagerAdapter;
+import me.henrytao.smoothappbarlayoutdemo.fragment.ObservableScrollView;
 
 /**
  * Created by henrytao on 10/3/15.
@@ -37,10 +35,6 @@ public class BaseViewPagerAdapter extends FragmentPagerAdapter implements PagerA
   protected static final int FAKE_DELAY = 50;
 
   private final List<Fragment> mFragments = new ArrayList<>();
-
-  private final List<Integer> mScrollViewIds = new ArrayList<>();
-
-  private final Map<Integer, View> mScrollViews = new HashMap<>();
 
   private final List<String> mTitles = new ArrayList<>();
 
@@ -65,20 +59,15 @@ public class BaseViewPagerAdapter extends FragmentPagerAdapter implements PagerA
 
   @Override
   public View getScrollView(int position) {
-    View view = getItem(position).getView();
-    if (view != null) {
-      mScrollViews.put(position, view.findViewById(mScrollViewIds.get(position)));
+    Fragment fragment = getItem(position);
+    if (fragment instanceof ObservableScrollView) {
+      return ((ObservableScrollView) fragment).getScrollView();
     }
-    return mScrollViews.get(position);
+    return null;
   }
 
   public void addFragment(Fragment fragment, String title) {
-    addFragment(fragment, title, 0);
-  }
-
-  public void addFragment(Fragment fragment, String title, @IdRes int scrollViewId) {
     mFragments.add(fragment);
     mTitles.add(title);
-    mScrollViewIds.add(scrollViewId);
   }
 }

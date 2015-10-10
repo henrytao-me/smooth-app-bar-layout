@@ -19,6 +19,7 @@ package me.henrytao.smoothappbarlayoutdemo.fragment;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 
-public class DummyNestedScrollViewFragment extends Fragment {
+public class DummyNestedScrollViewFragment extends Fragment implements ObservableScrollView {
 
   private static final String ARG_HEADER_LAYOUT = "ARG_HEADER_LAYOUT";
 
@@ -51,11 +52,22 @@ public class DummyNestedScrollViewFragment extends Fragment {
   @Bind(R.id.frame_layout)
   FrameLayout vFrameLayout;
 
+  @Bind(android.R.id.list)
+  NestedScrollView vNestedScrollView;
+
   @Bind(R.id.text)
   TextView vText;
 
   public DummyNestedScrollViewFragment() {
     // Required empty public constructor
+  }
+
+  @Override
+  public View getScrollView() {
+    if (isAdded()) {
+      return vNestedScrollView;
+    }
+    return null;
   }
 
   @Override

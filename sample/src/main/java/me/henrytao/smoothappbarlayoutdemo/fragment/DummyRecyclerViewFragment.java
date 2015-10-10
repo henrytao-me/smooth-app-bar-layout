@@ -34,7 +34,7 @@ import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
-public class DummyRecyclerViewFragment extends Fragment {
+public class DummyRecyclerViewFragment extends Fragment implements ObservableScrollView {
 
   private static final String ARG_COUNT = "ARG_COUNT";
 
@@ -61,6 +61,14 @@ public class DummyRecyclerViewFragment extends Fragment {
 
   public DummyRecyclerViewFragment() {
     // Required empty public constructor
+  }
+
+  @Override
+  public View getScrollView() {
+    if (isAdded()) {
+      return vRecyclerView;
+    }
+    return null;
   }
 
   @Override
