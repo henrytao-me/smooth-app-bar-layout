@@ -101,5 +101,6 @@
   <string name="title_activity_inbox">Inbox</string>
   <string name="close">Close</string>
   <string name="open">Open</string>
+  <string name="title_activity_google_play">Google Play App Detail</string>
 
 </resources>

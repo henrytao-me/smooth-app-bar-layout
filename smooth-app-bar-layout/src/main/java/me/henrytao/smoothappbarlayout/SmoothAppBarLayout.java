@@ -38,6 +38,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import me.henrytao.smoothappbarlayout.utils.ResourceUtils;
+
 /**
  * Created by henrytao on 9/22/15.
  */
@@ -211,6 +213,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected ScrollFlag mScrollFlag;
 
+    protected int mStatusBarSize;
+
     protected int mViewPagerScrollOffset;
 
     protected Map<Integer, ScrollState> mViewPagerScrollStates = new HashMap<>();
@@ -312,6 +316,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
         if (mScrollFlag.isFlagExitUntilCollapsedEnabled()) {
           minOffset -= ViewCompat.getMinimumHeight(mScrollFlag.getView());
         }
+      }
+      if (ViewCompat.getFitsSystemWindows(layout)) {
+        if (mStatusBarSize == 0) {
+          mStatusBarSize = ResourceUtils.getStatusBarSize(layout.getContext());
+        }
+        minOffset -= mStatusBarSize;
       }
       return -minOffset;
     }

@@ -21,4 +21,8 @@
   <dimen name="activity_vertical_margin">16dp</dimen>
   <dimen name="app_bar_height">256dp</dimen>
 
+  <!-- statusbar size is around 24dp. For complex view, you can handle header view height programmatically -->
+  <dimen name="google_play_cover">192dp</dimen>
+  <dimen name="google_play_cover_fitsSystemWindows">168dp</dimen>
+
 </resources>

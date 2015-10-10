@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     }
     if (data.mKey == Constants.Feature.SMOOTH_INBOX) {
       startActivity(InboxActivity.newIntent(this));
+    } else if (data.mKey == Constants.Feature.SMOOTH_GOOGLE_PLAY) {
+      startActivity(GooglePlayActivity.newIntent(this));
     } else {
       startActivity(FeatureActivity.newIntent(this, data.mKey, data.mValue));
     }

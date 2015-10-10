@@ -39,6 +39,9 @@
     <activity
       android:label="@string/title_activity_inbox"
       android:name=".activity.InboxActivity" />
+    <activity
+      android:label="@string/title_activity_google_play"
+      android:name=".activity.GooglePlayActivity"></activity>
   </application>
 
 </manifest>
