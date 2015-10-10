@@ -48,6 +48,7 @@ import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothSwipeRefreshLayoutFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerParallaxFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerQuickReturnFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerRunnableFragment;
 
 public class FeatureActivity extends AppCompatActivity {
@@ -133,6 +134,8 @@ public class FeatureActivity extends AppCompatActivity {
       fragment = SmoothViewPagerFragment.newInstance();
     } else if (Feature.SMOOTH_VIEW_PAGER_RUNNABLE.equal(feature)) {
       fragment = SmoothViewPagerRunnableFragment.newInstance();
+    } else if (Feature.SMOOTH_VIEW_PAGER_QUICK_RETURN.equal(feature)) {
+      fragment = SmoothViewPagerQuickReturnFragment.newInstance();
     } else if (Feature.GSD_VIEW_PAGER_PARALLAX.equal(feature)) {
       fragment = GsdViewPagerParallaxFragment.newInstance();
     } else if (Feature.SMOOTH_VIEW_PAGER_PARALLAX.equal(feature)) {

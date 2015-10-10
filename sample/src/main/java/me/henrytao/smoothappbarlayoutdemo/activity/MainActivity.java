@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER, "Smooth ViewPager"));
     features.add(new Feature(Constants.Feature.GSD_VIEW_PAGER_RUNNABLE, ""));
     features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER_RUNNABLE, "Smooth ViewPager Runnable"));
+    features.add(new Feature(Constants.Feature.GSD_VIEW_PAGER_QUICK_RETURN, ""));
+    features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER_QUICK_RETURN, "Smooth ViewPager QuickReturn"));
     features.add(new Feature(Constants.Feature.GSD_VIEW_PAGER_PARALLAX, "ViewPager Parallax"));
     features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER_PARALLAX, "Smooth ViewPager Parallax"));
     return features;
