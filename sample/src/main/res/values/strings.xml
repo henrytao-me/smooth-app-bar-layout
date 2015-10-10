@@ -102,5 +102,6 @@
   <string name="close">Close</string>
   <string name="open">Open</string>
   <string name="title_activity_google_play">Google Play App Detail</string>
+  <string name="text_donate">Donate</string>
 
 </resources>

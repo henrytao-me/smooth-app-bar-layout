@@ -22,10 +22,4 @@
     android:icon="@drawable/ic_toolbar_donate"
     android:title="@string/text_donate"
     compat:showAsAction="always" />
-
-  <item
-    android:id="@+id/action_close"
-    android:icon="@drawable/ic_toolbar_close"
-    android:title="@string/close"
-    compat:showAsAction="always" />
 </menu>

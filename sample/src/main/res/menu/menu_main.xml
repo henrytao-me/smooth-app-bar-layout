@@ -20,6 +20,12 @@
   tools:context=".MainActivity">
 
   <item
+    android:id="@+id/action_donate"
+    android:icon="@drawable/ic_toolbar_donate"
+    android:title="@string/text_donate"
+    compat:showAsAction="always" />
+
+  <item
     android:id="@+id/action_info"
     android:icon="@drawable/ic_toolbar_info"
     android:title="@string/text_info"
