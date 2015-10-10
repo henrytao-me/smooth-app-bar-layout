@@ -18,7 +18,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:fitsSystemWindows="true">
+  android:fitsSystemWindows="@bool/isFitSystemWindows">
 
   <android.support.v7.widget.RecyclerView
     android:id="@android:id/list"
@@ -28,15 +28,16 @@
     android:paddingTop="@dimen/google_play_cover_fitsSystemWindows" />
 
   <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+    android:id="@+id/smooth_app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/google_play_cover"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="@bool/isFitSystemWindows">
 
     <android.support.design.widget.CollapsingToolbarLayout
       android:id="@+id/collapsing_toolbar_layout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:fitsSystemWindows="true"
+      android:fitsSystemWindows="@bool/isFitSystemWindows"
       app:contentScrim="?attr/colorPrimary"
       app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
@@ -50,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/cover"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="@bool/isFitSystemWindows"
         android:scaleType="centerCrop"
         app:layout_collapseMode="parallax" />
 

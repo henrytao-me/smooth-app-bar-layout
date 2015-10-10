@@ -19,6 +19,7 @@ package me.henrytao.smoothappbarlayoutdemo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -79,7 +80,10 @@ public class InboxActivity extends AppCompatActivity {
     ButterKnife.bind(this);
     setSupportActionBar(vToolbar);
 
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    boolean isFitsSystemWindows = ViewCompat.getFitsSystemWindows(vDrawerLayout);
+    if (isFitsSystemWindows) {
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
 
     mActionBarDrawerToggle = new ActionBarDrawerToggle(this, vDrawerLayout, vToolbar, R.string.open, R.string.close);
     vDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
