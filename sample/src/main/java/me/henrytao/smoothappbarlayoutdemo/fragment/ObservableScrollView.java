@@ -14,24 +14,14 @@
  * limitations under the License.
  */
 
-package me.henrytao.smoothappbarlayout;
+package me.henrytao.smoothappbarlayoutdemo.fragment;
 
 import android.view.View;
 
 /**
- * Created by henrytao on 10/3/15.
+ * Created by henrytao on 10/10/15.
  */
-public interface PagerAdapter {
+public interface ObservableScrollView {
 
-  View getScrollView(int position);
-
-  interface OnSyncOffset {
-
-    int onSyncOffset(int position, int offset);
-  }
-
-  interface OnSyncOffsetRunnable {
-
-    void onSyncOffset(int position, int offset, Runnable callback);
-  }
+  View getScrollView();
 }

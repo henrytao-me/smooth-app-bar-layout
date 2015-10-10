@@ -37,6 +37,12 @@ public class ScrollState {
     return Math.max(mOffset, mIdealOffset);
   }
 
+  public void reset() {
+    mState = State.DEFAULT;
+    mOffset = 0;
+    mIdealOffset = 0;
+  }
+
   public void setOffset(int offset, int idealOffset) {
     mOffset = mState == State.SCROLLED ? Math.max(mOffset, offset) : offset;
     mIdealOffset = idealOffset;

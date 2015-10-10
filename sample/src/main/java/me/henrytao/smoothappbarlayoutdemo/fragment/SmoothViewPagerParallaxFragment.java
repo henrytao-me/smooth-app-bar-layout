@@ -17,6 +17,7 @@
 package me.henrytao.smoothappbarlayoutdemo.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -25,13 +26,16 @@ import android.view.View;
 import butterknife.Bind;
 import me.henrytao.smoothappbarlayout.PagerAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
-import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
+import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerRunnableAdapter;
 
-public class SmoothViewPagerFragment extends BaseFeatureFragment {
+public class SmoothViewPagerParallaxFragment extends BaseFeatureFragment {
 
   public static Fragment newInstance() {
-    return new SmoothViewPagerFragment();
+    return new SmoothViewPagerParallaxFragment();
   }
+
+  @Bind(R.id.collapsing_toolbar_layout)
+  CollapsingToolbarLayout vCollapsingToolbarLayout;
 
   @Bind(R.id.tab_layout)
   TabLayout vTabLayout;
@@ -41,23 +45,25 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
 
   @Override
   public int getContentLayout() {
-    return R.layout.fragment_smooth_view_pager;
+    return R.layout.fragment_smooth_view_pager_parallax;
   }
 
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken");
+    vCollapsingToolbarLayout.setTitleEnabled(false);
+
+    ViewPagerRunnableAdapter adapter = new ViewPagerRunnableAdapter(getChildFragmentManager());
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_header_spacing), "Cat");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_header_spacing), "Dog");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_header_spacing), "Mouse");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_header_spacing), "Chicken");
     adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_long),
-        R.layout.item_action_bar_tab_layout_spacing), "Duck");
-    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100, R.layout.item_action_bar_tab_layout_spacing), "Bird");
+        R.layout.item_header_spacing), "Duck");
+    adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100, R.layout.item_header_spacing), "Bird");
     adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_short),
-        R.layout.item_action_bar_tab_layout_spacing), "Tiger");
+        R.layout.item_header_spacing), "Tiger");
 
     // PagerAdapter have to implement `me.henrytao.smoothappbarlayout.PagerAdapter` in order to make it work with `SmoothAppBarLayout`
     if (adapter instanceof PagerAdapter) {

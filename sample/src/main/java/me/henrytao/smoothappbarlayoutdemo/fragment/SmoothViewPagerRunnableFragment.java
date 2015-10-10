@@ -25,12 +25,12 @@ import android.view.View;
 import butterknife.Bind;
 import me.henrytao.smoothappbarlayout.PagerAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
-import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
+import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerRunnableAdapter;
 
-public class SmoothViewPagerFragment extends BaseFeatureFragment {
+public class SmoothViewPagerRunnableFragment extends BaseFeatureFragment {
 
   public static Fragment newInstance() {
-    return new SmoothViewPagerFragment();
+    return new SmoothViewPagerRunnableFragment();
   }
 
   @Bind(R.id.tab_layout)
@@ -48,7 +48,7 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+    ViewPagerRunnableAdapter adapter = new ViewPagerRunnableAdapter(getChildFragmentManager());
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Cat", 100, R.layout.item_action_bar_tab_layout_spacing), "Cat");
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Dog", 100, R.layout.item_action_bar_tab_layout_spacing), "Dog");
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Mouse", 100, R.layout.item_action_bar_tab_layout_spacing), "Mouse");

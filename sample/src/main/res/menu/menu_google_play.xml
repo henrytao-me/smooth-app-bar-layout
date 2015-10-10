@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2015 "Henry Tao <hi@henrytao.me>"
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,15 +14,12 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:compat="http://schemas.android.com/apk/res-auto">
 
-  <!-- Default screen margins, per the Android Design guidelines. -->
-  <dimen name="activity_horizontal_margin">16dp</dimen>
-  <dimen name="activity_vertical_margin">16dp</dimen>
-  <dimen name="app_bar_height">256dp</dimen>
-
-  <!-- statusbar size is around 24dp. For complex view, you can handle header view height programmatically -->
-  <dimen name="google_play_cover">192dp</dimen>
-  <dimen name="google_play_cover_fitsSystemWindows">168dp</dimen>
-
-</resources>
+  <item
+    android:id="@+id/action_donate"
+    android:icon="@drawable/ic_toolbar_donate"
+    android:title="@string/text_donate"
+    compat:showAsAction="always" />
+</menu>

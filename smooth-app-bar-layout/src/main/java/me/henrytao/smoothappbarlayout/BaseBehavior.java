@@ -23,7 +23,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -50,12 +49,14 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
       int position);
 
   private static void log(String s, Object... args) {
-    Log.i("info", String.format("BaseBehavior %s", String.format(s, args)));
+    //Log.i("info", String.format("BaseBehavior %s", String.format(s, args)));
   }
 
   protected List<Long> mScrollTargets = new ArrayList<>();
 
   private boolean mIsOnInit = false;
+
+  private boolean mIsPullDownFromTop;
 
   private OnOffsetSyncedListener mOnOffsetSyncedListener;
 
@@ -102,12 +103,20 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
       vScrollTarget = getScrollTarget(target);
     }
     onScrollChanged(coordinatorLayout, child);
+    if (dy < 0 && mIsPullDownFromTop) {
+      onScrollChanged(coordinatorLayout, child, vScrollTarget, dy);
+    }
   }
 
   @Override
   public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed,
       int dxUnconsumed, int dyUnconsumed) {
     log("onNestedScroll | %d | %d | %d | %d", dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+    if (dyUnconsumed < 0) {
+      mIsPullDownFromTop = true;
+    } else {
+      mIsPullDownFromTop = false;
+    }
   }
 
   @Override
