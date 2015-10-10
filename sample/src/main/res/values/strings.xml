@@ -98,5 +98,8 @@
   <string name="title_activity_simple">SimpleActivity</string>
   <string name="title_activity_gsd_default">GsdDefaultActivity</string>
   <string name="title_activity_feature">FeatureActivity</string>
+  <string name="title_activity_inbox">Inbox</string>
+  <string name="close">Close</string>
+  <string name="open">Open</string>
 
 </resources>

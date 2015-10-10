@@ -35,7 +35,10 @@
       android:name=".activity.InfoActivity" />
     <activity
       android:label="@string/title_activity_feature"
-      android:name=".activity.FeatureActivity"></activity>
+      android:name=".activity.FeatureActivity" />
+    <activity
+      android:label="@string/title_activity_inbox"
+      android:name=".activity.InboxActivity" />
   </application>
 
 </manifest>

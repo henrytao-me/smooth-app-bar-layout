@@ -58,7 +58,11 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
     if (data == null || TextUtils.isEmpty(data.mValue)) {
       return;
     }
-    startActivity(FeatureActivity.newIntent(this, data.mKey, data.mValue));
+    if (data.mKey == Constants.Feature.SMOOTH_INBOX) {
+      startActivity(InboxActivity.newIntent(this));
+    } else {
+      startActivity(FeatureActivity.newIntent(this, data.mKey, data.mValue));
+    }
   }
 
   @Override
@@ -85,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements SimpleAdapter.OnI
 
   protected List<Feature> getFeatures() {
     List<Feature> features = new ArrayList<>();
+    features.add(new Feature(Constants.Feature.GSD_INBOX, ""));
+    features.add(new Feature(Constants.Feature.SMOOTH_INBOX, "Inbox"));
+    features.add(new Feature(Constants.Feature.GSD_GOOGLE_PLAY, ""));
+    features.add(new Feature(Constants.Feature.SMOOTH_GOOGLE_PLAY, "Google Play"));
     features.add(new Feature(Constants.Feature.GSD_DEFAULT, "Default"));
     features.add(new Feature(Constants.Feature.SMOOTH_DEFAULT, "Smooth Default"));
     features.add(new Feature(Constants.Feature.GSD_EXIT_UNTIL_COLLAPSED, "ExitUntilCollapsed"));
