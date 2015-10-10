@@ -23,7 +23,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -50,7 +49,7 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
       int position);
 
   private static void log(String s, Object... args) {
-    Log.i("info", String.format("BaseBehavior %s", String.format(s, args)));
+    //Log.i("info", String.format("BaseBehavior %s", String.format(s, args)));
   }
 
   protected List<Long> mScrollTargets = new ArrayList<>();

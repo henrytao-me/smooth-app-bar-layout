@@ -121,8 +121,6 @@ public class GooglePlayActivity extends AppCompatActivity {
           isTitleShowed = true;
         }
         vToolbar.setTitle(isTitleShowed ? mTitle : "");
-        Log.i("custom", String.format("custom googleplay | %f | %d | %d | %b | %d | %d",
-            ratio, mSmoothAppBarLayoutSize, mActionBarSize, isTitleShowed, offset, mLastOffset));
         mLastOffset = offset;
       }
     });
