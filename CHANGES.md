@@ -1,5 +1,11 @@
 # smooth-app-bar-layout releases #
 
+### Version 1.0.5 - October 11th 2015 ###
+
+* Added: ViewPager support
+* Added: Inbox and Google Play samples
+
+
 ### Version 1.0.4 - October 7th 2015 ###
 
 * Improved: Major refactor
