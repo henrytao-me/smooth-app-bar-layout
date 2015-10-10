@@ -79,7 +79,7 @@ public class DummyNestedScrollViewFragment extends Fragment {
     int headerLayout = getArgHeaderLayout();
     if (headerLayout > 0) {
       vFrameLayout.removeAllViews();
-      //vFrameLayout.addView(LayoutInflater.from(getContext()).inflate(headerLayout, vFrameLayout, true));
+      vFrameLayout.addView(LayoutInflater.from(getContext()).inflate(headerLayout, null));
     }
   }
 

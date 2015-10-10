@@ -23,6 +23,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -338,6 +339,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
             scrollOffset = offset;
             if (scrollView instanceof RecyclerView) {
               scrollOffset = ((RecyclerView) scrollView).computeVerticalScrollOffset();
+            } else if (scrollView instanceof NestedScrollView) {
+              scrollOffset = scrollView.getScrollY();
             }
             mViewPagerScrollStates.get(i).setOffset(scrollOffset, offset);
             if (offset == 0) {
@@ -395,6 +398,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
         if (scrollView != null && scrollView == target) {
           if (scrollView instanceof RecyclerView) {
             scrollOffset = ((RecyclerView) scrollView).computeVerticalScrollOffset();
+          } else if (scrollView instanceof NestedScrollView) {
+            scrollOffset = scrollView.getScrollY();
           }
           log("onViewPagerSyncOffsetCallback | %d | %d | %d", position, offset, scrollOffset);
           if (scrollOffset < offset) {

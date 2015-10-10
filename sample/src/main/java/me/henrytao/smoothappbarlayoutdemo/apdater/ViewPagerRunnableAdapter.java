@@ -17,6 +17,7 @@
 package me.henrytao.smoothappbarlayoutdemo.apdater;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -35,19 +36,19 @@ public class ViewPagerRunnableAdapter extends BaseViewPagerAdapter implements Pa
   public void onSyncOffset(int position, final int offset, final Runnable callback) {
     final View scrollView = getScrollView(position);
     if (scrollView instanceof RecyclerView) {
-      scrollView.postDelayed(new Runnable() {
-        @Override
-        public void run() {
-          if (offset == 0) {
-            ((RecyclerView) scrollView).scrollToPosition(0);
-          } else {
-            scrollView.scrollBy(0, offset - ((RecyclerView) scrollView).computeVerticalScrollOffset());
-          }
-          if (callback != null) {
-            callback.run();
-          }
-        }
-      }, FAKE_DELAY);
+      if (offset == 0) {
+        ((RecyclerView) scrollView).scrollToPosition(0);
+      } else {
+        scrollView.scrollBy(0, offset - ((RecyclerView) scrollView).computeVerticalScrollOffset());
+      }
+      if (callback != null) {
+        callback.run();
+      }
+    } else if (scrollView instanceof NestedScrollView) {
+      scrollView.scrollTo(0, offset);
+      if (callback != null) {
+        callback.run();
+      }
     }
   }
 }

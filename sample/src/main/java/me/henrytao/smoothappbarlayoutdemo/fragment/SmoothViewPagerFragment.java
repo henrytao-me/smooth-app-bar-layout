@@ -57,12 +57,12 @@ public class SmoothViewPagerFragment extends BaseFeatureFragment {
         android.R.id.list);
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Chicken", 5, R.layout.item_action_bar_tab_layout_spacing), "Chicken",
         android.R.id.list);
-    //adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_long),
-    //    R.layout.item_action_bar_tab_layout_spacing), "Duck", android.R.id.list);
+    adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_long),
+        R.layout.item_action_bar_tab_layout_spacing), "Duck", android.R.id.list);
     adapter.addFragment(DummyRecyclerViewFragment.newInstance("Bird", 100, R.layout.item_action_bar_tab_layout_spacing), "Bird",
         android.R.id.list);
-    //adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_short),
-    //    R.layout.item_action_bar_tab_layout_spacing), "Tiger", android.R.id.list);
+    adapter.addFragment(DummyNestedScrollViewFragment.newInstance(getString(R.string.text_short),
+        R.layout.item_action_bar_tab_layout_spacing), "Tiger", android.R.id.list);
 
     // PagerAdapter have to implement `me.henrytao.smoothappbarlayout.PagerAdapter` in order to make it work with `SmoothAppBarLayout`
     if (adapter instanceof PagerAdapter) {
