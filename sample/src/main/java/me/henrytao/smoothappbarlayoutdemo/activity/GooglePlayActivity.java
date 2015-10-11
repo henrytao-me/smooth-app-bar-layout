@@ -20,11 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +35,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayout.SmoothCollapsingToolbarLayout;
 import me.henrytao.smoothappbarlayout.utils.ResourceUtils;
 import me.henrytao.smoothappbarlayoutdemo.R;
@@ -53,6 +54,9 @@ public class GooglePlayActivity extends AppCompatActivity {
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
+
+  @Bind(R.id.smooth_app_bar_layout)
+  SmoothAppBarLayout vSmoothAppBarLayout;
 
   @Bind(R.id.smooth_collapsing_toolbar_layout)
   SmoothCollapsingToolbarLayout vSmoothCollapsingToolbarLayout;
@@ -98,7 +102,10 @@ public class GooglePlayActivity extends AppCompatActivity {
       }
     });
 
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    boolean isFitsSystemWindows = ViewCompat.getFitsSystemWindows(vSmoothAppBarLayout);
+    if (isFitsSystemWindows) {
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
 
     vCollapsingToolbarLayout.setTitleEnabled(false);
 
@@ -108,7 +115,7 @@ public class GooglePlayActivity extends AppCompatActivity {
 
     // use this SmoothCollapsingToolbarLayout for customizing layout when AppBar offset changed
     mActionBarSize = ResourceUtils.getStatusBarSize(this);
-    mStatusBarSize = ResourceUtils.getStatusBarSize(this);
+    mStatusBarSize = isFitsSystemWindows ? ResourceUtils.getStatusBarSize(this) : 0;
     mSmoothAppBarLayoutSize = getResources().getDimensionPixelSize(R.dimen.google_play_cover);
     mTitle = getTitle();
     vSmoothCollapsingToolbarLayout.setOnOffsetChangedListener(new SmoothCollapsingToolbarLayout.OnOffsetChangedListener() {
