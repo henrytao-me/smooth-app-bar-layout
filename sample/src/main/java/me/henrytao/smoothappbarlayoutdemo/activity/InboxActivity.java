@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -38,7 +37,7 @@ import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
-public class InboxActivity extends AppCompatActivity {
+public class InboxActivity extends BaseActivity {
 
   private static final int ITEM_COUNT = 100;
 
@@ -68,6 +67,9 @@ public class InboxActivity extends AppCompatActivity {
     switch (item.getItemId()) {
       case R.id.action_close:
         onBackPressed();
+        return true;
+      case R.id.action_donate:
+        showDonateDialog();
         return true;
     }
     return super.onOptionsItemSelected(item);

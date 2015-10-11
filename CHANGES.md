@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### Version 0.1.7 - October 11th 2015 ###
+
+* Added: In-app support
+
+
 ### Version 0.1.6 - October 11th 2015 ###
 
 * Fixed: fitSystemWindows on non-lollipop devices

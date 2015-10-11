@@ -20,8 +20,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.config.Constants.Feature;
@@ -51,7 +51,7 @@ import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerParallaxFragme
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerQuickReturnFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothViewPagerRunnableFragment;
 
-public class FeatureActivity extends AppCompatActivity {
+public class FeatureActivity extends BaseActivity {
 
   private static final String FEATURE = "FEATURE";
 
@@ -70,6 +70,16 @@ public class FeatureActivity extends AppCompatActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_feature, menu);
     return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_donate:
+        showDonateDialog();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   @Override

@@ -26,8 +26,8 @@ ext {
       applicationId    : "me.henrytao.smoothappbarlayout",
       minSdkVersion    : 8,
       targetSdkVersion : 23,
-      versionCode      : 9,
-      versionName      : "0.1.6"
+      versionCode      : 11,
+      versionName      : "0.1.7"
   ]
 
   dependencies = [

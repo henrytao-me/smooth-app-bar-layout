@@ -19,7 +19,7 @@
 
   <item
     android:id="@+id/action_donate"
-    android:icon="@drawable/ic_toolbar_donate"
+    android:icon="@drawable/ic_toolbar_donate_circle"
     android:title="@string/text_donate"
     compat:showAsAction="always" />
 
