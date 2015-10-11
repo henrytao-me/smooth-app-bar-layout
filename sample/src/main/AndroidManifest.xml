@@ -43,7 +43,13 @@
       android:name=".activity.InboxActivity" />
     <activity
       android:label="@string/title_activity_google_play"
-      android:name=".activity.GooglePlayActivity"></activity>
+      android:name=".activity.GooglePlayActivity" />
+    <activity
+      android:label="@string/title_activity_smooth_view_pager_drawer_layout"
+      android:name=".activity.SmoothViewPagerDrawerLayoutActivity"></activity>
+    <activity
+      android:label="@string/title_activity_smooth_view_pager_parallax_drawer_layout"
+      android:name=".activity.SmoothViewPagerParallaxDrawerLayoutActivity"></activity>
   </application>
 
 </manifest>
