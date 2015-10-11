@@ -14,10 +14,12 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
 
-  <dimen name="google_play_cover_fitsSystemWindows">168dp</dimen>
-
-  <dimen name="view_pager_parallax_drawer_layout_fitsSystemWindows">232dp</dimen>
-
-</resources>
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/view_pager_parallax_drawer_layout_fitsSystemWindows" />
+</LinearLayout>

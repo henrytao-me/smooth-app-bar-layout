@@ -31,10 +31,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 
-public class SmoothViewPagerDrawerLayoutActivity extends BaseActivity {
+public class SmoothViewPagerParallaxDrawerLayoutActivity extends BaseActivity {
 
   public static Intent newIntent(Context context) {
-    return new Intent(context, SmoothViewPagerDrawerLayoutActivity.class);
+    return new Intent(context, SmoothViewPagerParallaxDrawerLayoutActivity.class);
   }
 
   @Bind(R.id.drawer_layout)
@@ -47,7 +47,7 @@ public class SmoothViewPagerDrawerLayoutActivity extends BaseActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_view_pager_drawer_layout, menu);
+    getMenuInflater().inflate(R.menu.menu_view_pager_parallax_drawer_layout, menu);
     return true;
   }
 
@@ -67,7 +67,7 @@ public class SmoothViewPagerDrawerLayoutActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_smooth_view_pager_drawer_layout);
+    setContentView(R.layout.activity_smooth_view_pager_parallax_drawer_layout);
     ButterKnife.bind(this);
     setSupportActionBar(vToolbar);
 

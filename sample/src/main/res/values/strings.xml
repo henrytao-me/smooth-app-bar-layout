@@ -109,5 +109,6 @@
   <string name="text_thanks_for_donate">Thanks for your gift. Happy coding!</string>
   <string name="text_donate_error">Something just happened. You can not donate at the moment. Keep in touch. Thanks!</string>
   <string name="title_activity_smooth_view_pager_drawer_layout">SmoothViewPagerDrawerLayoutActivity</string>
+  <string name="title_activity_smooth_view_pager_parallax_drawer_layout">SmoothViewPagerParallaxDrawerLayoutActivity</string>
 
 </resources>
