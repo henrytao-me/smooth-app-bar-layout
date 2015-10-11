@@ -103,5 +103,10 @@
   <string name="open">Open</string>
   <string name="title_activity_google_play">Google Play App Detail</string>
   <string name="text_donate">Donate</string>
+  <string name="text_donate_progress_title">Connecting...</string>
+  <string name="text_donate_progress_message">This may take a while. Make sure you turned on the internet</string>
+  <string name="text_help_offer">Let me know if I can be of any help. Happy coding!</string>
+  <string name="text_thanks_for_donate">Thanks for your gift. Happy coding!</string>
+  <string name="text_donate_error">Something just happened. You can not donate at the moment. Keep in touch. Thanks!</string>
 
 </resources>

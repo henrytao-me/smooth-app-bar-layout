@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -41,7 +40,7 @@ import me.henrytao.smoothappbarlayout.utils.ResourceUtils;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
-public class GooglePlayActivity extends AppCompatActivity {
+public class GooglePlayActivity extends BaseActivity {
 
   private static final int ITEM_COUNT = 100;
 
@@ -84,6 +83,7 @@ public class GooglePlayActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_donate:
+        showDonateDialog();
         return true;
     }
     return super.onOptionsItemSelected(item);

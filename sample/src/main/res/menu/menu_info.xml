@@ -14,7 +14,14 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:compat="http://schemas.android.com/apk/res-auto"
   tools:context="me.henrytao.smoothappbarlayoutdemo.activity.InfoActivity">
 
+  <item
+    android:id="@+id/action_donate"
+    android:icon="@drawable/ic_toolbar_donate_circle"
+    android:title="@string/text_donate"
+    compat:showAsAction="always" />
 </menu>
