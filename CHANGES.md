@@ -1,24 +1,29 @@
 # smooth-app-bar-layout releases #
 
-### Version 1.0.5 - October 11th 2015 ###
+### Version 0.1.6 - October 11th 2015 ###
+
+* Fixed: fitSystemWindows on non-lollipop devices
+
+
+### Version 0.1.5 - October 11th 2015 ###
 
 * Added: ViewPager support
 * Added: Inbox and Google Play samples
 
 
-### Version 1.0.4 - October 7th 2015 ###
+### Version 0.1.4 - October 7th 2015 ###
 
 * Improved: Major refactor
 * Improved: Performance
 * Added: SwipeRefreshLayout
 
 
-### Version 1.0.3 - October 2nd 2015 ###
+### Version 0.1.3 - October 2nd 2015 ###
 
 * Added: QuickReturn examples
 
 
-### Version 1.0.2 - October 1st 2015 ###
+### Version 0.1.2 - October 1st 2015 ###
 
 * Fixed: Flinging creates a blank space - take 2
 * Added: EnterAlways animation
@@ -26,7 +31,7 @@
 * Added: NestedScrollView examples
 
 
-### Version 1.0.1 - September 30th 2015 ####
+### Version 0.1.1 - September 30th 2015 ####
 
 * Fixed: Flinging creates a blank space [#4](https://github.com/henrytao-me/smooth-app-bar-layout/issues/4)
 
