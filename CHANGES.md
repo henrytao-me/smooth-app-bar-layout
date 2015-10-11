@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### Version 0.1.8 - October 11th 2015 ###
+
+* Added: SmoothViewPagerParallaxDrawerLayout and SmoothViewPagerDrawerLayout examples
+
+
 ### Version 0.1.7 - October 11th 2015 ###
 
 * Added: In-app support

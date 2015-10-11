@@ -48,6 +48,7 @@ Please note that the app on the Play store is not always the latest version.
 - Support SwipeRefreshLayout
 - Support ViewPager
 - Inbox App and Google Play App Detail samples
+- SmoothViewPagerParallaxDrawerLayout and SmoothViewPagerDrawerLayout examples
 
 If you want to add header to RecyclerView, checkout this RecyclerView WrapperAdapter [recyclerview-multistate-section-endless-adapter](https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter)
 
