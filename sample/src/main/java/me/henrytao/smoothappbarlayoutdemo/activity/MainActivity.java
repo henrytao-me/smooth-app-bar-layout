@@ -61,6 +61,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
       startActivity(InboxActivity.newIntent(this));
     } else if (data.mKey == Constants.Feature.SMOOTH_GOOGLE_PLAY) {
       startActivity(GooglePlayActivity.newIntent(this));
+    } else if (data.mKey == Constants.Feature.SMOOTH_VIEW_PAGER_DRAWER_LAYOUT) {
+      startActivity(SmoothViewPagerDrawerLayoutActivity.newIntent(this));
     } else {
       startActivity(FeatureActivity.newIntent(this, data.mKey, data.mValue));
     }
@@ -97,6 +99,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(Constants.Feature.SMOOTH_INBOX, "Inbox"));
     features.add(new Feature(Constants.Feature.GSD_GOOGLE_PLAY, ""));
     features.add(new Feature(Constants.Feature.SMOOTH_GOOGLE_PLAY, "Google Play"));
+    features.add(new Feature(Constants.Feature.GSD_VIEW_PAGER_DRAWER_LAYOUT, ""));
+    features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER_DRAWER_LAYOUT, "Smooth ViewPager DrawerLayout"));
     features.add(new Feature(Constants.Feature.GSD_DEFAULT, "Default"));
     features.add(new Feature(Constants.Feature.SMOOTH_DEFAULT, "Smooth Default"));
     features.add(new Feature(Constants.Feature.GSD_EXIT_UNTIL_COLLAPSED, "ExitUntilCollapsed"));
