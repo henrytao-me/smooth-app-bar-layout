@@ -28,9 +28,9 @@ import android.view.ViewGroup;
 
 import butterknife.Bind;
 import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
+import me.henrytao.smoothappbarlayout.utils.ResourceUtils;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
-import me.henrytao.smoothappbarlayoutdemo.utils.ResourceUtils;
 
 public class SmoothSwipeRefreshLayoutFragment extends BaseFeatureFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -81,8 +81,8 @@ public class SmoothSwipeRefreshLayoutFragment extends BaseFeatureFragment implem
     vRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     vRecyclerView.setAdapter(adapter);
 
-    int actionBarSize = ResourceUtils.getActionBarSizeInPixel(getActivity());
-    int progressViewStart = ResourceUtils.getDimensionPixelSize(getContext(), R.dimen.app_bar_height) - actionBarSize;
+    int actionBarSize = ResourceUtils.getActionBarSize(getContext());
+    int progressViewStart = getResources().getDimensionPixelSize(R.dimen.app_bar_height) - actionBarSize;
     int progressViewEnd = progressViewStart + (int) (actionBarSize * 1.5f);
     vSwipeRefreshLayout.setProgressViewOffset(true, progressViewStart, progressViewEnd);
     vSwipeRefreshLayout.setOnRefreshListener(this);
