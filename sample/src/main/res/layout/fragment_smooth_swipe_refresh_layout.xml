@@ -31,6 +31,7 @@
   </android.support.v4.widget.SwipeRefreshLayout>
 
   <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+    android:id="@+id/smooth_app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_bar_height">
 

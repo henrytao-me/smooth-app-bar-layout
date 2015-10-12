@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 
 import butterknife.Bind;
 import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayout.utils.ResourceUtils;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
@@ -40,6 +41,9 @@ public class SmoothSwipeRefreshLayoutFragment extends BaseFeatureFragment implem
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
+
+  @Bind(R.id.smooth_app_bar_layout)
+  SmoothAppBarLayout vSmoothAppBarLayout;
 
   @Bind(R.id.swipe_refresh_layout)
   SwipeRefreshLayout vSwipeRefreshLayout;
@@ -66,7 +70,15 @@ public class SmoothSwipeRefreshLayoutFragment extends BaseFeatureFragment implem
     super.onViewCreated(view, savedInstanceState);
 
     // This is RecyclerViewWrapperAdapter. Checkout at https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter
-    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new SimpleAdapter<>(getSampleData(), null)) {
+    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new SimpleAdapter<>(getSampleData(),
+        new SimpleAdapter.OnItemClickListener<String>() {
+          @Override
+          public void onItemClick(String data) {
+            //vRecyclerView.smoothScrollToPosition(0);
+            vRecyclerView.scrollToPosition(0);
+            vSmoothAppBarLayout.syncOffsetDelayed();
+          }
+        })) {
       @Override
       public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
         return null;
