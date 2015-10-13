@@ -1,29 +1,5 @@
 apply plugin: "com.android.library"
 
-ext {
-  bintrayRepo = "maven"
-  bintrayName = "smooth-app-bar-layout"
-
-  publishedGroupId = "me.henrytao"
-  libraryName = "SmoothAppBarLayout"
-  artifact = "smooth-app-bar-layout"
-
-  libraryDescription = "Smooth version of Google Support Design AppBarLayout."
-
-  siteUrl = "https://github.com/henrytao-me/smooth-app-bar-layout"
-  gitUrl = "https://github.com/henrytao-me/smooth-app-bar-layout.git"
-
-  libraryVersion = rootProject.ext.android.versionName
-
-  developerId = "henrytao"
-  developerName = "Henry Tao"
-  developerEmail = "hi@henrytao.me"
-
-  licenseName = "The Apache Software License, Version 2.0"
-  licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-  allLicenses = ["Apache-2.0"]
-}
-
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
   buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -50,5 +26,5 @@ dependencies {
   compile rootProject.ext.dependencies["com.android.support:recyclerview-v7"]
 }
 
-apply from: "https://raw.githubusercontent.com/henrytao-me/JCenter/master/installv1.gradle"
-apply from: "https://raw.githubusercontent.com/henrytao-me/JCenter/master/bintrayv1.gradle"
+apply from: "https://raw.githubusercontent.com/henrytao-me/bintray/master/installv1.gradle"
+apply from: "https://raw.githubusercontent.com/henrytao-me/bintray/master/bintrayv1.gradle"

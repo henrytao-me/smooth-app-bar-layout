@@ -30,6 +30,30 @@ ext {
       versionName      : "0.1.8"
   ]
 
+  bintray = [
+      bintrayRepo       : "maven",
+      bintrayName       : "smooth-app-bar-layout",
+
+      publishedGroupId  : "me.henrytao",
+      libraryName       : "SmoothAppBarLayout",
+      artifact          : "smooth-app-bar-layout",
+
+      libraryDescription: "Smooth version of Google Support Design AppBarLayout",
+
+      siteUrl           : "https://github.com/henrytao-me/smooth-app-bar-layout",
+      gitUrl            : "https://github.com/henrytao-me/smooth-app-bar-layout.git",
+
+      libraryVersion    : rootProject.ext.android.versionName,
+
+      developerId       : "henrytao",
+      developerName     : "Henry Tao",
+      developerEmail    : "hi@henrytao.me",
+
+      licenseName       : "The Apache Software License, Version 2.0",
+      licenseUrl        : "http://www.apache.org/licenses/LICENSE-2.0.txt",
+      allLicenses       : ["Apache-2.0"]
+  ]
+
   dependencies = [
       "com.android.support:design"         : "com.android.support:design:23.0.1",
       "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:23.0.1",
