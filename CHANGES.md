@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### Version 0.1.9 - October 17th 2015 ###
+
+* Added: Setter for SmoothCollapsingToolbarLayout
+
+
 ### Version 0.1.8 - October 11th 2015 ###
 
 * Added: SmoothViewPagerParallaxDrawerLayout and SmoothViewPagerDrawerLayout examples

@@ -52,6 +52,8 @@ public class SmoothCollapsingToolbarLayout extends LinearLayout {
 
   protected float mCollapsedTitleTextSize;
 
+  protected float mCurrentRatio;
+
   protected float mExpandedAvatarSize;
 
   protected float mExpandedOffsetX;
@@ -128,6 +130,56 @@ public class SmoothCollapsingToolbarLayout extends LinearLayout {
     super.onDetachedFromWindow();
   }
 
+  public void setCollapsedAvatarSize(float collapsedAvatarSize) {
+    mCollapsedAvatarSize = collapsedAvatarSize;
+    updateViews();
+  }
+
+  public void setCollapsedOffsetX(float collapsedOffsetX) {
+    mCollapsedOffsetX = collapsedOffsetX;
+    updateViews();
+  }
+
+  public void setCollapsedOffsetY(float collapsedOffsetY) {
+    mCollapsedOffsetY = collapsedOffsetY;
+    updateViews();
+  }
+
+  public void setCollapsedSubTitleTextSize(float collapsedSubTitleTextSize) {
+    mCollapsedSubTitleTextSize = collapsedSubTitleTextSize;
+    updateViews();
+  }
+
+  public void setCollapsedTitleTextSize(float collapsedTitleTextSize) {
+    mCollapsedTitleTextSize = collapsedTitleTextSize;
+    updateViews();
+  }
+
+  public void setExpandedAvatarSize(float expandedAvatarSize) {
+    mExpandedAvatarSize = expandedAvatarSize;
+    updateViews();
+  }
+
+  public void setExpandedOffsetX(float expandedOffsetX) {
+    mExpandedOffsetX = expandedOffsetX;
+    updateViews();
+  }
+
+  public void setExpandedOffsetY(float expandedOffsetY) {
+    mExpandedOffsetY = expandedOffsetY;
+    updateViews();
+  }
+
+  public void setExpandedSubtitleTextSize(float expandedSubtitleTextSize) {
+    mExpandedSubtitleTextSize = expandedSubtitleTextSize;
+    updateViews();
+  }
+
+  public void setExpandedTitleTextSize(float expandedTitleTextSize) {
+    mExpandedTitleTextSize = expandedTitleTextSize;
+    updateViews();
+  }
+
   public void setOnOffsetChangedListener(OnOffsetChangedListener onOffsetChangedListener) {
     mOnOffsetChangedListener = onOffsetChangedListener;
   }
@@ -202,7 +254,7 @@ public class SmoothCollapsingToolbarLayout extends LinearLayout {
   }
 
   protected void initViews() {
-    updateViews(0);
+    updateViews();
     if (mAvatarId > 0) {
       vAvatar = findViewById(mAvatarId);
     }
@@ -229,11 +281,16 @@ public class SmoothCollapsingToolbarLayout extends LinearLayout {
   protected void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     int maxOffset = getAppBarLayout().getMeasuredHeight() - getToolbar().getMeasuredHeight();
     float ratio = Math.min(Math.abs(verticalOffset) * 1.0f / maxOffset, 1.0f);
-    SmoothCollapsingToolbarLayout.this.updateViews(ratio);
+    updateViews(ratio);
     log("test onOffsetChanged collapsing | %d | %f", verticalOffset, ratio);
   }
 
+  protected void updateViews() {
+    updateViews(mCurrentRatio);
+  }
+
   protected void updateViews(float ratio) {
+    mCurrentRatio = ratio;
     int startOffsetX = 0;
     int startOffsetY = getAppBarLayout().getMeasuredHeight() - getMeasuredHeight();
     ViewCompat.setTranslationX(this, startOffsetX + getTranslationOffset(mExpandedOffsetX, mCollapsedOffsetX, ratio));
