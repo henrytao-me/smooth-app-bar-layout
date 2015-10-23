@@ -28,6 +28,12 @@ Please make sure all classes aren't shrinked or minified by proguard.
 ```
 
 
+## Tested environments
+
+- `"com.android.support:design:23.1.0"`
+- `"com.android.support:appcompat-v7:23.1.0"`
+
+
 ## Demo
 
 [![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=me.henrytao.smoothappbarlayout)

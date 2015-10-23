@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### Version 0.2.0 - October 23th 2015 ###
+
+* Fixed: Disabled AppBarLayout canDrag by default in supportDesign 23.1.0
+
+
 ### Version 0.1.9 - October 17th 2015 ###
 
 * Added: Setter for SmoothCollapsingToolbarLayout

@@ -26,8 +26,8 @@ ext {
       applicationId    : "me.henrytao.smoothappbarlayout",
       minSdkVersion    : 8,
       targetSdkVersion : 23,
-      versionCode      : 13,
-      versionName      : "0.1.9"
+      versionCode      : 14,
+      versionName      : "0.2.0"
   ]
 
   bintray = [
@@ -55,10 +55,10 @@ ext {
   ]
 
   dependencies = [
-      "com.android.support:design"         : "com.android.support:design:23.0.1",
-      "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:23.0.1",
-      "com.android.support:cardview-v7"    : "com.android.support:cardview-v7:23.0.1",
-      "com.android.support:recyclerview-v7": "com.android.support:recyclerview-v7:23.0.1",
+      "com.android.support:design"         : "com.android.support:design:23.1.0",
+      "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:23.1.0",
+      "com.android.support:cardview-v7"    : "com.android.support:cardview-v7:23.1.0",
+      "com.android.support:recyclerview-v7": "com.android.support:recyclerview-v7:23.1.0",
 
       "me.henrytao:recyclerview"           : "me.henrytao:recyclerview:1.2.0",
       "me.henrytao:mdcore"                 : "me.henrytao:mdcore:1.2.0",
