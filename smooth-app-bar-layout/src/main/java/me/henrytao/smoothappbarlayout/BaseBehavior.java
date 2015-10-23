@@ -54,6 +54,8 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
 
   protected List<Long> mScrollTargets = new ArrayList<>();
 
+  private DragCallback mDragCallbackListener;
+
   private boolean mIsOnInit = false;
 
   private boolean mIsPullDownFromTop;
@@ -137,6 +139,12 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     log("onStopNestedScroll");
   }
 
+  @Override
+  public void setDragCallback(DragCallback callback) {
+    super.setDragCallback(callback);
+    mDragCallbackListener = callback;
+  }
+
   protected void dispatchOffsetUpdates(AppBarLayout layout, int translationOffset) {
     if (layout instanceof SmoothAppBarLayout) {
       List listeners = ((SmoothAppBarLayout) layout).mOffsetChangedListeners;
@@ -183,6 +191,17 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   }
 
   private void init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child) {
+    if (mDragCallbackListener == null) {
+      mDragCallbackListener = new DragCallback() {
+
+        @Override
+        public boolean canDrag(AppBarLayout appBarLayout) {
+          return false;
+        }
+      };
+      setDragCallback(mDragCallbackListener);
+    }
+
     if (mOnOffsetSyncedListener == null && child instanceof SmoothAppBarLayout) {
       mOnOffsetSyncedListener = new OnOffsetSyncedListener() {
         @Override
