@@ -13,6 +13,11 @@ android {
   }
 
   buildTypes {
+    debug {
+      minifyEnabled true
+      shrinkResources true
+      proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    }
     release {
       minifyEnabled true
       shrinkResources true
@@ -23,6 +28,10 @@ android {
   lintOptions {
     disable "InvalidPackage"
     lintConfig file("lint.xml")
+  }
+
+  packagingOptions {
+    exclude "META-INF/services/javax.annotation.processing.Processor"
   }
 }
 
