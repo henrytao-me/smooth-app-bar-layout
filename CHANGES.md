@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### Version 0.2.1 - November 3rd 2015 ###
+
+* Fixed: Build process
+
+
 ### Version 0.2.0 - October 23th 2015 ###
 
 * Fixed: Disabled AppBarLayout canDrag by default in supportDesign 23.1.0

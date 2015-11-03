@@ -19,15 +19,6 @@ compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 `smooth-app-bar-layout` is deployed to `jCenter`. Make sure you have `jcenter()` in your project gradle.
 
 
-## Proguard
-
-Please make sure all classes aren't shrinked or minified by proguard.
-
-```
--keep class me.henrytao.smoothappbarlayout.** { *; }
-```
-
-
 ## Tested environments
 
 - `"com.android.support:design:23.1.0"`
