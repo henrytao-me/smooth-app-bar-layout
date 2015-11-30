@@ -6,7 +6,7 @@ android {
 
   defaultConfig {
     applicationId rootProject.ext.android.applicationId
-    minSdkVersion rootProject.ext.android.minSdkVersion
+    minSdkVersion 9
     targetSdkVersion rootProject.ext.android.targetSdkVersion
     versionCode rootProject.ext.android.versionCode
     versionName rootProject.ext.android.versionName
@@ -50,6 +50,10 @@ dependencies {
   }
 
   compile rootProject.ext.dependencies["com.jakewharton:butterknife"]
+
+  compile(rootProject.ext.dependencies["com.yalantis:phoenix"]) {
+    exclude group: "com.android.support"
+  }
 
   compile(project(":smooth-app-bar-layout")) {
     exclude group: "com.android.support"

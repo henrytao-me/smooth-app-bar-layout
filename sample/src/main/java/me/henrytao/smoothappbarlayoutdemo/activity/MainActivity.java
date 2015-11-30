@@ -134,6 +134,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER_QUICK_RETURN, "Smooth ViewPager QuickReturn"));
     features.add(new Feature(Constants.Feature.GSD_VIEW_PAGER_PARALLAX, "ViewPager Parallax"));
     features.add(new Feature(Constants.Feature.SMOOTH_VIEW_PAGER_PARALLAX, "Smooth ViewPager Parallax"));
+    features.add(new Feature(Constants.Feature.GSD_VIEW_CUSTOM_PULL_TO_REFRESH, ""));
+    features.add(new Feature(Constants.Feature.SMOOTH_VIEW_CUSTOM_PULL_TO_REFRESH, "Custom PullToRefresh"));
     return features;
   }
 

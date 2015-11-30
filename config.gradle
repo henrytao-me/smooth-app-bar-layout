@@ -63,6 +63,8 @@ ext {
       "me.henrytao:recyclerview"           : "me.henrytao:recyclerview:1.2.0",
       "me.henrytao:mdcore"                 : "me.henrytao:mdcore:1.2.0",
 
-      "com.jakewharton:butterknife"        : "com.jakewharton:butterknife:7.0.1"
+      "com.jakewharton:butterknife"        : "com.jakewharton:butterknife:7.0.1",
+
+      "com.yalantis:phoenix"               : "com.yalantis:phoenix:1.2.3"
   ]
 }
