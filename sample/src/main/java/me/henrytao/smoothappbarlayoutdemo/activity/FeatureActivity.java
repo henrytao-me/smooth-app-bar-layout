@@ -38,6 +38,7 @@ import me.henrytao.smoothappbarlayoutdemo.fragment.GsdViewPagerFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.GsdViewPagerParallaxFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothAvatarFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothCustomPullToRefreshFragment;
+import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothCustomPullToRefreshViewPagerFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothDefaultFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysCollapsedFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.SmoothEnterAlwaysCollapsedParallaxFragment;
@@ -153,6 +154,8 @@ public class FeatureActivity extends BaseActivity {
       fragment = SmoothViewPagerParallaxFragment.newInstance();
     } else if (Feature.SMOOTH_VIEW_CUSTOM_PULL_TO_REFRESH.equal(feature)) {
       fragment = SmoothCustomPullToRefreshFragment.newInstance();
+    } else if (Feature.SMOOTH_VIEW_CUSTOM_PULL_TO_REFRESH_VIEW_PAGER.equal(feature)) {
+      fragment = SmoothCustomPullToRefreshViewPagerFragment.newInstance();
     }
     return fragment;
   }

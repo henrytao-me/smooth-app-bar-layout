@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 
 import butterknife.Bind;
 import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
-import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
@@ -44,9 +43,6 @@ public class SmoothCustomPullToRefreshFragment extends BaseFeatureFragment imple
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
-
-  @Bind(R.id.smooth_app_bar_layout)
-  SmoothAppBarLayout vSmoothAppBarLayout;
 
   @Override
   public int getContentLayout() {
