@@ -1,1 +1,1 @@
-include ':sample', ':smooth-app-bar-layout'
+include ':sample', ':smooth-app-bar-layout', ':fresh'
