@@ -57,6 +57,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   protected ViewPager vViewPager;
 
+  BaseBehavior.OnGetScrollTargetListener mOnGetScrollTargetListener;
+
   public SmoothAppBarLayout(Context context) {
     super(context);
     init(null);
@@ -148,6 +150,10 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
+  public void setOnGetScrollTargetListener(BaseBehavior.OnGetScrollTargetListener onGetScrollTargetListener) {
+    mOnGetScrollTargetListener = onGetScrollTargetListener;
+  }
+
   public void syncOffset() {
     int i = 0;
     for (int z = mOffsetSyncedListeners.size(); i < z; ++i) {
@@ -236,6 +242,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
     protected void onInit(CoordinatorLayout coordinatorLayout, AppBarLayout child) {
       if (mScrollFlag == null) {
         mScrollFlag = new ScrollFlag(child);
+      }
+      if (child instanceof SmoothAppBarLayout) {
+        setOnGetScrollTargetListener(((SmoothAppBarLayout) child).mOnGetScrollTargetListener);
       }
     }
 

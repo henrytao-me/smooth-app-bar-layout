@@ -60,6 +60,8 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
 
   private boolean mIsPullDownFromTop;
 
+  private OnGetScrollTargetListener mOnGetScrollTargetListener;
+
   private OnOffsetSyncedListener mOnOffsetSyncedListener;
 
   private ViewPager.OnPageChangeListener mOnPageChangeListener;
@@ -145,6 +147,10 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     mDragCallbackListener = callback;
   }
 
+  public void setOnGetScrollTargetListener(OnGetScrollTargetListener onGetScrollTargetListener) {
+    mOnGetScrollTargetListener = onGetScrollTargetListener;
+  }
+
   protected void dispatchOffsetUpdates(AppBarLayout layout, int translationOffset) {
     if (layout instanceof SmoothAppBarLayout) {
       List listeners = ((SmoothAppBarLayout) layout).mOffsetChangedListeners;
@@ -171,6 +177,9 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   private View getScrollTarget(View target) {
     if (target instanceof SwipeRefreshLayout && ((SwipeRefreshLayout) target).getChildCount() > 0) {
       return ((SwipeRefreshLayout) target).getChildAt(0);
+    }
+    if (mOnGetScrollTargetListener != null) {
+      return mOnGetScrollTargetListener.onGetScrollTarget(target);
     }
     return target;
   }
@@ -306,5 +315,10 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
       vScrollTarget = getScrollTarget(adapter.getScrollView(position));
       onViewPagerSelected(coordinatorLayout, child, vScrollTarget, vViewPager, position);
     }
+  }
+
+  public interface OnGetScrollTargetListener {
+
+    View onGetScrollTarget(View target);
   }
 }
