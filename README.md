@@ -229,6 +229,13 @@ Any contributions are welcome!
 Please check the [CONTRIBUTING](CONTRIBUTING.md) guideline before submitting a new issue. Wanna send PR? [Click HERE](https://github.com/henrytao-me/smooth-app-bar-layout/pulls)
 
 
+## Donation
+
+Let's buy me some coffee :bow:
+
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=hungtaoquang%40gmail%2ecom&lc=VN&item_name=Henry%20Tao&item_number=smooth%2dapp%2dbar%2dlayout&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+
+
 ## License
 
     Copyright 2015 "Henry Tao <hi@henrytao.me>"
