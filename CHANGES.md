@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### Version 0.2.3 - December 29th 2015 ###
+
+* Upgraded: Upgrade support design to 23.1.1
+
+
 ### Version 0.2.2 - December 6th 2015 ###
 
 * Fixed: Scrolling programmatically #42

@@ -200,10 +200,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   public static class Behavior extends BaseBehavior {
 
-    private static void log(String s, Object... args) {
-      //Log.i("info", String.format("SmoothAppBarLayout.Behavior %s", String.format(s, args)));
-    }
-
     protected int mCurrentScrollOffset;
 
     protected int mCurrentTranslationOffset;

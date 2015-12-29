@@ -49,8 +49,12 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   protected abstract void onViewPagerSelected(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, ViewPager viewPager,
       int position);
 
-  private static void log(String s, Object... args) {
-    Log.i("info", String.format("BaseBehavior %s", String.format(s, args)));
+  public static boolean DEBUG = false;
+
+  protected static void log(String s, Object... args) {
+    if (DEBUG) {
+      Log.d("debug", String.format("BaseBehavior %s", String.format(s, args)));
+    }
   }
 
   protected List<Long> mScrollTargets = new ArrayList<>();

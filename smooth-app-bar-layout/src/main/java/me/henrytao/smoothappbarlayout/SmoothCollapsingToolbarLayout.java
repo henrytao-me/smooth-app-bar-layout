@@ -25,6 +25,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,12 @@ import android.widget.TextView;
  */
 public class SmoothCollapsingToolbarLayout extends LinearLayout {
 
+  public static boolean DEBUG = false;
+
   private static void log(String s, Object... args) {
-    //Log.i("info", String.format(s, args));
+    if (DEBUG) {
+      Log.d("debug", String.format(s, args));
+    }
   }
 
   protected int mAvatarId;
