@@ -21,8 +21,8 @@ compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
 
 ## Tested environments
 
-- `"com.android.support:design:23.1.0"`
-- `"com.android.support:appcompat-v7:23.1.0"`
+- `"com.android.support:design:23.1.1"`
+- `"com.android.support:appcompat-v7:23.1.1"`
 
 
 ## Demo
