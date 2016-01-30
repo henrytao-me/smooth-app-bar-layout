@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 "Henry Tao <hi@henrytao.me>"
+ * Copyright 2016 "Henry Tao <hi@henrytao.me>"
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-package me.henrytao.smoothappbarlayoutdemo.fragment;
+package me.henrytao.smoothappbarlayoutdemo.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.View;
 
+import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 
-public class SmoothNestedScrollViewParallax2Fragment extends BaseFeatureFragment {
-
-  public static Fragment newInstance() {
-    return new SmoothNestedScrollViewParallax2Fragment();
-  }
+public class GsdDefaultActivity extends BaseActivity {
 
   @Override
-  public int getContentLayout() {
-    return R.layout.fragment_smooth_nested_scroll_view_parallax_2;
-  }
-
-  @Override
-  public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_gsd_default);
+    ButterKnife.bind(this);
   }
 }

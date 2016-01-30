@@ -36,20 +36,7 @@
       android:label="@string/title_activity_info"
       android:name=".activity.InfoActivity" />
     <activity
-      android:label="@string/title_activity_feature"
-      android:name=".activity.FeatureActivity" />
-    <activity
-      android:label="@string/title_activity_inbox"
-      android:name=".activity.InboxActivity" />
-    <activity
-      android:label="@string/title_activity_google_play"
-      android:name=".activity.GooglePlayActivity" />
-    <activity
-      android:label="@string/title_activity_smooth_view_pager_drawer_layout"
-      android:name=".activity.SmoothViewPagerDrawerLayoutActivity"></activity>
-    <activity
-      android:label="@string/title_activity_smooth_view_pager_parallax_drawer_layout"
-      android:name=".activity.SmoothViewPagerParallaxDrawerLayoutActivity"></activity>
+      android:label="@string/title_activity_gsd_default"
+      android:name=".activity.GsdDefaultActivity" />
   </application>
-
 </manifest>
