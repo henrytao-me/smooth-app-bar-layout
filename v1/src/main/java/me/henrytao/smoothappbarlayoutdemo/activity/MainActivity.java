@@ -85,6 +85,15 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
   protected List<Feature> getFeatures() {
     List<Feature> features = new ArrayList<>();
     features.add(new Feature(GsdScrollActivity.class, "scroll"));
+    features.add(new Feature(null, ""));
+    features.add(new Feature(GsdScrollEnterAlwaysActivity.class, "scroll|enterAlways"));
+    features.add(new Feature(null, ""));
+    features.add(new Feature(GsdScrollEnterAlwaysCollapsedActivity.class, "scroll|enterAlwaysCollapsed"));
+    features.add(new Feature(null, ""));
+    features.add(new Feature(GsdScrollExitUntilCollapsedActivity.class, "scroll|exitUntilCollapsed"));
+    features.add(new Feature(null, ""));
+    features.add(new Feature(GsdScrollSnapActivity.class, "scroll|snap"));
+    features.add(new Feature(null, ""));
     return features;
   }
 
