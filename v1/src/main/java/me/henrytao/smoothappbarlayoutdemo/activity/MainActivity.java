@@ -53,11 +53,11 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
   }
 
   @Override
-  public void onItemClick(Feature data) {
-    if (data == null || TextUtils.isEmpty(data.mTitle)) {
+  public void onItemClick(Feature feature) {
+    if (feature == null || feature.mClass == null || TextUtils.isEmpty(feature.mTitle)) {
       return;
     }
-    startActivity(new Intent(this, data.mClass));
+    startActivity(new Intent(this, feature.mClass));
   }
 
   @Override
@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
 
   protected List<Feature> getFeatures() {
     List<Feature> features = new ArrayList<>();
-    features.add(new Feature(GsdDefaultActivity.class, "Default"));
+    features.add(new Feature(GsdDefaultActivity.class, "scroll"));
     return features;
   }
 

@@ -17,16 +17,41 @@
 package me.henrytao.smoothappbarlayoutdemo.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
+import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
+import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
 public class GsdDefaultActivity extends BaseActivity {
+
+  @Bind(android.R.id.list)
+  RecyclerView vRecyclerView;
+
+  @Bind(R.id.toolbar)
+  Toolbar vToolbar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_gsd_default);
     ButterKnife.bind(this);
+
+    setSupportActionBar(vToolbar);
+    vToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
+
+    vRecyclerView.hasFixedSize();
+    vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    vRecyclerView.setAdapter(new SimpleAdapter<>(Utils.getSampleData(), null));
   }
 }
