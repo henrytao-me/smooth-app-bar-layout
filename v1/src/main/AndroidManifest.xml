@@ -37,6 +37,6 @@
       android:name=".activity.InfoActivity" />
     <activity
       android:label="@string/title_activity_gsd_default"
-      android:name=".activity.GsdDefaultActivity" />
+      android:name=".activity.GsdScrollActivity" />
   </application>
 </manifest>

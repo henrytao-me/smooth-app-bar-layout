@@ -25,10 +25,11 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
+import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
-public class GsdDefaultActivity extends BaseActivity {
+public class GsdScrollActivity extends BaseActivity {
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
@@ -39,7 +40,7 @@ public class GsdDefaultActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_gsd_default);
+    setContentView(R.layout.activity_gsd_scroll);
     ButterKnife.bind(this);
 
     setSupportActionBar(vToolbar);
@@ -50,8 +51,7 @@ public class GsdDefaultActivity extends BaseActivity {
       }
     });
 
-    vRecyclerView.hasFixedSize();
     vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    vRecyclerView.setAdapter(new SimpleAdapter<>(Utils.getSampleData(), null));
+    vRecyclerView.setAdapter(new DynamicAdapter(Utils.getSampleData()));
   }
 }

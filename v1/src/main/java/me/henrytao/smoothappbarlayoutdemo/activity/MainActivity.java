@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
 
   protected List<Feature> getFeatures() {
     List<Feature> features = new ArrayList<>();
-    features.add(new Feature(GsdDefaultActivity.class, "scroll"));
+    features.add(new Feature(GsdScrollActivity.class, "scroll"));
     return features;
   }
 
