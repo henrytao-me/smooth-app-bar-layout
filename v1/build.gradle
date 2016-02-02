@@ -51,7 +51,7 @@ dependencies {
 
   compile rootProject.ext.dependencies["com.jakewharton:butterknife"]
 
-  compile(project(":smooth-app-bar-layout")) {
-    exclude group: "com.android.support"
-  }
+//  compile(project(":smooth-app-bar-layout")) {
+//    exclude group: "com.android.support"
+//  }
 }

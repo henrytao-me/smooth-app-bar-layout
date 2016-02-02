@@ -16,5 +16,8 @@
 
 <resources>
 
+  <item name="tag_view_target" type="id" />
+  <item name="tag_view_tree_observer_last_scroll_y" type="id" />
+
   <item name="tag_position" type="id" />
 </resources>

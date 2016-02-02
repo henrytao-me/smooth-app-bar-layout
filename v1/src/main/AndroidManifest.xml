@@ -50,5 +50,8 @@
     <activity
       android:label="@string/title_activity_gsd_scroll_snap"
       android:name=".activity.GsdScrollSnapActivity" />
+    <activity
+      android:label="@string/title_activity_smooth_scroll"
+      android:name=".activity.SmoothScrollActivity" />
   </application>
 </manifest>

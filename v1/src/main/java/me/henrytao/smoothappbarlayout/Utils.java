@@ -14,30 +14,18 @@
  * limitations under the License.
  */
 
-package me.henrytao.smoothappbarlayoutdemo.util;
+package me.henrytao.smoothappbarlayout;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by henrytao on 1/31/16.
+ * Created by henrytao on 2/1/16.
  */
 public class Utils {
 
-  private static final int ITEM_COUNT = 100;
-
-  public static List<String> getSampleData() {
-    List<String> data = new ArrayList<>();
-    int i = 0;
-    for (int n = ITEM_COUNT; i < n; i++) {
-      data.add(String.format("Line %d", i));
-    }
-    return data;
-  }
-
   public static void log(String s, Object... args) {
-    Log.d("SmoothAppBarLayoutDemo", String.format(s, args));
+    if (SmoothAppBarLayout.DEBUG) {
+      Log.d("SmoothAppBarLayout", String.format(s, args));
+    }
   }
 }
