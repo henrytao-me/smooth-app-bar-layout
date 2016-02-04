@@ -94,6 +94,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(null, ""));
     features.add(new Feature(GsdScrollSnapActivity.class, "scroll | snap"));
     features.add(new Feature(null, ""));
+    features.add(new Feature(GsdScrollQuickReturnActivity.class, "scroll | quickReturn"));
+    features.add(new Feature(null, ""));
     return features;
   }
 

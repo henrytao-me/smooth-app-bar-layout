@@ -35,9 +35,9 @@ import me.henrytao.smoothappbarlayoutdemo.R;
  */
 public class DynamicAdapter<T> extends RecyclerView.Adapter<DynamicAdapter.ViewHolder> {
 
-  protected static final int VIEW_TYPE_COLLAPSE = 1;
+  protected static final int VIEW_TYPE_COLLAPSE = 2;
 
-  protected static final int VIEW_TYPE_EXPAND = 0;
+  protected static final int VIEW_TYPE_EXPAND = 1;
 
   private final List<T> mData;
 

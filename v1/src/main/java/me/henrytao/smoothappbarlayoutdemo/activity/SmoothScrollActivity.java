@@ -20,10 +20,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
@@ -50,38 +53,50 @@ public class SmoothScrollActivity extends BaseActivity {
       }
     });
 
+    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new DynamicAdapter<>(Utils.getSampleData())) {
+      @Override
+      public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        return null;
+      }
+
+      @Override
+      public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_header_spacing);
+      }
+    };
+
     vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    vRecyclerView.setAdapter(new DynamicAdapter(Utils.getSampleData()));
+    vRecyclerView.setAdapter(adapter);
 
-    vRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override
-      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        Utils.log("onScrollStateChanged %d", newState);
-        super.onScrollStateChanged(recyclerView, newState);
-      }
-
-      @Override
-      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        int childCount = vRecyclerView.getChildCount();
-        int firstVisiblePosition = 0, firstCompletelyVisiblePosition = 0, lastVisiblePosition = 0, lastCompletelyVisiblePosition = 0;
-        int verticalScrollOffset = 0;
-        if (vRecyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-          LinearLayoutManager layoutManager = (LinearLayoutManager) vRecyclerView.getLayoutManager();
-          firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
-          firstCompletelyVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
-          lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
-          lastCompletelyVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
-        }
-
-        View view = vRecyclerView.getLayoutManager().findViewByPosition(0);
-        Utils.log("onScrolled %d | %d | %d |-| %d | %d | %d | %d |-| %d |-| %b | %d | %d",
-            dx, dy, childCount,
-            firstVisiblePosition, firstCompletelyVisiblePosition, lastCompletelyVisiblePosition, lastVisiblePosition,
-            verticalScrollOffset,
-            view != null, vRecyclerView.computeVerticalScrollOffset(), view != null ? view.getMeasuredHeight() : 0);
-        super.onScrolled(recyclerView, dx, dy);
-      }
-    });
+    //vRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    //  @Override
+    //  public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+    //    Utils.log("onScrollStateChanged %d", newState);
+    //    super.onScrollStateChanged(recyclerView, newState);
+    //  }
+    //
+    //  @Override
+    //  public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+    //    int childCount = vRecyclerView.getChildCount();
+    //    int firstVisiblePosition = 0, firstCompletelyVisiblePosition = 0, lastVisiblePosition = 0, lastCompletelyVisiblePosition = 0;
+    //    int verticalScrollOffset = 0;
+    //    if (vRecyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+    //      LinearLayoutManager layoutManager = (LinearLayoutManager) vRecyclerView.getLayoutManager();
+    //      firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
+    //      firstCompletelyVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+    //      lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
+    //      lastCompletelyVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
+    //    }
+    //
+    //    View view = vRecyclerView.getLayoutManager().findViewByPosition(0);
+    //    Utils.log("onScrolled %d | %d | %d |-| %d | %d | %d | %d |-| %d |-| %b | %d | %d",
+    //        dx, dy, childCount,
+    //        firstVisiblePosition, firstCompletelyVisiblePosition, lastCompletelyVisiblePosition, lastVisiblePosition,
+    //        verticalScrollOffset,
+    //        view != null, vRecyclerView.computeVerticalScrollOffset(), view != null ? view.getMeasuredHeight() : 0);
+    //    super.onScrolled(recyclerView, dx, dy);
+    //  }
+    //});
 
     vRecyclerView.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
       @Override

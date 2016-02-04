@@ -101,6 +101,7 @@
   <string name="title_activity_gsd_scroll_enter_always_collapsed">Gsd scroll | enterAlwaysCollapsed</string>
   <string name="title_activity_gsd_scroll_exit_until_collapsed">Gsd scroll | exitUntilCollapsed</string>
   <string name="title_activity_gsd_scroll_snap">Gsd scroll | snap</string>
+  <string name="title_activity_gsd_scroll_quick_return">Gsd scroll | quickReturn</string>
   <string name="title_activity_smooth_scroll">Smooth scroll</string>
   <string name="title_activity_feature">FeatureActivity</string>
   <string name="title_activity_inbox">Inbox</string>

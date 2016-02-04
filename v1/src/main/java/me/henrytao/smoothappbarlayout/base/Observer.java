@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package me.henrytao.smoothappbarlayout;
+package me.henrytao.smoothappbarlayout.base;
 
-import android.util.Log;
+import android.view.View;
 
 /**
- * Created by henrytao on 2/1/16.
+ * Created by henrytao on 2/3/16.
  */
-public class Utils {
+public interface Observer {
 
-  public static void log(String s, Object... args) {
-    if (SmoothAppBarLayout.DEBUG) {
-      Log.d("SmoothAppBarLayout", String.format(s, args));
-    }
-  }
+  View getView();
+
+  void setOnScrollListener(OnScrollListener onScrollListener);
 }

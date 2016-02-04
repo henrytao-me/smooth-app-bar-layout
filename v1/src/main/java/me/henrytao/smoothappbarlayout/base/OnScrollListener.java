@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package me.henrytao.smoothappbarlayout;
+package me.henrytao.smoothappbarlayout.base;
 
 import android.view.View;
 
 /**
- * Created by henrytao on 2/2/16.
+ * Created by henrytao on 2/3/16.
  */
-public interface ScrollTargetCallback {
+public interface OnScrollListener {
 
-  View callback(View target);
+  void onScrollChanged(View view, int x, int y, int dx, int dy, boolean accuracy);
 }
