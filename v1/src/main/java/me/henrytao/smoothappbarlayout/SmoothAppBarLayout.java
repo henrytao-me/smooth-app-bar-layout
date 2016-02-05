@@ -131,6 +131,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
       if (mScrollFlag.isFlagEnterAlwaysEnabled()) {
         translationOffset = mLastTransitionOffset - dy;
         translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
+      } else if (mScrollFlag.isFlagEnterAlwaysCollapsedEnabled()) {
+        // do nothing by default
       }
 
       Utils.log("hellomoto | onScrollChanged | %d | %d | %b | %d", y, dy, accuracy, translationOffset);
