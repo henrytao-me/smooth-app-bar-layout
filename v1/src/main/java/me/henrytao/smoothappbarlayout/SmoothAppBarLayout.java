@@ -128,7 +128,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
       dy = dy != 0 ? dy : y + mLastTransitionOffset;
 
-      if (mScrollFlag.isFlagEnterAlwaysEnabled()) {
+      if (mScrollFlag.isQuickReturnEnabled()) {
+        translationOffset = mLastTransitionOffset - dy;
+        translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
+        int breakPoint = minOffset + ViewCompat.getMinimumHeight(mScrollFlag.getView());
+        if (dy <= 0 && !(accuracy && y <= Math.abs(breakPoint))) {
+          translationOffset = Math.min(translationOffset, breakPoint);
+        }
+      } else if (mScrollFlag.isFlagEnterAlwaysEnabled()) {
         translationOffset = mLastTransitionOffset - dy;
         translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
       } else if (mScrollFlag.isFlagEnterAlwaysCollapsedEnabled()) {

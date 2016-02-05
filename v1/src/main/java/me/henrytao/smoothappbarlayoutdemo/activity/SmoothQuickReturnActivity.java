@@ -20,15 +20,18 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
-public class GsdScrollQuickReturnActivity extends BaseActivity {
+public class SmoothQuickReturnActivity extends BaseActivity {
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
@@ -39,7 +42,7 @@ public class GsdScrollQuickReturnActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_gsd_scroll_quick_return);
+    setContentView(R.layout.activity_smooth_quick_return);
     ButterKnife.bind(this);
 
     setSupportActionBar(vToolbar);
@@ -50,7 +53,19 @@ public class GsdScrollQuickReturnActivity extends BaseActivity {
       }
     });
 
+    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new DynamicAdapter<>(Utils.getSampleData())) {
+      @Override
+      public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        return null;
+      }
+
+      @Override
+      public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
+        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_header_spacing);
+      }
+    };
+
     vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    vRecyclerView.setAdapter(new DynamicAdapter(Utils.getSampleData()));
+    vRecyclerView.setAdapter(adapter);
   }
 }
