@@ -31,7 +31,7 @@ import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
-public class SmoothScrollActivity extends BaseActivity {
+public class SmoothScrollEnterAlwaysActivity extends BaseActivity {
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
@@ -42,7 +42,7 @@ public class SmoothScrollActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_smooth_scroll);
+    setContentView(R.layout.activity_smooth_scroll_enter_always);
     ButterKnife.bind(this);
 
     setSupportActionBar(vToolbar);

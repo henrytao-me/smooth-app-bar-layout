@@ -103,6 +103,7 @@
   <string name="title_activity_gsd_scroll_snap">Gsd scroll | snap</string>
   <string name="title_activity_gsd_scroll_quick_return">Gsd scroll | quickReturn</string>
   <string name="title_activity_smooth_scroll">Smooth scroll</string>
+  <string name="title_activity_smooth_scroll_enter_always">Smooth scroll | enterAlways</string>
   <string name="title_activity_feature">FeatureActivity</string>
   <string name="title_activity_inbox">Inbox</string>
   <string name="close">Close</string>

@@ -53,14 +53,14 @@ public class ScrollFlag {
   }
 
   public boolean isFlagEnterAlwaysCollapsedEnabled() {
-    if (vView != null && (mFlags & AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS) != 0) {
+    if (vView != null && (mFlags & AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED) != 0) {
       return true;
     }
     return false;
   }
 
   public boolean isFlagEnterAlwaysEnabled() {
-    if (vView != null && (mFlags & AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED) != 0) {
+    if (vView != null && (mFlags & AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS) != 0) {
       return true;
     }
     return false;

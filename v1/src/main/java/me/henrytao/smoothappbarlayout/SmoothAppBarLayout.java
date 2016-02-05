@@ -108,11 +108,16 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected ScrollFlag mScrollFlag;
 
+    private int mLastTransitionOffset;
+
     private int mStatusBarSize;
 
     @Override
     protected void onInit(CoordinatorLayout coordinatorLayout, AppBarLayout child) {
       Utils.log("hellomoto | onInit");
+      if (mScrollFlag == null) {
+        mScrollFlag = new ScrollFlag(child);
+      }
     }
 
     @Override
@@ -121,7 +126,15 @@ public class SmoothAppBarLayout extends AppBarLayout {
       int maxOffset = getMaxOffset(child);
       int translationOffset = accuracy ? Math.min(Math.max(minOffset, -y), maxOffset) : minOffset;
 
+      dy = dy != 0 ? dy : y + mLastTransitionOffset;
+
+      if (mScrollFlag.isFlagEnterAlwaysEnabled()) {
+        translationOffset = mLastTransitionOffset - dy;
+        translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
+      }
+
       Utils.log("hellomoto | onScrollChanged | %d | %d | %b | %d", y, dy, accuracy, translationOffset);
+      mLastTransitionOffset = translationOffset;
       scrolling(coordinatorLayout, child, target, translationOffset);
     }
 

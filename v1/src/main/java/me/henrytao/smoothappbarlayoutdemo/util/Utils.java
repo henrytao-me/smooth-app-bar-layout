@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class Utils {
 
-  private static final int ITEM_COUNT = 100;
+  private static final int ITEM_COUNT = 40;
 
   public static List<String> getSampleData() {
     List<String> data = new ArrayList<>();

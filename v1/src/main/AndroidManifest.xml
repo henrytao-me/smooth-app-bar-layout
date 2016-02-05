@@ -56,5 +56,8 @@
     <activity
       android:label="@string/title_activity_smooth_scroll"
       android:name=".activity.SmoothScrollActivity" />
+    <activity
+      android:label="@string/title_activity_smooth_scroll_enter_always"
+      android:name=".activity.SmoothScrollEnterAlwaysActivity" />
   </application>
 </manifest>
