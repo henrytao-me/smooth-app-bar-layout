@@ -122,6 +122,10 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     @Override
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int y, int dy, boolean accuracy) {
+      if (!mScrollFlag.isFlagScrollEnabled()) {
+        return;
+      }
+
       int minOffset = getMinOffset(child);
       int maxOffset = getMaxOffset(child);
       int translationOffset = accuracy ? Math.min(Math.max(minOffset, -y), maxOffset) : minOffset;

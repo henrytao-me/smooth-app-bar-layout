@@ -106,6 +106,7 @@
   <string name="title_activity_smooth_scroll_enter_always">Smooth scroll | enterAlways</string>
   <string name="title_activity_smooth_scroll_enter_always_collapsed">Smooth scroll | enterAlwaysCollapsed</string>
   <string name="title_activity_smooth_scroll_exit_until_collapsed">Smooth scroll | exitUntilCollapsed</string>
+  <string name="title_activity_smooth_scroll_snap">Smooth scroll | snap</string>
   <string name="title_activity_smooth_quick_return">Smooth quickReturn</string>
   <string name="title_activity_feature">FeatureActivity</string>
   <string name="title_activity_inbox">Inbox</string>
