@@ -108,6 +108,8 @@
   <string name="title_activity_smooth_scroll_exit_until_collapsed">Smooth scroll | exitUntilCollapsed</string>
   <string name="title_activity_smooth_scroll_snap">Smooth scroll | snap</string>
   <string name="title_activity_smooth_quick_return">Smooth quickReturn</string>
+  <string name="title_activity_smooth_nested_scroll_view">Smooth nestedScrollView</string>
+  <string name="title_activity_smooth_custom_nested_scroll_view">Smooth Custom nestedScrollView</string>
   <string name="title_activity_feature">FeatureActivity</string>
   <string name="title_activity_inbox">Inbox</string>
   <string name="close">Close</string>

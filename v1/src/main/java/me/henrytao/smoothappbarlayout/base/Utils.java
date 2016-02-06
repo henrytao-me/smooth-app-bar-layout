@@ -50,4 +50,11 @@ public class Utils {
       Log.d("SmoothAppBarLayout", String.format(s, args));
     }
   }
+
+  public static int parseInt(Object value) {
+    if (value == null) {
+      return 0;
+    }
+    return Integer.valueOf(value.toString());
+  }
 }

@@ -25,14 +25,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.henrytao.smoothappbarlayout.base.ObservableNestedScrollView;
 import me.henrytao.smoothappbarlayout.base.ObservableRecyclerView;
-import me.henrytao.smoothappbarlayout.base.ObservableScrollView;
 import me.henrytao.smoothappbarlayout.base.OnScrollListener;
 import me.henrytao.smoothappbarlayout.base.ScrollTargetCallback;
 import me.henrytao.smoothappbarlayout.base.Utils;
@@ -227,19 +226,11 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
             BaseBehavior.this.onScrollChanged(coordinatorLayout, child, vScrollTarget, y, dy, accuracy);
           }
         };
-        if (vScrollTarget instanceof me.henrytao.smoothappbarlayout.widget.ListView) {
-          // TODO
-        } else if (vScrollTarget instanceof me.henrytao.smoothappbarlayout.widget.NestedScrollView) {
-          // TODO
+        if (vScrollTarget instanceof NestedScrollView) {
+          ObservableNestedScrollView.newInstance((NestedScrollView) vScrollTarget, mOverrideOnScrollListener, listener);
         } else if (vScrollTarget instanceof RecyclerView) {
           ObservableRecyclerView.newInstance((RecyclerView) vScrollTarget, listener);
         } else if (vScrollTarget instanceof ListView) {
-          // TODO
-        } else if (vScrollTarget instanceof NestedScrollView) {
-          // TODO
-        } else if (vScrollTarget instanceof ScrollView) {
-          ObservableScrollView.newInstance((ScrollView) vScrollTarget, listener);
-        } else {
           // TODO
         }
       }
