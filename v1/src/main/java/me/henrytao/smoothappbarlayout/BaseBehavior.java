@@ -24,7 +24,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ListView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -230,71 +229,8 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
           ObservableNestedScrollView.newInstance((NestedScrollView) vScrollTarget, mOverrideOnScrollListener, listener);
         } else if (vScrollTarget instanceof RecyclerView) {
           ObservableRecyclerView.newInstance((RecyclerView) vScrollTarget, listener);
-        } else if (vScrollTarget instanceof ListView) {
-          // TODO
         }
       }
     }
   }
-
-  //private void initScrollTargetForListView(CoordinatorLayout coordinatorLayout, AppBarLayout child, ListView target) {
-  //  Utils.log("initScrollTargetForListView");
-  //}
-  //
-  //private void initScrollTargetForNestedScrollView(final CoordinatorLayout coordinatorLayout, final AppBarLayout child,
-  //    final NestedScrollView target) {
-  //  if (target instanceof me.henrytao.smoothappbarlayout.widget.NestedScrollView) {
-  //    Utils.log("initScrollTargetForNestedScrollView");
-  //    ((me.henrytao.smoothappbarlayout.widget.NestedScrollView) target)
-  //        .addOnScrollListener(new android.support.v4.widget.NestedScrollView.OnScrollChangeListener() {
-  //          @Override
-  //          public void onScrollChange(android.support.v4.widget.NestedScrollView v, int scrollX, int scrollY, int oldScrollX,
-  //              int oldScrollY) {
-  //            if (target == BaseBehavior.this.vScrollTarget) {
-  //              BaseBehavior.this.onScrollChanged(coordinatorLayout, child, target, scrollY - oldScrollY);
-  //            }
-  //          }
-  //        });
-  //  } else if (mOverrideOnScrollListener) {
-  //    Utils.log("initScrollTargetForNestedScrollView");
-  //    target.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-  //      @Override
-  //      public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-  //        if (target == BaseBehavior.this.vScrollTarget) {
-  //          BaseBehavior.this.onScrollChanged(coordinatorLayout, child, target, scrollY - oldScrollY);
-  //        }
-  //      }
-  //    });
-  //  } else {
-  //    initScrollTargetForViewTreeObserver(coordinatorLayout, child, target);
-  //  }
-  //}
-  //
-  //private void initScrollTargetForRecyclerView(final CoordinatorLayout coordinatorLayout, final AppBarLayout child,
-  //    final RecyclerView target) {
-  //  Utils.log("initScrollTargetForRecyclerView");
-  //  target.addOnScrollListener(new RecyclerView.OnScrollListener() {
-  //    @Override
-  //    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-  //      if (target == BaseBehavior.this.vScrollTarget) {
-  //        BaseBehavior.this.onScrollChanged(coordinatorLayout, child, target, dy);
-  //      }
-  //    }
-  //  });
-  //}
-  //
-  //private void initScrollTargetForViewTreeObserver(final CoordinatorLayout coordinatorLayout, final AppBarLayout child, final View target) {
-  //  Utils.log("initScrollTargetForViewTreeObserver");
-  //  target.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-  //    @Override
-  //    public void onScrollChanged() {
-  //      if (target == BaseBehavior.this.vScrollTarget) {
-  //        int currentScrollY = target.getScrollY();
-  //        BaseBehavior.this.onScrollChanged(coordinatorLayout, child, target,
-  //            currentScrollY - (Integer) target.getTag(R.id.tag_view_tree_observer_last_scroll_y));
-  //        target.setTag(R.id.tag_view_tree_observer_last_scroll_y, currentScrollY);
-  //      }
-  //    }
-  //  });
-  //}
 }
