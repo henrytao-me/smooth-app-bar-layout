@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import me.henrytao.smoothappbarlayoutdemo.R;
+import me.henrytao.smoothappbarlayout.R;
 
 /**
  * Created by henrytao on 2/3/16.

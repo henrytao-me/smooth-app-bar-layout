@@ -37,6 +37,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -77,6 +79,22 @@ public class BaseActivity extends AppCompatActivity {
   };
 
   private ProgressDialog mProgressDialog;
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_google_play, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_donate:
+        showDonateDialog();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {

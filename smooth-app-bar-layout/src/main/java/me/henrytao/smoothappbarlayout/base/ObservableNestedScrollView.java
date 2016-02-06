@@ -21,7 +21,8 @@ import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import me.henrytao.smoothappbarlayoutdemo.R;
+import me.henrytao.smoothappbarlayout.R;
+
 
 /**
  * Created by henrytao on 2/3/16.

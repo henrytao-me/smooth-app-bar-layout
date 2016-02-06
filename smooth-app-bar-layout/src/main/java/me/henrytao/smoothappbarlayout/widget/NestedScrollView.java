@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 "Henry Tao <hi@henrytao.me>"
+ * Copyright 2016 "Henry Tao <hi@henrytao.me>"
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class NestedScrollView extends android.support.v4.widget.NestedScrollView {
 
-  protected List<OnScrollListener> mOnScrollListeners;
+  protected List<OnScrollChangeListener> mOnScrollListeners;
 
   public NestedScrollView(Context context) {
     super(context);
@@ -47,20 +47,15 @@ public class NestedScrollView extends android.support.v4.widget.NestedScrollView
     if (mOnScrollListeners != null) {
       int i = 0;
       for (int n = mOnScrollListeners.size(); i < n; i++) {
-        mOnScrollListeners.get(i).onScrolled(this, l - oldl, t - oldt);
+        mOnScrollListeners.get(i).onScrollChange(this, l, t, oldl, oldt);
       }
     }
   }
 
-  public void addOnScrollListener(OnScrollListener onScrollListener) {
+  public void addOnScrollListener(OnScrollChangeListener onScrollListener) {
     if (mOnScrollListeners == null) {
       mOnScrollListeners = new ArrayList<>();
     }
     mOnScrollListeners.add(onScrollListener);
-  }
-
-  public interface OnScrollListener {
-
-    void onScrolled(android.support.v4.widget.NestedScrollView nestedScrollView, int dx, int dy);
   }
 }

@@ -16,6 +16,8 @@
 
 <resources>
 
+  <item name="tag_observable_view" type="id" />
+  <item name="tag_observable_view_last_scroll_x" type="id" />
+  <item name="tag_observable_view_last_scroll_y" type="id" />
   <item name="tag_view_target" type="id" />
-
 </resources>
