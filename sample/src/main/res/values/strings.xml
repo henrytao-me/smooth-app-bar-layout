@@ -96,7 +96,22 @@
   <string name="title_activity_info">@string/text_info</string>
   <string name="action_settings">Settings</string>
   <string name="title_activity_simple">SimpleActivity</string>
-  <string name="title_activity_gsd_default">GsdDefaultActivity</string>
+  <string name="title_activity_gsd_scroll">Gsd scroll</string>
+  <string name="title_activity_gsd_scroll_enter_always">Gsd scroll | enterAlways</string>
+  <string name="title_activity_gsd_scroll_enter_always_collapsed">Gsd scroll | enterAlwaysCollapsed</string>
+  <string name="title_activity_gsd_scroll_exit_until_collapsed">Gsd scroll | exitUntilCollapsed</string>
+  <string name="title_activity_gsd_scroll_snap">Gsd scroll | snap</string>
+  <string name="title_activity_gsd_quick_return">Gsd quickReturn</string>
+  <string name="title_activity_gsd_view_pager">Gsd ViewPager</string>
+  <string name="title_activity_smooth_scroll">Smooth scroll</string>
+  <string name="title_activity_smooth_scroll_enter_always">Smooth scroll | enterAlways</string>
+  <string name="title_activity_smooth_scroll_enter_always_collapsed">Smooth scroll | enterAlwaysCollapsed</string>
+  <string name="title_activity_smooth_scroll_exit_until_collapsed">Smooth scroll | exitUntilCollapsed</string>
+  <string name="title_activity_smooth_scroll_snap">Smooth scroll | snap</string>
+  <string name="title_activity_smooth_quick_return">Smooth QuickReturn</string>
+  <string name="title_activity_smooth_nested_scroll_view">Smooth NestedScrollView</string>
+  <string name="title_activity_smooth_custom_nested_scroll_view">Smooth Custom NestedScrollView</string>
+  <string name="title_activity_smooth_view_pager">Smooth ViewPager</string>
   <string name="title_activity_feature">FeatureActivity</string>
   <string name="title_activity_inbox">Inbox</string>
   <string name="close">Close</string>
@@ -110,5 +125,4 @@
   <string name="text_donate_error">Something just happened. You can not donate at the moment. Keep in touch. Thanks!</string>
   <string name="title_activity_smooth_view_pager_drawer_layout">SmoothViewPagerDrawerLayoutActivity</string>
   <string name="title_activity_smooth_view_pager_parallax_drawer_layout">SmoothViewPagerParallaxDrawerLayoutActivity</string>
-
 </resources>

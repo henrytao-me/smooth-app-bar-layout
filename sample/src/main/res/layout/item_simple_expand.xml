@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2015 "Henry Tao <hi@henrytao.me>"
+  ~ Copyright 2016 "Henry Tao <hi@henrytao.me>"
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,10 +14,18 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:background="@drawable/md_ripple"
+  android:clickable="true"
+  style="@style/MdList.SingleLine.TextOnly">
 
-  <item name="tag_observable_view" type="id" />
-  <item name="tag_observable_view_last_scroll_x" type="id" />
-  <item name="tag_observable_view_last_scroll_y" type="id" />
-  <item name="tag_view_target" type="id" />
-</resources>
+  <TextView
+    android:id="@+id/title"
+    android:layout_marginBottom="480dp"
+    android:singleLine="false"
+    tools:text="Sample"
+    style="@style/MdList.SingleLine.TextOnly.Text" />
+
+  <View style="@style/MdDivider.AlignParentBottom" />
+</RelativeLayout>

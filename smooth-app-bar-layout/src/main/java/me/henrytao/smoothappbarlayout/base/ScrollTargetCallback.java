@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 "Henry Tao <hi@henrytao.me>"
+ * Copyright 2016 "Henry Tao <hi@henrytao.me>"
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package me.henrytao.smoothappbarlayoutdemo.config;
+package me.henrytao.smoothappbarlayout.base;
+
+import android.view.View;
 
 /**
- * Created by henrytao on 9/27/15.
+ * Created by henrytao on 2/2/16.
  */
-public class Constants {
+public interface ScrollTargetCallback {
 
+  View callback(View target);
 }

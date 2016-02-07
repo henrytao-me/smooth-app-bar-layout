@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 "Henry Tao <hi@henrytao.me>"
+ * Copyright 2016 "Henry Tao <hi@henrytao.me>"
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,38 +16,43 @@
 
 package me.henrytao.smoothappbarlayoutdemo.apdater;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.support.v4.app.FragmentPagerAdapter;
 
-import me.henrytao.smoothappbarlayout.PagerAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by henrytao on 10/3/15.
+ * Created by henrytao on 2/6/16.
  */
-public class ViewPagerAdapter extends BaseViewPagerAdapter implements PagerAdapter.OnSyncOffset {
+public class ViewPagerAdapter extends FragmentPagerAdapter {
+
+  private final List<Fragment> mFragments = new ArrayList<>();
+
+  private final List<CharSequence> mTitles = new ArrayList<>();
 
   public ViewPagerAdapter(FragmentManager fm) {
     super(fm);
   }
 
   @Override
-  public int onSyncOffset(int position, final int offset) {
-    final View scrollView = getScrollView(position);
+  public int getCount() {
+    return mFragments.size();
+  }
 
-    if (scrollView instanceof RecyclerView) {
-      int dy = offset - ((RecyclerView) scrollView).computeVerticalScrollOffset();
-      if (offset == 0) {
-        ((RecyclerView) scrollView).scrollToPosition(0);
-      } else if (dy != 0) {
-        scrollView.scrollBy(0, dy);
-      }
-    } else if (scrollView instanceof NestedScrollView) {
-      if (offset != scrollView.getScrollY()) {
-        scrollView.scrollTo(0, offset);
-      }
-    }
-    return FAKE_DELAY;
+  @Override
+  public Fragment getItem(int position) {
+    return mFragments.get(position);
+  }
+
+  @Override
+  public CharSequence getPageTitle(int position) {
+    return mTitles.get(position);
+  }
+
+  public void addFragment(CharSequence title, Fragment fragment) {
+    mTitles.add(title);
+    mFragments.add(fragment);
   }
 }
