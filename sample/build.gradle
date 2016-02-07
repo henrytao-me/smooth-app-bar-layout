@@ -5,7 +5,8 @@ android {
   buildToolsVersion rootProject.ext.android.buildToolsVersion
 
   defaultConfig {
-    applicationId rootProject.ext.android.applicationId
+//    applicationId rootProject.ext.android.applicationId
+    applicationId "me.henrytao.smoothappbarlayout.v1"
     minSdkVersion rootProject.ext.android.minSdkVersion
     targetSdkVersion rootProject.ext.android.targetSdkVersion
     versionCode rootProject.ext.android.versionCode
@@ -54,4 +55,5 @@ dependencies {
   compile(project(":smooth-app-bar-layout")) {
     exclude group: "com.android.support"
   }
+  compile 'com.android.support:support-v4:23.1.1'
 }

@@ -79,5 +79,11 @@
     <activity
       android:label="@string/title_activity_smooth_custom_nested_scroll_view"
       android:name=".activity.SmoothCustomNestedScrollViewActivity" />
+    <activity
+      android:label="@string/title_activity_smooth_view_pager"
+      android:name=".activity.SmoothViewPagerActivity" />
+    <activity
+      android:label="@string/title_activity_gsd_view_pager"
+      android:name=".activity.GsdViewPagerActivity" />
   </application>
 </manifest>
