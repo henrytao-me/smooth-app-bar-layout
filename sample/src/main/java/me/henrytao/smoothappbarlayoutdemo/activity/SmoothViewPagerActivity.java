@@ -17,32 +17,34 @@
 package me.henrytao.smoothappbarlayoutdemo.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.smoothappbarlayoutdemo.R;
-import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
-import me.henrytao.smoothappbarlayoutdemo.util.Utils;
+import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
+import me.henrytao.smoothappbarlayoutdemo.fragment.PagerWithHeaderFragment;
 
 public class SmoothViewPagerActivity extends BaseActivity {
 
-  @Bind(android.R.id.list)
-  RecyclerView vRecyclerView;
+  @Bind(R.id.tab_layout)
+  TabLayout vTabLayout;
 
   @Bind(R.id.toolbar)
   Toolbar vToolbar;
 
+  @Bind(R.id.view_pager)
+  ViewPager vViewPager;
+
+  private ViewPagerAdapter mViewPagerAdapter;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_smooth_scroll_exit_until_collapsed);
+    setContentView(R.layout.activity_smooth_view_pager);
     ButterKnife.bind(this);
 
     setSupportActionBar(vToolbar);
@@ -53,19 +55,20 @@ public class SmoothViewPagerActivity extends BaseActivity {
       }
     });
 
-    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new DynamicAdapter<>(Utils.getSampleData())) {
-      @Override
-      public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return null;
-      }
+    mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+    mViewPagerAdapter.addFragment("Cat", PagerWithHeaderFragment.newInstance());
+    mViewPagerAdapter.addFragment("Dog", PagerWithHeaderFragment.newInstance());
+    mViewPagerAdapter.addFragment("Mouse", PagerWithHeaderFragment.newInstance());
+    mViewPagerAdapter.addFragment("Bird", PagerWithHeaderFragment.newInstance());
+    mViewPagerAdapter.addFragment("Chicken", PagerWithHeaderFragment.newInstance());
+    mViewPagerAdapter.addFragment("Tiger", PagerWithHeaderFragment.newInstance());
+    mViewPagerAdapter.addFragment("Elephant", PagerWithHeaderFragment.newInstance());
 
-      @Override
-      public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_header_spacing);
-      }
-    };
+    vViewPager.setAdapter(mViewPagerAdapter);
+    vViewPager.setOffscreenPageLimit(vViewPager.getAdapter().getCount());
 
-    vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    vRecyclerView.setAdapter(adapter);
+    vTabLayout.setupWithViewPager(vViewPager);
+    vTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+    vTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
   }
 }

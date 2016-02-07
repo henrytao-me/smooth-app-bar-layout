@@ -100,8 +100,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(SmoothNestedScrollViewActivity.class, "NestedScrollView"));
     features.add(new Feature(null, "-"));
     features.add(new Feature(SmoothCustomNestedScrollViewActivity.class, "Custom NestedScrollView"));
-    features.add(new Feature(GsdViewPagerActivity.class, "ViewPager"));
-    features.add(new Feature(SmoothViewPagerActivity.class, "ViewPager"));
+    //features.add(new Feature(GsdViewPagerActivity.class, "ViewPager"));
+    //features.add(new Feature(SmoothViewPagerActivity.class, "ViewPager"));
     return features;
   }
 

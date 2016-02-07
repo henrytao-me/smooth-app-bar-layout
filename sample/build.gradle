@@ -5,8 +5,7 @@ android {
   buildToolsVersion rootProject.ext.android.buildToolsVersion
 
   defaultConfig {
-//    applicationId rootProject.ext.android.applicationId
-    applicationId "me.henrytao.smoothappbarlayout.v1"
+    applicationId rootProject.ext.android.applicationId
     minSdkVersion rootProject.ext.android.minSdkVersion
     targetSdkVersion rootProject.ext.android.targetSdkVersion
     versionCode rootProject.ext.android.versionCode
