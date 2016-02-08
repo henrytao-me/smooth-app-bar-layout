@@ -39,7 +39,7 @@ import me.henrytao.smoothappbarlayout.base.Utils;
 @CoordinatorLayout.DefaultBehavior(SmoothAppBarLayout.Behavior.class)
 public class SmoothAppBarLayout extends AppBarLayout {
 
-  public static boolean DEBUG = true;
+  public static boolean DEBUG = false;
 
   protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners = new ArrayList<>();
 
