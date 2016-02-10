@@ -180,9 +180,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       if (mScrollFlag.isQuickReturnEnabled()) {
         translationOffset = mLastTransitionOffset - dy;
         translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
-        int minHeight = ViewCompat.getMinimumHeight(child);
-        minHeight = minHeight > 0 ? minHeight : ViewCompat.getMinimumHeight(mScrollFlag.getView());
-        int breakPoint = minOffset + minHeight;
+        int breakPoint = minOffset + getMinHeight(child, true);
         if (dy <= 0 && !(accuracy && y <= Math.abs(breakPoint))) {
           translationOffset = Math.min(translationOffset, breakPoint);
         }
@@ -208,11 +206,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       int minOffset = layout.getMeasuredHeight();
       if (mScrollFlag != null) {
         if (mScrollFlag.isFlagScrollEnabled()) {
-          minOffset = layout.getMeasuredHeight();
-          int minHeight = ViewCompat.getMinimumHeight(layout);
-          if (mScrollFlag.isFlagExitUntilCollapsedEnabled() || (minHeight > 0 && !mScrollFlag.isQuickReturnEnabled())) {
-            minOffset -= minHeight > 0 ? minHeight : ViewCompat.getMinimumHeight(mScrollFlag.getView());
-          }
+          minOffset = layout.getMeasuredHeight() - getMinHeight(layout, false);
         }
       }
       if (ViewCompat.getFitsSystemWindows(layout)) {
@@ -222,6 +216,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
         minOffset -= mStatusBarSize;
       }
       return -Math.max(minOffset, 0);
+    }
+
+    private int getMinHeight(AppBarLayout layout, boolean forceQuickReturn) {
+      int minHeight = ViewCompat.getMinimumHeight(layout);
+      if (mScrollFlag.isFlagExitUntilCollapsedEnabled() || (minHeight > 0 && !mScrollFlag.isQuickReturnEnabled()) || forceQuickReturn) {
+        return minHeight > 0 ? minHeight : ViewCompat.getMinimumHeight(mScrollFlag.getView());
+      }
+      return 0;
     }
   }
 }
