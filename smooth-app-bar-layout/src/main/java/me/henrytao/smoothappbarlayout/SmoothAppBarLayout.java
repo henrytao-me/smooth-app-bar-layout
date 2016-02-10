@@ -17,11 +17,14 @@
 package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
 import java.lang.ref.WeakReference;
@@ -47,12 +50,18 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   private ScrollTargetCallback mScrollTargetCallback;
 
+  private int mViewPagerId;
+
+  private ViewPager vViewPager;
+
   public SmoothAppBarLayout(Context context) {
     super(context);
+    init(null);
   }
 
   public SmoothAppBarLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
+    init(null);
   }
 
   @Override
@@ -86,6 +95,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
   }
 
   @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    initViews();
+  }
+
+  @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     super.onLayout(changed, l, t, r, b);
     int i = 0;
@@ -104,6 +119,36 @@ public class SmoothAppBarLayout extends AppBarLayout {
     mScrollTargetCallback = scrollTargetCallback;
   }
 
+  protected ViewPager getViewPager() {
+    return vViewPager;
+  }
+
+  private void init(AttributeSet attrs) {
+    TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.SmoothAppBarLayout, 0, 0);
+    try {
+      mViewPagerId = a.getResourceId(R.styleable.SmoothAppBarLayout_sabl_view_pager_id, 0);
+    } finally {
+      a.recycle();
+    }
+  }
+
+  private void initViews() {
+    if (mViewPagerId > 0) {
+      vViewPager = (ViewPager) getRootView().findViewById(mViewPagerId);
+    } else {
+      int i = 0;
+      ViewGroup parent = (ViewGroup) getParent();
+      View child;
+      for (int z = parent.getChildCount(); i < z; i++) {
+        child = parent.getChildAt(i);
+        if (child instanceof ViewPager) {
+          vViewPager = (ViewPager) child;
+          break;
+        }
+      }
+    }
+  }
+
   public static class Behavior extends BaseBehavior {
 
     protected ScrollFlag mScrollFlag;
@@ -114,7 +159,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     @Override
     protected void onInit(CoordinatorLayout coordinatorLayout, AppBarLayout child) {
-      Utils.log("hellomoto | onInit");
+      Utils.log("widget | onInit");
       if (mScrollFlag == null) {
         mScrollFlag = new ScrollFlag(child);
       }
@@ -135,7 +180,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
       if (mScrollFlag.isQuickReturnEnabled()) {
         translationOffset = mLastTransitionOffset - dy;
         translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
-        int breakPoint = minOffset + ViewCompat.getMinimumHeight(mScrollFlag.getView());
+        int minHeight = ViewCompat.getMinimumHeight(child);
+        minHeight = minHeight > 0 ? minHeight : ViewCompat.getMinimumHeight(mScrollFlag.getView());
+        int breakPoint = minOffset + minHeight;
         if (dy <= 0 && !(accuracy && y <= Math.abs(breakPoint))) {
           translationOffset = Math.min(translationOffset, breakPoint);
         }
@@ -148,7 +195,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
         // do nothing
       }
 
-      Utils.log("hellomoto | onScrollChanged | %d | %d | %b | %d", y, dy, accuracy, translationOffset);
+      Utils.log("widget | onScrollChanged | %d | %d | %d | %d | %b | %d", minOffset, maxOffset, y, dy, accuracy, translationOffset);
       mLastTransitionOffset = translationOffset;
       scrolling(coordinatorLayout, child, target, translationOffset);
     }
@@ -161,9 +208,10 @@ public class SmoothAppBarLayout extends AppBarLayout {
       int minOffset = layout.getMeasuredHeight();
       if (mScrollFlag != null) {
         if (mScrollFlag.isFlagScrollEnabled()) {
-          minOffset = mScrollFlag.getView().getMeasuredHeight();
-          if (mScrollFlag.isFlagExitUntilCollapsedEnabled()) {
-            minOffset -= ViewCompat.getMinimumHeight(mScrollFlag.getView());
+          minOffset = layout.getMeasuredHeight();
+          int minHeight = ViewCompat.getMinimumHeight(layout);
+          if (mScrollFlag.isFlagExitUntilCollapsedEnabled() || (minHeight > 0 && !mScrollFlag.isQuickReturnEnabled())) {
+            minOffset -= minHeight > 0 ? minHeight : ViewCompat.getMinimumHeight(mScrollFlag.getView());
           }
         }
       }
