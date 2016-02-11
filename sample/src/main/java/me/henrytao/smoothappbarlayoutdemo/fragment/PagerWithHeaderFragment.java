@@ -18,24 +18,46 @@ package me.henrytao.smoothappbarlayoutdemo.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import me.henrytao.smoothappbarlayout.base.ObservableFragment;
 import me.henrytao.smoothappbarlayoutdemo.R;
 
-public class PagerWithHeaderFragment extends Fragment {
+public class PagerWithHeaderFragment extends Fragment implements ObservableFragment {
 
   public static Fragment newInstance() {
     PagerWithHeaderFragment fragment = new PagerWithHeaderFragment();
     return fragment;
   }
 
+  @Bind(android.R.id.list)
+  NestedScrollView vNestedScrollView;
+
   public PagerWithHeaderFragment() {
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_pager_with_header, container, false);
+    View view = inflater.inflate(R.layout.fragment_pager_with_header, container, false);
+    ButterKnife.bind(this, view);
+    return view;
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
+  }
+
+  @Override
+  public void onSyncOffset(int offset) {
+    if (vNestedScrollView != null) {
+      vNestedScrollView.scrollTo(0, offset);
+    }
   }
 }

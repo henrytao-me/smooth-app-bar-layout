@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import me.henrytao.smoothappbarlayout.base.ObservableFragment;
+import me.henrytao.smoothappbarlayout.base.ObservablePagerAdapter;
 import me.henrytao.smoothappbarlayout.base.ScrollFlag;
 import me.henrytao.smoothappbarlayout.base.ScrollTargetCallback;
 import me.henrytao.smoothappbarlayout.base.Utils;
@@ -119,10 +121,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
     mScrollTargetCallback = scrollTargetCallback;
   }
 
-  protected ViewPager getViewPager() {
-    return vViewPager;
-  }
-
   private void init(AttributeSet attrs) {
     TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.SmoothAppBarLayout, 0, 0);
     try {
@@ -157,11 +155,32 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     private int mStatusBarSize;
 
+    private ViewPager vViewPager;
+
     @Override
     protected void onInit(CoordinatorLayout coordinatorLayout, AppBarLayout child) {
       Utils.log("widget | onInit");
       if (mScrollFlag == null) {
         mScrollFlag = new ScrollFlag(child);
+      }
+      if (child instanceof SmoothAppBarLayout) {
+        vViewPager = ((SmoothAppBarLayout) child).vViewPager;
+        if (vViewPager != null) {
+          vViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+              propagateViewPagerOffset();
+            }
+          });
+        }
       }
     }
 
@@ -196,6 +215,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
       Utils.log("widget | onScrollChanged | %d | %d | %d | %d | %b | %d", minOffset, maxOffset, y, dy, accuracy, translationOffset);
       mLastTransitionOffset = translationOffset;
       scrolling(coordinatorLayout, child, target, translationOffset);
+
+      propagateViewPagerOffset();
     }
 
     protected int getMaxOffset(AppBarLayout layout) {
@@ -224,6 +245,23 @@ public class SmoothAppBarLayout extends AppBarLayout {
         return minHeight > 0 ? minHeight : ViewCompat.getMinimumHeight(mScrollFlag.getView());
       }
       return 0;
+    }
+
+    private void propagateViewPagerOffset() {
+      if (vViewPager != null && vViewPager.getAdapter() instanceof ObservablePagerAdapter) {
+        int position = vViewPager.getCurrentItem();
+        ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
+        ObservableFragment fragment;
+        int n = vViewPager.getAdapter().getCount();
+        for (int i = 0; i < n; i++) {
+          if (i != position) {
+            fragment = pagerAdapter.getObservableFragment(i);
+            if (fragment != null) {
+              fragment.onSyncOffset(-mLastTransitionOffset);
+            }
+          }
+        }
+      }
     }
   }
 }

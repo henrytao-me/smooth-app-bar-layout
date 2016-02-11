@@ -19,7 +19,6 @@ package me.henrytao.smoothappbarlayout;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -59,8 +58,6 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   private List<Long> mScrollTargets = new ArrayList<>();
 
   private View vScrollTarget;
-
-  private ViewPager vViewPager;
 
   public BaseBehavior() {
   }
@@ -207,10 +204,6 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
         }
       };
       setDragCallback(mDragCallbackListener);
-    }
-
-    if (child instanceof SmoothAppBarLayout) {
-      vViewPager = ((SmoothAppBarLayout) child).getViewPager();
     }
 
     // dispatch init event

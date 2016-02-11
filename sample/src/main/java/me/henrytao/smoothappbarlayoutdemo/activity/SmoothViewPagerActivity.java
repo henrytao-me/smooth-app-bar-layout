@@ -65,7 +65,7 @@ public class SmoothViewPagerActivity extends BaseActivity {
     mViewPagerAdapter.addFragment("Elephant", PagerWithHeaderFragment.newInstance());
 
     vViewPager.setAdapter(mViewPagerAdapter);
-    vViewPager.setOffscreenPageLimit(vViewPager.getAdapter().getCount());
+    //vViewPager.setOffscreenPageLimit(vViewPager.getAdapter().getCount());
 
     vTabLayout.setupWithViewPager(vViewPager);
     vTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
