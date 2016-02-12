@@ -18,7 +18,9 @@ package me.henrytao.smoothappbarlayout.base;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
+import android.view.View;
 
 import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 
@@ -56,5 +58,13 @@ public class Utils {
       return 0;
     }
     return Integer.valueOf(value.toString());
+  }
+
+  public static void syncOffset(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isPageSelected, View target) {
+    if (target instanceof NestedScrollView) {
+      if (target.getScrollY() < verticalOffset || (verticalOffset == 0 && isPageSelected)) {
+        target.scrollTo(0, verticalOffset);
+      }
+    }
   }
 }

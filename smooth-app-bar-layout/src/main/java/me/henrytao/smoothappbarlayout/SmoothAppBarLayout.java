@@ -52,6 +52,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   private ScrollTargetCallback mScrollTargetCallback;
 
+  private me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener mSyncOffsetListener;
+
   private int mViewPagerId;
 
   private ViewPager vViewPager;
@@ -117,8 +119,18 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
+  public int getCurrentOffset() {
+    return Utils.parseInt(getTag(R.id.tag_current_offset));
+  }
+
   public void setScrollTargetCallback(ScrollTargetCallback scrollTargetCallback) {
     mScrollTargetCallback = scrollTargetCallback;
+  }
+
+  public void syncOffset(SmoothAppBarLayout smoothAppBarLayout, int newOffset) {
+    if (mSyncOffsetListener != null) {
+      mSyncOffsetListener.onOffsetChanged(smoothAppBarLayout, newOffset);
+    }
   }
 
   private void init(AttributeSet attrs) {
@@ -147,18 +159,22 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
+  private void setSyncOffsetListener(me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener syncOffsetListener) {
+    mSyncOffsetListener = syncOffsetListener;
+  }
+
   public static class Behavior extends BaseBehavior {
 
     protected ScrollFlag mScrollFlag;
 
-    private int mLastTransitionOffset;
+    private boolean mIsOnPageSelected;
 
     private int mStatusBarSize;
 
     private ViewPager vViewPager;
 
     @Override
-    protected void onInit(CoordinatorLayout coordinatorLayout, AppBarLayout child) {
+    protected void onInit(CoordinatorLayout coordinatorLayout, final AppBarLayout child) {
       Utils.log("widget | onInit");
       if (mScrollFlag == null) {
         mScrollFlag = new ScrollFlag(child);
@@ -177,34 +193,51 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
             @Override
             public void onPageSelected(int position) {
-              propagateViewPagerOffset();
+              setOnPageSelected(child, true);
+              propagateViewPagerOffset((SmoothAppBarLayout) child);
             }
           });
         }
+
+        ((SmoothAppBarLayout) child).setSyncOffsetListener(new me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener() {
+          @Override
+          public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset) {
+            syncOffset(smoothAppBarLayout, verticalOffset);
+          }
+        });
       }
     }
 
     @Override
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int y, int dy, boolean accuracy) {
-      if (!mScrollFlag.isFlagScrollEnabled()) {
+      if (!mScrollFlag.isFlagScrollEnabled() || !(child instanceof SmoothAppBarLayout)) {
         return;
       }
+
+      if (vViewPager != null && vViewPager.getAdapter() instanceof ObservablePagerAdapter) {
+        ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
+        if (pagerAdapter.getObservableFragment(vViewPager.getCurrentItem()).getScrollTarget() != target) {
+          return;
+        }
+      }
+
+      setOnPageSelected(child, false);
 
       int minOffset = getMinOffset(child);
       int maxOffset = getMaxOffset(child);
       int translationOffset = accuracy ? Math.min(Math.max(minOffset, -y), maxOffset) : minOffset;
 
-      dy = dy != 0 ? dy : y + mLastTransitionOffset;
+      dy = dy != 0 ? dy : y + getCurrentOffset();
 
       if (mScrollFlag.isQuickReturnEnabled()) {
-        translationOffset = mLastTransitionOffset - dy;
+        translationOffset = getCurrentOffset() - dy;
         translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
         int breakPoint = minOffset + getMinHeight(child, true);
         if (dy <= 0 && !(accuracy && y <= Math.abs(breakPoint))) {
           translationOffset = Math.min(translationOffset, breakPoint);
         }
       } else if (mScrollFlag.isFlagEnterAlwaysEnabled()) {
-        translationOffset = mLastTransitionOffset - dy;
+        translationOffset = getCurrentOffset() - dy;
         translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
       } else if (mScrollFlag.isFlagEnterAlwaysCollapsedEnabled()) {
         // do nothing
@@ -213,10 +246,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
       }
 
       Utils.log("widget | onScrollChanged | %d | %d | %d | %d | %b | %d", minOffset, maxOffset, y, dy, accuracy, translationOffset);
-      mLastTransitionOffset = translationOffset;
-      scrolling(coordinatorLayout, child, target, translationOffset);
+      syncOffset(child, translationOffset);
 
-      propagateViewPagerOffset();
+      propagateViewPagerOffset((SmoothAppBarLayout) child);
     }
 
     protected int getMaxOffset(AppBarLayout layout) {
@@ -247,21 +279,45 @@ public class SmoothAppBarLayout extends AppBarLayout {
       return 0;
     }
 
-    private void propagateViewPagerOffset() {
+    private boolean isOnPageSelected() {
+      return mIsOnPageSelected;
+    }
+
+    private void propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout, int position) {
       if (vViewPager != null && vViewPager.getAdapter() instanceof ObservablePagerAdapter) {
-        int position = vViewPager.getCurrentItem();
-        ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
-        ObservableFragment fragment;
+        int n = vViewPager.getAdapter().getCount();
+        if (position >= 0 && position < n) {
+          int currentOffset = Math.max(0, -getCurrentOffset());
+          Utils.log("widget | propagateViewPagerOffset | %d | %d", position, currentOffset);
+
+          ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
+          ObservableFragment fragment = pagerAdapter.getObservableFragment(position);
+          fragment.onOffsetChanged(smoothAppBarLayout, currentOffset, isOnPageSelected());
+        }
+      }
+    }
+
+    private void propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout) {
+      if (vViewPager != null) {
+        Utils.log("widget | propagateViewPagerOffset | isPageSelected | %b", isOnPageSelected());
+
+        int currentItem = vViewPager.getCurrentItem();
+        if (isOnPageSelected()) {
+          propagateViewPagerOffset(smoothAppBarLayout, currentItem);
+        }
+
         int n = vViewPager.getAdapter().getCount();
         for (int i = 0; i < n; i++) {
-          if (i != position) {
-            fragment = pagerAdapter.getObservableFragment(i);
-            if (fragment != null) {
-              fragment.onSyncOffset(-mLastTransitionOffset);
-            }
+          if (i != currentItem) {
+            propagateViewPagerOffset(smoothAppBarLayout, i);
           }
         }
       }
+    }
+
+    private void setOnPageSelected(AppBarLayout appBarLayout, boolean onPageSelected) {
+      mIsOnPageSelected = onPageSelected;
+      appBarLayout.setTag(R.id.tag_is_on_page_selected, onPageSelected);
     }
   }
 }

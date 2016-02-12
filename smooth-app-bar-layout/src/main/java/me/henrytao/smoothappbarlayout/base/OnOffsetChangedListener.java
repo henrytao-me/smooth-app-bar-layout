@@ -16,16 +16,12 @@
 
 package me.henrytao.smoothappbarlayout.base;
 
-import android.view.View;
-
 import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 
 /**
- * Created by henrytao on 2/11/16.
+ * Created by henrytao on 2/12/16.
  */
-public interface ObservableFragment {
+public interface OnOffsetChangedListener {
 
-  View getScrollTarget();
-
-  void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isPageSelected);
+  void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset);
 }

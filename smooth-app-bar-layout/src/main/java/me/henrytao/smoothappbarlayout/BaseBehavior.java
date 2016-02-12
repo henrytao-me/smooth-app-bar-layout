@@ -45,6 +45,10 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   protected abstract void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target,
       int y, int dy, boolean accuracy);
 
+  private CoordinatorLayout mCoordinatorLayout;
+
+  private int mCurrentOffset;
+
   private DragCallback mDragCallbackListener;
 
   private boolean mIsOnInit = false;
@@ -94,9 +98,6 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     Utils.log("onNestedPreScroll | %d | %d", dx, dy);
 
     vScrollTarget = getScrollTarget(target);
-    //if (vViewPager == null) {
-    //  vScrollTarget = getScrollTarget(target);
-    //}
     initScrollTarget(coordinatorLayout, child);
 
     if (dy < 0 && mIsPullDownFromTop) {
@@ -140,6 +141,10 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     mDragCallbackListener = callback;
   }
 
+  public int getCurrentOffset() {
+    return mCurrentOffset;
+  }
+
   public void setOverrideOnScrollListener(boolean overrideOnScrollListener) {
     mOverrideOnScrollListener = overrideOnScrollListener;
   }
@@ -162,13 +167,15 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     }
   }
 
-  protected void scrolling(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int offset) {
-    Utils.log("scrolling | %d", offset);
-    setTopAndBottomOffset(offset);
-    if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator) {
-      coordinatorLayout.dispatchDependentViewsChanged(child);
+  protected void syncOffset(AppBarLayout child, int newOffset) {
+    Utils.log("syncOffset | %d", newOffset);
+    setTopAndBottomOffset(newOffset);
+    if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator && mCoordinatorLayout != null) {
+      mCoordinatorLayout.dispatchDependentViewsChanged(child);
     }
-    dispatchOffsetUpdates(child, offset);
+    dispatchOffsetUpdates(child, newOffset);
+    mCurrentOffset = newOffset;
+    child.setTag(R.id.tag_current_offset, mCurrentOffset);
   }
 
   private View getScrollTarget(View target) {
@@ -208,6 +215,7 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
 
     // dispatch init event
     Utils.log("onInit");
+    mCoordinatorLayout = coordinatorLayout;
     onInit(coordinatorLayout, child);
   }
 
