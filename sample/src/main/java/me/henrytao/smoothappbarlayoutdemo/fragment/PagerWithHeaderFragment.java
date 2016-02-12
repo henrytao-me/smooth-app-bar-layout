@@ -27,6 +27,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayout.base.ObservableFragment;
+import me.henrytao.smoothappbarlayout.base.Utils;
 import me.henrytao.smoothappbarlayoutdemo.R;
 
 public class PagerWithHeaderFragment extends Fragment implements ObservableFragment {
@@ -61,9 +62,10 @@ public class PagerWithHeaderFragment extends Fragment implements ObservableFragm
   }
 
   @Override
-  public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isPageSelected) {
-    if (vNestedScrollView != null && (vNestedScrollView.getScrollY() < verticalOffset || (verticalOffset == 0 && isPageSelected))) {
-      vNestedScrollView.scrollTo(0, verticalOffset);
-    }
+  public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isSelected, boolean isTop) {
+    Utils.syncOffset(smoothAppBarLayout, verticalOffset, isSelected, isTop, vNestedScrollView);
+    //if (vNestedScrollView != null && (vNestedScrollView.getScrollY() < verticalOffset || (isTop && !isSelected))) {
+    //  vNestedScrollView.scrollTo(0, verticalOffset);
+    //}
   }
 }

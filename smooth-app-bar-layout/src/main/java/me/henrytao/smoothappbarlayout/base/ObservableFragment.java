@@ -25,7 +25,19 @@ import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
  */
 public interface ObservableFragment {
 
+  /**
+   * Get view that handles scrollEvent
+   *
+   * @return NestedScrollView or RecyclerView
+   */
   View getScrollTarget();
 
-  void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isPageSelected);
+  /**
+   * Listener for offset changed event
+   *
+   * @param verticalOffset Current vertical offset of SmoothAppBarLayout. It has the same value with smoothAppBarLayout.getCurrentOffset()
+   * @param isSelected     true when fragment is selected
+   * @param isTop          true when scrollY of target is 0
+   */
+  void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isSelected, boolean isTop);
 }

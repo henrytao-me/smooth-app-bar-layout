@@ -27,7 +27,7 @@ import me.henrytao.smoothappbarlayout.R;
  */
 public class ObservableRecyclerView implements Observer {
 
-  private static final int HEADER_VIEW_POSITION = 0;
+  public static final int HEADER_VIEW_POSITION = 0;
 
   public static ObservableRecyclerView newInstance(@NonNull RecyclerView recyclerView, OnScrollListener onScrollListener) {
     ObservableRecyclerView observable = new ObservableRecyclerView(recyclerView);

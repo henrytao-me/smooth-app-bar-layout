@@ -127,9 +127,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
     mScrollTargetCallback = scrollTargetCallback;
   }
 
-  public void syncOffset(SmoothAppBarLayout smoothAppBarLayout, int newOffset) {
+  public void syncOffset(int newOffset) {
     if (mSyncOffsetListener != null) {
-      mSyncOffsetListener.onOffsetChanged(smoothAppBarLayout, newOffset);
+      mSyncOffsetListener.onOffsetChanged(this, newOffset);
     }
   }
 
@@ -167,7 +167,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected ScrollFlag mScrollFlag;
 
-    private boolean mIsOnPageSelected;
+    private boolean mIsTop;
 
     private int mStatusBarSize;
 
@@ -193,8 +193,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
             @Override
             public void onPageSelected(int position) {
-              setOnPageSelected(child, true);
-              propagateViewPagerOffset((SmoothAppBarLayout) child);
+              propagateViewPagerOffset((SmoothAppBarLayout) child, true);
             }
           });
         }
@@ -203,6 +202,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
           @Override
           public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset) {
             syncOffset(smoothAppBarLayout, verticalOffset);
+            propagateViewPagerOffset(smoothAppBarLayout, false);
           }
         });
       }
@@ -220,8 +220,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
           return;
         }
       }
-
-      setOnPageSelected(child, false);
 
       int minOffset = getMinOffset(child);
       int maxOffset = getMaxOffset(child);
@@ -248,7 +246,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
       Utils.log("widget | onScrollChanged | %d | %d | %d | %d | %b | %d", minOffset, maxOffset, y, dy, accuracy, translationOffset);
       syncOffset(child, translationOffset);
 
-      propagateViewPagerOffset((SmoothAppBarLayout) child);
+      mIsTop = accuracy && y == 0 && translationOffset == 0;
+      propagateViewPagerOffset((SmoothAppBarLayout) child, mIsTop);
     }
 
     protected int getMaxOffset(AppBarLayout layout) {
@@ -279,30 +278,27 @@ public class SmoothAppBarLayout extends AppBarLayout {
       return 0;
     }
 
-    private boolean isOnPageSelected() {
-      return mIsOnPageSelected;
-    }
-
     private void propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout, int position) {
       if (vViewPager != null && vViewPager.getAdapter() instanceof ObservablePagerAdapter) {
         int n = vViewPager.getAdapter().getCount();
         if (position >= 0 && position < n) {
+          int currentItem = vViewPager.getCurrentItem();
           int currentOffset = Math.max(0, -getCurrentOffset());
-          Utils.log("widget | propagateViewPagerOffset | %d | %d", position, currentOffset);
+          Utils.log("widget | propagateViewPagerOffset | %d | %d | %d", currentItem, position, currentOffset);
 
           ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
           ObservableFragment fragment = pagerAdapter.getObservableFragment(position);
-          fragment.onOffsetChanged(smoothAppBarLayout, currentOffset, isOnPageSelected());
+          fragment.onOffsetChanged(smoothAppBarLayout, currentOffset, position == currentItem, mIsTop);
         }
       }
     }
 
-    private void propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout) {
+    private void propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout, boolean isOnPageSelected) {
       if (vViewPager != null) {
-        Utils.log("widget | propagateViewPagerOffset | isPageSelected | %b", isOnPageSelected());
+        Utils.log("widget | propagateViewPagerOffset | isPageSelected | %b", isOnPageSelected);
 
         int currentItem = vViewPager.getCurrentItem();
-        if (isOnPageSelected()) {
+        if (isOnPageSelected) {
           propagateViewPagerOffset(smoothAppBarLayout, currentItem);
         }
 
@@ -313,11 +309,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
           }
         }
       }
-    }
-
-    private void setOnPageSelected(AppBarLayout appBarLayout, boolean onPageSelected) {
-      mIsOnPageSelected = onPageSelected;
-      appBarLayout.setTag(R.id.tag_is_on_page_selected, onPageSelected);
     }
   }
 }

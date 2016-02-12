@@ -19,6 +19,7 @@ package me.henrytao.smoothappbarlayout.base;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
@@ -60,10 +61,23 @@ public class Utils {
     return Integer.valueOf(value.toString());
   }
 
-  public static void syncOffset(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isPageSelected, View target) {
+  public static void syncOffset(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isSelected, boolean isTop, View target) {
     if (target instanceof NestedScrollView) {
-      if (target.getScrollY() < verticalOffset || (verticalOffset == 0 && isPageSelected)) {
+      if (isSelected && target.getScrollY() == 0) {
+        smoothAppBarLayout.syncOffset(0);
+      } else if (target.getScrollY() < verticalOffset || (isTop && !isSelected)) {
         target.scrollTo(0, verticalOffset);
+      }
+    } else if (target instanceof RecyclerView) {
+      RecyclerView recyclerView = (RecyclerView) target;
+      boolean isAccuracy = recyclerView.getLayoutManager().findViewByPosition(ObservableRecyclerView.HEADER_VIEW_POSITION) != null;
+      int currentScrollY = recyclerView.computeVerticalScrollOffset();
+      if (isAccuracy) {
+        if (isSelected && currentScrollY == 0) {
+          smoothAppBarLayout.syncOffset(0);
+        } else if (currentScrollY < verticalOffset || (isTop && !isSelected)) {
+          recyclerView.scrollTo(0, currentScrollY);
+        }
       }
     }
   }
