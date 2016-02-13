@@ -18,6 +18,8 @@ package me.henrytao.smoothappbarlayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -44,11 +46,17 @@ import me.henrytao.smoothappbarlayout.base.Utils;
 @CoordinatorLayout.DefaultBehavior(SmoothAppBarLayout.Behavior.class)
 public class SmoothAppBarLayout extends AppBarLayout {
 
+  private static final String ARG_CURRENT_OFFSET = "ARG_CURRENT_OFFSET";
+
+  private static final String ARG_SUPER = "ARG_SUPER";
+
   public static boolean DEBUG = false;
 
   protected final List<WeakReference<OnOffsetChangedListener>> mOffsetChangedListeners = new ArrayList<>();
 
   protected boolean mHaveChildWithInterpolator;
+
+  private int mRestoreCurrentOffset;
 
   private ScrollTargetCallback mScrollTargetCallback;
 
@@ -119,8 +127,24 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
+  @Override
+  protected void onRestoreInstanceState(Parcelable state) {
+    Bundle bundle = (Bundle) state;
+    mRestoreCurrentOffset = bundle.getInt(ARG_CURRENT_OFFSET);
+    Parcelable superState = bundle.getParcelable(ARG_SUPER);
+    super.onRestoreInstanceState(superState);
+  }
+
+  @Override
+  protected Parcelable onSaveInstanceState() {
+    Bundle bundle = new Bundle();
+    bundle.putInt(ARG_CURRENT_OFFSET, getCurrentOffset());
+    bundle.putParcelable(ARG_SUPER, super.onSaveInstanceState());
+    return bundle;
+  }
+
   public int getCurrentOffset() {
-    return Utils.parseInt(getTag(R.id.tag_current_offset));
+    return -Utils.parseInt(getTag(R.id.tag_current_offset));
   }
 
   public void setScrollTargetCallback(ScrollTargetCallback scrollTargetCallback) {
@@ -128,9 +152,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
   }
 
   public void syncOffset(int newOffset) {
-    if (mSyncOffsetListener != null) {
-      mSyncOffsetListener.onOffsetChanged(this, newOffset);
-    }
+    syncOffset(newOffset, false);
   }
 
   private void init(AttributeSet attrs) {
@@ -161,6 +183,13 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   private void setSyncOffsetListener(me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener syncOffsetListener) {
     mSyncOffsetListener = syncOffsetListener;
+    syncOffset(mRestoreCurrentOffset, true);
+  }
+
+  private void syncOffset(int newOffset, boolean force) {
+    if (mSyncOffsetListener != null) {
+      mSyncOffsetListener.onOffsetChanged(this, newOffset, force);
+    }
   }
 
   public static class Behavior extends BaseBehavior {
@@ -198,9 +227,11 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
         ((SmoothAppBarLayout) child).setSyncOffsetListener(new me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener() {
           @Override
-          public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset) {
-            syncOffset(smoothAppBarLayout, verticalOffset);
-            propagateViewPagerOffset(smoothAppBarLayout, false);
+          public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isOrientationChanged) {
+            syncOffset(smoothAppBarLayout, -verticalOffset);
+            if (!isOrientationChanged) {
+              propagateViewPagerOffset(smoothAppBarLayout, false);
+            }
           }
         });
       }

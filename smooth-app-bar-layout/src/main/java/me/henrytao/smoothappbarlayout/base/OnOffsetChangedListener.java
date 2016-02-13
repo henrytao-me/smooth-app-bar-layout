@@ -23,5 +23,5 @@ import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
  */
 public interface OnOffsetChangedListener {
 
-  void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset);
+  void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean force);
 }

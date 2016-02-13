@@ -167,6 +167,21 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     }
   }
 
+  protected long getViewTag(View target, boolean createIfNotExist) {
+    if (target == null) {
+      return 0;
+    }
+    Object tag = target.getTag(R.id.tag_view_target);
+    if (tag == null) {
+      if (!createIfNotExist) {
+        return 0;
+      }
+      tag = System.currentTimeMillis();
+      target.setTag(R.id.tag_view_target, tag);
+    }
+    return (long) tag;
+  }
+
   protected void syncOffset(AppBarLayout child, int newOffset) {
     Utils.log("syncOffset | %d", newOffset);
     setTopAndBottomOffset(newOffset);
@@ -183,21 +198,6 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
       return ((SwipeRefreshLayout) target).getChildAt(0);
     }
     return mScrollTargetCallback != null ? mScrollTargetCallback.callback(target) : target;
-  }
-
-  private long getViewTag(View target, boolean createIfNotExist) {
-    if (target == null) {
-      return 0;
-    }
-    Object tag = target.getTag(R.id.tag_view_target);
-    if (tag == null) {
-      if (!createIfNotExist) {
-        return 0;
-      }
-      tag = System.currentTimeMillis();
-      target.setTag(R.id.tag_view_target, tag);
-    }
-    return (long) tag;
   }
 
   private void init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child) {

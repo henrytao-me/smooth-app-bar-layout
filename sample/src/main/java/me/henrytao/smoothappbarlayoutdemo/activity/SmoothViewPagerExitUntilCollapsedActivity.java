@@ -57,6 +57,7 @@ public class SmoothViewPagerExitUntilCollapsedActivity extends BaseActivity {
     });
 
     mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+    mViewPagerAdapter.onRestoreInstanceState(savedInstanceState);
     mViewPagerAdapter.addFragment("Cat", PagerWithHeaderFragment.newInstance(false, false));
     mViewPagerAdapter.addFragment("Dog", PagerWithHeaderFragment.newInstance(true, false));
     mViewPagerAdapter.addFragment("Mouse", PagerWithHeaderFragment.newInstance(true, true));
@@ -71,5 +72,11 @@ public class SmoothViewPagerExitUntilCollapsedActivity extends BaseActivity {
     vTabLayout.setupWithViewPager(vViewPager);
     vTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     vTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    mViewPagerAdapter.onSaveInstanceState(outState);
+    super.onSaveInstanceState(outState);
   }
 }
