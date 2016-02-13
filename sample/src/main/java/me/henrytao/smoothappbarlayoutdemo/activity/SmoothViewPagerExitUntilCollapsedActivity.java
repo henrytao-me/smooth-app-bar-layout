@@ -29,7 +29,7 @@ import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
 import me.henrytao.smoothappbarlayoutdemo.fragment.PagerWithHeaderAsyncFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.PagerWithHeaderFragment;
 
-public class SmoothViewPagerActivity extends BaseActivity {
+public class SmoothViewPagerExitUntilCollapsedActivity extends BaseActivity {
 
   @Bind(R.id.tab_layout)
   TabLayout vTabLayout;
@@ -45,7 +45,7 @@ public class SmoothViewPagerActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_smooth_view_pager);
+    setContentView(R.layout.activity_smooth_view_pager_exit_util_collapsed);
     ButterKnife.bind(this);
 
     setSupportActionBar(vToolbar);
@@ -66,7 +66,7 @@ public class SmoothViewPagerActivity extends BaseActivity {
     mViewPagerAdapter.addFragment("Elephant", PagerWithHeaderAsyncFragment.newInstance(true));
 
     vViewPager.setAdapter(mViewPagerAdapter);
-    //vViewPager.setOffscreenPageLimit(vViewPager.getAdapter().getCount());
+    vViewPager.setOffscreenPageLimit(vViewPager.getAdapter().getCount());
 
     vTabLayout.setupWithViewPager(vViewPager);
     vTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);

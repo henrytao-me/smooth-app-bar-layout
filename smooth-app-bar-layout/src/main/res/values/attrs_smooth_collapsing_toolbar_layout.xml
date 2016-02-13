@@ -31,5 +31,4 @@
     <attr name="sctl_title_id" format="reference" />
     <attr name="sctl_subtitle_id" format="reference" />
   </declare-styleable>
-
 </resources>

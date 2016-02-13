@@ -23,10 +23,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.henrytao.smoothappbarlayout.base.ObservableFragment;
+import me.henrytao.smoothappbarlayout.base.ObservablePagerAdapter;
+
 /**
  * Created by henrytao on 2/6/16.
  */
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentPagerAdapter implements ObservablePagerAdapter {
 
   private final List<Fragment> mFragments = new ArrayList<>();
 
@@ -44,6 +47,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
   @Override
   public Fragment getItem(int position) {
     return mFragments.get(position);
+  }
+
+  @Override
+  public ObservableFragment getObservableFragment(int position) {
+    if (getItem(position) instanceof ObservableFragment) {
+      return (ObservableFragment) getItem(position);
+    }
+    return null;
   }
 
   @Override

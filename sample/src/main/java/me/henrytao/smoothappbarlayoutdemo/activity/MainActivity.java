@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 
@@ -77,6 +78,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     ButterKnife.bind(this);
     setSupportActionBar(vToolbar);
 
+    SmoothAppBarLayout.DEBUG = true;
+
     mAdapter = new SimpleAdapter(getFeatures(), this);
     vRecyclerView.setLayoutManager(new GridLayoutManager(this, NUM_OF_COLUMNS));
     vRecyclerView.setAdapter(mAdapter);
@@ -100,8 +103,12 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(SmoothNestedScrollViewActivity.class, "NestedScrollView"));
     features.add(new Feature(null, "-"));
     features.add(new Feature(SmoothCustomNestedScrollViewActivity.class, "Custom NestedScrollView"));
-    //features.add(new Feature(GsdViewPagerActivity.class, "ViewPager"));
-    //features.add(new Feature(SmoothViewPagerActivity.class, "ViewPager"));
+    features.add(new Feature(GsdViewPagerActivity.class, "ViewPager"));
+    features.add(new Feature(SmoothViewPagerActivity.class, "ViewPager"));
+    features.add(new Feature(null, "N/A"));
+    features.add(new Feature(SmoothViewPagerExitUntilCollapsedActivity.class, "ViewPager | exitUntilCollapsed"));
+    features.add(new Feature(null, "N/A"));
+    features.add(new Feature(SmoothViewPagerQuickReturnActivity.class, "ViewPager | QuickReturn"));
     return features;
   }
 

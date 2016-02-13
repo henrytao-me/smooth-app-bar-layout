@@ -16,6 +16,7 @@
 
 <resources>
 
+  <item name="tag_current_offset" type="id" />
   <item name="tag_observable_view" type="id" />
   <item name="tag_observable_view_last_scroll_x" type="id" />
   <item name="tag_observable_view_last_scroll_y" type="id" />

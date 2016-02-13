@@ -18,7 +18,10 @@ package me.henrytao.smoothappbarlayout.base;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 
@@ -45,6 +48,16 @@ public class Utils {
     return statusBarSize;
   }
 
+  public static boolean isScrollToTop(View target) {
+    if (target instanceof NestedScrollView) {
+      return target.getScrollY() == 0;
+    } else if (target instanceof RecyclerView) {
+      return ((RecyclerView) target).getLayoutManager().findViewByPosition(ObservableRecyclerView.HEADER_VIEW_POSITION) != null
+          && ((RecyclerView) target).computeVerticalScrollOffset() == 0;
+    }
+    return true;
+  }
+
   public static void log(String s, Object... args) {
     if (SmoothAppBarLayout.DEBUG) {
       Log.d("SmoothAppBarLayout", String.format(s, args));
@@ -56,5 +69,32 @@ public class Utils {
       return 0;
     }
     return Integer.valueOf(value.toString());
+  }
+
+  public static boolean syncOffset(SmoothAppBarLayout smoothAppBarLayout, View target, int verticalOffset, View scroll) {
+    boolean isSelected = target == scroll;
+    if (scroll instanceof NestedScrollView) {
+      NestedScrollView nestedScrollView = (NestedScrollView) scroll;
+      if (nestedScrollView.getScrollY() < verticalOffset || (!isSelected && isScrollToTop(target))) {
+        nestedScrollView.scrollTo(0, verticalOffset);
+      }
+      if (isSelected && (nestedScrollView.getScrollY() < verticalOffset || verticalOffset == 0)) {
+        nestedScrollView.scrollTo(0, 0);
+        smoothAppBarLayout.syncOffset(0);
+      }
+    } else if (scroll instanceof RecyclerView) {
+      RecyclerView recyclerView = (RecyclerView) scroll;
+      boolean isAccuracy = recyclerView.getLayoutManager().findViewByPosition(ObservableRecyclerView.HEADER_VIEW_POSITION) != null;
+      if (isAccuracy && recyclerView.computeVerticalScrollOffset() < verticalOffset) {
+        recyclerView.scrollBy(0, verticalOffset - recyclerView.computeVerticalScrollOffset());
+      } else if (!isSelected && isScrollToTop(target)) {
+        recyclerView.scrollToPosition(ObservableRecyclerView.HEADER_VIEW_POSITION);
+      }
+      if (isAccuracy && isSelected && (recyclerView.computeVerticalScrollOffset() < verticalOffset || verticalOffset == 0)) {
+        recyclerView.scrollToPosition(ObservableRecyclerView.HEADER_VIEW_POSITION);
+        smoothAppBarLayout.syncOffset(0);
+      }
+    }
+    return true;
   }
 }
