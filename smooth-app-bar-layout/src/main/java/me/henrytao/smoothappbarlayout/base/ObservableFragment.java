@@ -32,12 +32,13 @@ public interface ObservableFragment {
    */
   View getScrollTarget();
 
+
   /**
    * Listener for offset changed event
    *
+   * @param target         The view that is currently selected by ViewPager
    * @param verticalOffset Current vertical offset of SmoothAppBarLayout. It has the same value with smoothAppBarLayout.getCurrentOffset()
-   * @param isSelected     true when fragment is selected
-   * @param isTop          true when scrollY of target is 0
+   * @return False if scroll hasn't been initiated or is waiting for async loading. If false, it will stop propagating ViewPager
    */
-  void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isSelected, boolean isTop);
+  boolean onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, View target, int verticalOffset);
 }

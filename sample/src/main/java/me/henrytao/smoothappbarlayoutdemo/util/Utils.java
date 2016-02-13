@@ -29,9 +29,13 @@ public class Utils {
   private static final int ITEM_COUNT = 40;
 
   public static List<String> getSampleData() {
+    return getSampleData(ITEM_COUNT);
+  }
+
+  public static List<String> getSampleData(int count) {
     List<String> data = new ArrayList<>();
     int i = 0;
-    for (int n = ITEM_COUNT; i < n; i++) {
+    for (int n = count; i < n; i++) {
       data.add(String.format("Line %d", i));
     }
     return data;

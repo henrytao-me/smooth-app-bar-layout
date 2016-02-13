@@ -167,8 +167,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected ScrollFlag mScrollFlag;
 
-    private boolean mIsTop;
-
     private int mStatusBarSize;
 
     private ViewPager vViewPager;
@@ -246,8 +244,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       Utils.log("widget | onScrollChanged | %d | %d | %d | %d | %b | %d", minOffset, maxOffset, y, dy, accuracy, translationOffset);
       syncOffset(child, translationOffset);
 
-      mIsTop = accuracy && y == 0 && translationOffset == 0;
-      propagateViewPagerOffset((SmoothAppBarLayout) child, mIsTop);
+      propagateViewPagerOffset((SmoothAppBarLayout) child, false);
     }
 
     protected int getMaxOffset(AppBarLayout layout) {
@@ -278,7 +275,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       return 0;
     }
 
-    private void propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout, int position) {
+    private boolean propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout, int position) {
       if (vViewPager != null && vViewPager.getAdapter() instanceof ObservablePagerAdapter) {
         int n = vViewPager.getAdapter().getCount();
         if (position >= 0 && position < n) {
@@ -288,9 +285,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
           ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
           ObservableFragment fragment = pagerAdapter.getObservableFragment(position);
-          fragment.onOffsetChanged(smoothAppBarLayout, currentOffset, position == currentItem, mIsTop);
+          View target = pagerAdapter.getObservableFragment(currentItem).getScrollTarget();
+
+          return fragment.onOffsetChanged(smoothAppBarLayout, target, currentOffset);
         }
       }
+      return true;
     }
 
     private void propagateViewPagerOffset(SmoothAppBarLayout smoothAppBarLayout, boolean isOnPageSelected) {
@@ -298,14 +298,17 @@ public class SmoothAppBarLayout extends AppBarLayout {
         Utils.log("widget | propagateViewPagerOffset | isPageSelected | %b", isOnPageSelected);
 
         int currentItem = vViewPager.getCurrentItem();
+        boolean shouldPropagate = true;
         if (isOnPageSelected) {
-          propagateViewPagerOffset(smoothAppBarLayout, currentItem);
+          shouldPropagate = propagateViewPagerOffset(smoothAppBarLayout, currentItem);
         }
 
-        int n = vViewPager.getAdapter().getCount();
-        for (int i = 0; i < n; i++) {
-          if (i != currentItem) {
-            propagateViewPagerOffset(smoothAppBarLayout, i);
+        if (shouldPropagate) {
+          int n = vViewPager.getAdapter().getCount();
+          for (int i = 0; i < n; i++) {
+            if (i != currentItem) {
+              propagateViewPagerOffset(smoothAppBarLayout, i);
+            }
           }
         }
       }

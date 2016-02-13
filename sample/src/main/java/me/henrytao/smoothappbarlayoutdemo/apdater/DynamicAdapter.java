@@ -81,6 +81,15 @@ public class DynamicAdapter<T> extends RecyclerView.Adapter<DynamicAdapter.ViewH
     });
   }
 
+  public void addItems(List<T> data) {
+    mData.addAll(data);
+  }
+
+  public void clear() {
+    mData.clear();
+    mExpands.clear();
+  }
+
   public T getItem(int position) {
     return mData != null && position >= 0 && position < mData.size() ? mData.get(position) : null;
   }

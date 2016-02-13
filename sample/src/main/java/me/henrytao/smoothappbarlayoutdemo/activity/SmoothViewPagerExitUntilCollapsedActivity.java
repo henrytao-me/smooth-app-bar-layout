@@ -26,6 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
+import me.henrytao.smoothappbarlayoutdemo.fragment.PagerWithHeaderAsyncFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.PagerWithHeaderFragment;
 
 public class SmoothViewPagerExitUntilCollapsedActivity extends BaseActivity {
@@ -56,13 +57,13 @@ public class SmoothViewPagerExitUntilCollapsedActivity extends BaseActivity {
     });
 
     mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-    mViewPagerAdapter.addFragment("Cat", PagerWithHeaderFragment.newInstance());
-    mViewPagerAdapter.addFragment("Dog", PagerWithHeaderFragment.newInstance());
-    mViewPagerAdapter.addFragment("Mouse", PagerWithHeaderFragment.newInstance());
-    mViewPagerAdapter.addFragment("Bird", PagerWithHeaderFragment.newInstance());
-    mViewPagerAdapter.addFragment("Chicken", PagerWithHeaderFragment.newInstance());
-    mViewPagerAdapter.addFragment("Tiger", PagerWithHeaderFragment.newInstance());
-    mViewPagerAdapter.addFragment("Elephant", PagerWithHeaderFragment.newInstance());
+    mViewPagerAdapter.addFragment("Cat", PagerWithHeaderFragment.newInstance(false, false));
+    mViewPagerAdapter.addFragment("Dog", PagerWithHeaderFragment.newInstance(true, false));
+    mViewPagerAdapter.addFragment("Mouse", PagerWithHeaderFragment.newInstance(true, true));
+    mViewPagerAdapter.addFragment("Bird", PagerWithHeaderFragment.newInstance(false, true));
+    mViewPagerAdapter.addFragment("Chicken", PagerWithHeaderFragment.newInstance(false, false));
+    mViewPagerAdapter.addFragment("Tiger", PagerWithHeaderAsyncFragment.newInstance(false));
+    mViewPagerAdapter.addFragment("Elephant", PagerWithHeaderAsyncFragment.newInstance(true));
 
     vViewPager.setAdapter(mViewPagerAdapter);
     vViewPager.setOffscreenPageLimit(vViewPager.getAdapter().getCount());
