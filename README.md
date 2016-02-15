@@ -39,15 +39,16 @@ Please note that the app on the Play store is not always the latest version.
 
 ## Features
 
-- Default scrolling
+- Scroll
+- EnterAlways
+- EnterAlwaysCollapsed
 - ExitUntilCollapsed
-- Quick return
+- QuickReturn
+- Custom NestedScrollView (NEW)
+- ViewPager Scroll
+- ViewPager ExitUntilCollapsed (NEW)
+- ViewPager QuickReturn (NEW)
 - Support SwipeRefreshLayout
-- Support ViewPager
-- Inbox App and Google Play App Detail samples
-- SmoothViewPagerParallaxDrawerLayout and SmoothViewPagerDrawerLayout examples
-
-If you want to add header to RecyclerView, checkout this RecyclerView WrapperAdapter [recyclerview-multistate-section-endless-adapter](https://github.com/henrytao-me/recyclerview-multistate-section-endless-adapter)
 
 
 Checkout these demo videos:
@@ -57,25 +58,22 @@ Checkout these demo videos:
 
 
  ![screenshots](./screenshots/screenshots.jpg)
- 
+
+
+## Important Notes
+
+- Remember to set `android:id` for `me.henrytao.smoothappbarlayout.SmoothAppBarLayout` in layout file so that it can call `onSaveInstanceState` and `onRestoreInstanceState` correctly. Otherwise, it won't work correctly with `onOrientationChanged`.
+- Remember to set `android:minHeight` for `me.henrytao.smoothappbarlayout.SmoothAppBarLayout` in layout file if you use `ViewPager`.
+- `clipToPadding` in `RecyclerView` won't work. You have to set HeaderHolder in apdater and it has to be placed at index 0.
 
  
 ## Usage
 
 Super easy! Just need to do 3 steps:
 
-- Change `android.support.design.widget.AppBarLayout` to `me.henrytao.smoothappbarlayout.SmoothAppBarLayout`.
+- Change `android.support.design.widget.AppBarLayout` to `me.henrytao.smoothappbarlayout.SmoothAppBarLayout` and set `android:id`
 - Remove `app:layout_behavior="@string/appbar_scrolling_view_behavior"`.
-- Add header to your scroll view or recyclerView. **Or** set `paddingTop` and `clipToPadding="false"` to your `RecyclerView`, like this:
-
-``` xml
-<android.support.v7.widget.RecyclerView
-    android:id="@android:id/list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:paddingTop="@dimen/header_height" />
-```
+- Add header to your NestedScrollView or RecyclerView.
 
 #### Original AppBarLayout from Google Support Design
 
@@ -125,6 +123,7 @@ Super easy! Just need to do 3 steps:
     android:layout_height="match_parent" />
 
   <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+    android:id="@+id/smooth_app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_bar_height">
 
@@ -144,7 +143,7 @@ Super easy! Just need to do 3 steps:
 </android.support.design.widget.CoordinatorLayout>
 ```
 
-#### SmoothCollapsingToolbarLayout exmaple
+#### SmoothCollapsingToolbarLayout example
 
 ``` xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -158,6 +157,7 @@ Super easy! Just need to do 3 steps:
     android:layout_height="match_parent" />
 
   <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+    android:id="@+id/smooth_app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_bar_height">
 
