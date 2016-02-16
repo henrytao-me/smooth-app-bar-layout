@@ -53,7 +53,7 @@ public class SmoothViewPagerActivity extends BaseActivity {
     }
     getSupportFragmentManager()
         .beginTransaction()
-        .replace(R.id.header_fragment_placeholder, mHeaderHolderFragment)
+        .replace(R.id.header_holder_fragment, mHeaderHolderFragment)
         .commit();
 
     mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());

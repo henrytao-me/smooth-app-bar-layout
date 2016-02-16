@@ -16,13 +16,11 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="?attr/actionBarSize">
 
   <TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="48dp"
-    android:layout_marginTop="48dp"
-    android:padding="16dp"
+    android:gravity="left|center_vertical"
     android:text="This is header placeholder" />
 </FrameLayout>
