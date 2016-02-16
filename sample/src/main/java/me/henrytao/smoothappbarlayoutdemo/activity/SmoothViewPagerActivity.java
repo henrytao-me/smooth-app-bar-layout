@@ -18,14 +18,14 @@ package me.henrytao.smoothappbarlayoutdemo.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.ViewPagerAdapter;
+import me.henrytao.smoothappbarlayoutdemo.fragment.HeaderHolderFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.PagerWithHeaderAsyncFragment;
 import me.henrytao.smoothappbarlayoutdemo.fragment.PagerWithHeaderFragment;
 
@@ -34,11 +34,10 @@ public class SmoothViewPagerActivity extends BaseActivity {
   @Bind(R.id.tab_layout)
   TabLayout vTabLayout;
 
-  @Bind(R.id.toolbar)
-  Toolbar vToolbar;
-
   @Bind(R.id.view_pager)
   ViewPager vViewPager;
+
+  private Fragment mHeaderHolderFragment;
 
   private ViewPagerAdapter mViewPagerAdapter;
 
@@ -48,13 +47,14 @@ public class SmoothViewPagerActivity extends BaseActivity {
     setContentView(R.layout.activity_smooth_view_pager);
     ButterKnife.bind(this);
 
-    setSupportActionBar(vToolbar);
-    vToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        onBackPressed();
-      }
-    });
+    mHeaderHolderFragment = getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.header_holder_fragment));
+    if (mHeaderHolderFragment == null) {
+      mHeaderHolderFragment = HeaderHolderFragment.newInstance();
+    }
+    getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.header_fragment_placeholder, mHeaderHolderFragment)
+        .commit();
 
     mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     mViewPagerAdapter.onRestoreInstanceState(savedInstanceState);
