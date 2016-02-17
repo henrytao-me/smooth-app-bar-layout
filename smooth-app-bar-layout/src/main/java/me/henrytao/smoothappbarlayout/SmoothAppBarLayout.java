@@ -25,6 +25,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -33,6 +34,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import me.henrytao.smoothappbarlayout.base.ObservableFragment;
 import me.henrytao.smoothappbarlayout.base.ObservablePagerAdapter;
@@ -314,11 +316,16 @@ public class SmoothAppBarLayout extends AppBarLayout {
           int currentOffset = Math.max(0, -getCurrentOffset());
           Utils.log("widget | propagateViewPagerOffset | %d | %d | %d", currentItem, position, currentOffset);
 
-          ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
-          ObservableFragment fragment = pagerAdapter.getObservableFragment(position);
-          View target = pagerAdapter.getObservableFragment(currentItem).getScrollTarget();
+          try {
+            ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
+            ObservableFragment fragment = pagerAdapter.getObservableFragment(position);
+            View target = pagerAdapter.getObservableFragment(currentItem).getScrollTarget();
 
-          return fragment.onOffsetChanged(smoothAppBarLayout, target, currentOffset);
+            return fragment.onOffsetChanged(smoothAppBarLayout, target, currentOffset);
+          } catch (Exception ex) {
+            Log.e("SmoothAppBarLayout", String.format(Locale.US,
+                "ViewPager at position %d and %d need to implement %s", currentItem, position, ObservableFragment.class.getName()));
+          }
         }
       }
       return true;
