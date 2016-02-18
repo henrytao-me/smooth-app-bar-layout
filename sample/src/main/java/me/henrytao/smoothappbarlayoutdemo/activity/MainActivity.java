@@ -109,6 +109,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(SmoothViewPagerExitUntilCollapsedActivity.class, "ViewPager | exitUntilCollapsed"));
     features.add(new Feature(null, "N/A"));
     features.add(new Feature(SmoothViewPagerQuickReturnActivity.class, "ViewPager | QuickReturn"));
+    features.add(new Feature(null, "N/A"));
+    features.add(new Feature(SmoothViewPagerParallaxExitUntilCollapsedActivity.class, "ViewPager Parallax | exitUntilCollapsed"));
     return features;
   }
 

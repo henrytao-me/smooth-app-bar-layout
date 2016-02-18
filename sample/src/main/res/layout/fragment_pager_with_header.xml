@@ -34,7 +34,13 @@
       android:orientation="vertical"
       android:padding="16dp">
 
-      <include layout="@layout/item_pager_header_spacing" />
+      <include
+        android:id="@+id/item_pager_header_spacing"
+        layout="@layout/item_pager_header_spacing" />
+
+      <include
+        android:id="@+id/item_header_view_pager_parallax_spacing"
+        layout="@layout/item_header_view_pager_parallax_spacing" />
 
       <TextView
         android:id="@+id/text"
