@@ -17,6 +17,7 @@
 package me.henrytao.smoothappbarlayoutdemo.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -40,20 +41,33 @@ import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 
 public class PagerWithHeaderFragment extends Fragment implements ObservableFragment {
 
+  protected static final String ARG_HEADER_LAYOUT = "ARG_HEADER_LAYOUT";
+
   protected static final String ARG_IS_RECYCLER_VIEW = "ARG_IS_RECYCLER_VIEW";
 
   protected static final String ARG_IS_SHORT = "ARG_IS_SHORT";
 
   public static Fragment newInstance(boolean isRecyclerView, boolean isShort) {
+    return newInstance(isRecyclerView, isShort, R.layout.item_pager_header_spacing);
+  }
+
+  public static Fragment newInstance(boolean isRecyclerView, boolean isShort, @LayoutRes int headerLayout) {
     PagerWithHeaderFragment fragment = new PagerWithHeaderFragment();
     Bundle bundle = new Bundle();
     bundle.putBoolean(ARG_IS_RECYCLER_VIEW, isRecyclerView);
     bundle.putBoolean(ARG_IS_SHORT, isShort);
+    bundle.putInt(ARG_HEADER_LAYOUT, headerLayout);
     fragment.setArguments(bundle);
     return fragment;
   }
 
   protected DynamicAdapter<String> mAdapter;
+
+  @Bind(R.id.item_header_view_pager_parallax_spacing)
+  View vItemHeaderViewPagerParallaxSpacing;
+
+  @Bind(R.id.item_pager_header_spacing)
+  View vItemPagerHeaderSpacing;
 
   @Bind(R.id.nested_scroll_view)
   NestedScrollView vNestedScrollView;
@@ -63,6 +77,8 @@ public class PagerWithHeaderFragment extends Fragment implements ObservableFragm
 
   @Bind(R.id.text)
   TextView vTextView;
+
+  private int mHeaderLayout;
 
   private boolean mIsRecyclerView;
 
@@ -82,6 +98,7 @@ public class PagerWithHeaderFragment extends Fragment implements ObservableFragm
     ButterKnife.bind(this, view);
     mIsRecyclerView = getArguments().getBoolean(ARG_IS_RECYCLER_VIEW);
     mIsShort = getArguments().getBoolean(ARG_IS_SHORT);
+    mHeaderLayout = getArguments().getInt(ARG_HEADER_LAYOUT);
     return view;
   }
 
@@ -112,13 +129,16 @@ public class PagerWithHeaderFragment extends Fragment implements ObservableFragm
 
         @Override
         public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-          return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_pager_header_spacing);
+          return new HeaderHolder(layoutInflater, viewGroup, mHeaderLayout);
         }
       };
 
       vRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
       vRecyclerView.setAdapter(adapter);
     } else {
+      vItemPagerHeaderSpacing.setVisibility(mHeaderLayout == R.layout.item_pager_header_spacing ? View.VISIBLE : View.GONE);
+      vItemHeaderViewPagerParallaxSpacing
+          .setVisibility(mHeaderLayout == R.layout.item_header_view_pager_parallax_spacing ? View.VISIBLE : View.GONE);
       vTextView.setText(mIsShort ? R.string.text_short : R.string.text_long);
     }
   }

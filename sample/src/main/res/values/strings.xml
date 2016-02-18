@@ -114,6 +114,7 @@
   <string name="title_activity_smooth_view_pager">Smooth ViewPager</string>
   <string name="title_activity_smooth_view_pager_exit_until_collapsed">Smooth ViewPager | exitUntilCollapsed</string>
   <string name="title_activity_smooth_view_pager_quick_return">Smooth ViewPager QuickReturn</string>
+  <string name="title_activity_smooth_view_pager_parallax_exit_until_collapsed">Smooth ViewPager Parallax | exitUntilCollapsed</string>
   <string name="title_activity_feature">FeatureActivity</string>
   <string name="title_activity_inbox">Inbox</string>
   <string name="close">Close</string>
