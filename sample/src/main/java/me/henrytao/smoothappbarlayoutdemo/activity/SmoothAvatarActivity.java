@@ -17,12 +17,14 @@
 package me.henrytao.smoothappbarlayoutdemo.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,8 +35,14 @@ import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
 public class SmoothAvatarActivity extends BaseActivity {
 
+  @Bind(R.id.collapsing_toolbar_layout)
+  CollapsingToolbarLayout vCollapsingToolbarLayout;
+
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
+
+  @Bind(R.id.title)
+  TextView vTitle;
 
   @Bind(R.id.toolbar)
   Toolbar vToolbar;
@@ -52,6 +60,11 @@ public class SmoothAvatarActivity extends BaseActivity {
         onBackPressed();
       }
     });
+
+    // Clean up default title
+    vTitle.setText(getTitle());
+    setTitle("");
+    vCollapsingToolbarLayout.setTitle("");
 
     RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(new DynamicAdapter<>(Utils.getSampleData())) {
       @Override

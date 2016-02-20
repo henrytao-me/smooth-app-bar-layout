@@ -100,6 +100,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(GsdQuickReturnActivity.class, "QuickReturn"));
     features.add(new Feature(SmoothQuickReturnActivity.class, "QuickReturn"));
     features.add(new Feature(null, "-"));
+    features.add(new Feature(SmoothAvatarActivity.class, "Smooth Avatar"));
+    features.add(new Feature(null, "-"));
     features.add(new Feature(SmoothNestedScrollViewActivity.class, "NestedScrollView"));
     features.add(new Feature(null, "-"));
     features.add(new Feature(SmoothCustomNestedScrollViewActivity.class, "Custom NestedScrollView"));

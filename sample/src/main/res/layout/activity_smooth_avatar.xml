@@ -40,6 +40,54 @@
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/ic_toolbar_arrow_back"
         style="@style/AppStyle.MdToolbar" />
+
+      <me.henrytao.smoothappbarlayout.SmoothCollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:minHeight="?attr/actionBarSize"
+        app:sctl_avatar_id="@+id/avatar"
+        app:sctl_collapsed_avatarSize="?attr/mdIcon_sm"
+        app:sctl_collapsed_offsetX="?attr/actionBarSize"
+        app:sctl_collapsed_offsetY="0dp"
+        app:sctl_collapsed_subtitleTextSize="14dp"
+        app:sctl_collapsed_titleTextSize="16dp"
+        app:sctl_expanded_avatarSize="?attr/mdIcon_lg"
+        app:sctl_expanded_offsetX="?attr/mdLayout_spacing_md"
+        app:sctl_expanded_offsetY="?attr/mdLayout_spacing_md"
+        app:sctl_expanded_subtitleTextSize="16dp"
+        app:sctl_expanded_titleTextSize="34dp"
+        app:sctl_subtitle_id="@+id/subtitle"
+        app:sctl_title_id="@+id/title">
+
+        <ImageView
+          android:id="@+id/avatar"
+          android:layout_width="?attr/mdIcon_sm"
+          android:layout_height="?attr/mdIcon_sm"
+          android:layout_gravity="center_vertical"
+          android:background="#aacc22"
+          android:src="@drawable/ic_blank_circle" />
+
+        <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_marginLeft="?attr/mdLayout_spacing_md"
+          android:orientation="vertical">
+
+          <TextView
+            android:id="@+id/title"
+            android:background="#9922dd"
+            android:text="Title"
+            style="@style/MdText.Title" />
+
+          <TextView
+            android:id="@+id/subtitle"
+            android:background="#3366ee"
+            android:text="Subtitle"
+            style="@style/MdText.Body1" />
+        </LinearLayout>
+      </me.henrytao.smoothappbarlayout.SmoothCollapsingToolbarLayout>
     </android.support.design.widget.CollapsingToolbarLayout>
   </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -74,6 +74,9 @@
 
     <!-- other examples -->
     <activity
+      android:label="@string/title_activity_smooth_avatar"
+      android:name=".activity.SmoothAvatarActivity" />
+    <activity
       android:label="@string/title_activity_smooth_nested_scroll_view"
       android:name=".activity.SmoothNestedScrollViewActivity" />
     <activity
