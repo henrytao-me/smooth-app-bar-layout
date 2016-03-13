@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -92,6 +93,27 @@ public class DynamicAdapter<T> extends RecyclerView.Adapter<DynamicAdapter.ViewH
 
   public T getItem(int position) {
     return mData != null && position >= 0 && position < mData.size() ? mData.get(position) : null;
+  }
+
+  public void remove(int position) {
+    if (position < 0 || position >= getItemCount()) {
+      return;
+    }
+    mData.remove(position);
+    // update expanded index
+    List<Integer> expands = new ArrayList<>();
+    for (int index : mExpands) {
+      if (index == position) {
+        continue;
+      } else if (index > position) {
+        index -= 1;
+      }
+      expands.add(index);
+    }
+    mExpands.clear();
+    mExpands.addAll(expands);
+    // notify data set change
+    notifyDataSetChanged();
   }
 
   public interface OnItemClickListener {

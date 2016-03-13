@@ -39,7 +39,7 @@ public class ObservableRecyclerView implements Observer {
 
   private RecyclerView mRecyclerView;
 
-  public ObservableRecyclerView(@NonNull RecyclerView recyclerView) {
+  protected ObservableRecyclerView(@NonNull RecyclerView recyclerView) {
     mRecyclerView = recyclerView;
     if (mRecyclerView.getTag(R.id.tag_observable_view) == null) {
       mRecyclerView.setTag(R.id.tag_observable_view, true);
@@ -70,40 +70,10 @@ public class ObservableRecyclerView implements Observer {
       }
     });
 
-    mRecyclerView.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+    mRecyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
       @Override
-      public void onChanged() {
-        super.onChanged();
-        onAdapterChanged();
-      }
-
-      @Override
-      public void onItemRangeChanged(int positionStart, int itemCount) {
-        super.onItemRangeChanged(positionStart, itemCount);
-        onAdapterChanged();
-      }
-
-      @Override
-      public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-        super.onItemRangeChanged(positionStart, itemCount, payload);
-        onAdapterChanged();
-      }
-
-      @Override
-      public void onItemRangeInserted(int positionStart, int itemCount) {
-        super.onItemRangeInserted(positionStart, itemCount);
-        onAdapterChanged();
-      }
-
-      @Override
-      public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-        super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-        onAdapterChanged();
-      }
-
-      @Override
-      public void onItemRangeRemoved(int positionStart, int itemCount) {
-        super.onItemRangeRemoved(positionStart, itemCount);
+      public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        Utils.log("ObservableRecyclerView | %d | %d | %d | %d", left, top, right, bottom);
         onAdapterChanged();
       }
     });
