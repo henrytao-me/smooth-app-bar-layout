@@ -1,5 +1,9 @@
 # smooth-app-bar-layout releases #
 
+### Version 1.0.5 - March 13th 2016 ###
+
+Hug improvements
+
 ### Version 0.2.3 - December 29th 2015 ###
 
 * Upgraded: Upgrade support design to 23.1.1
