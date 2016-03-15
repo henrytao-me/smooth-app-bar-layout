@@ -28,7 +28,7 @@
     android:layout_marginBottom="480dp"
     android:padding="16dp"
     tools:text="Sample"
-    style="@style/MdText.Body1.SingleLine" />
+    style="@style/MdText.Subhead1.SingleLine" />
 
   <View
     android:layout_below="@+id/title"
