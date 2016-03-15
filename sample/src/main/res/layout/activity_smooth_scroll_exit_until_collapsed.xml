@@ -39,7 +39,7 @@
         android:id="@+id/toolbar"
         android:background="@android:color/transparent"
         app:layout_collapseMode="pin"
-        app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+        app:navigationIcon="@drawable/ic_menu_arrow_back"
         style="@style/AppStyle.MdToolbar" />
     </android.support.design.widget.CollapsingToolbarLayout>
   </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>

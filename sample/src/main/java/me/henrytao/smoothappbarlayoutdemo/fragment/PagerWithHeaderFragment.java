@@ -33,6 +33,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
+import me.henrytao.recyclerview.holder.HeaderHolder;
 import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayout.base.ObservableFragment;
 import me.henrytao.smoothappbarlayout.base.Utils;

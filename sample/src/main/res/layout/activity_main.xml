@@ -30,6 +30,6 @@
     android:layout_height="match_parent"
     android:layout_below="@+id/toolbar"
     android:clipToPadding="false"
-    android:paddingBottom="?attr/mdLayout_spacing_sm"
-    android:paddingTop="?attr/mdLayout_spacing_sm" />
+    android:paddingBottom="@dimen/mdLayoutSpacing_sm"
+    android:paddingTop="@dimen/mdLayoutSpacing_sm" />
 </RelativeLayout>

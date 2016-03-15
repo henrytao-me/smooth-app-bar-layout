@@ -18,8 +18,7 @@
 
   <!-- AppTheme -->
 
-  <style name="AppTheme" parent="MdTheme">
+  <style name="AppTheme" parent="MdTheme.Light">
 
   </style>
-
 </resources>
