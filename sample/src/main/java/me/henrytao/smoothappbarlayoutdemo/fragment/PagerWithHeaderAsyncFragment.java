@@ -54,7 +54,7 @@ public class PagerWithHeaderAsyncFragment extends PagerWithHeaderFragment {
 
   @Override
   public boolean onOffsetChanged(final SmoothAppBarLayout smoothAppBarLayout, final View target, final int verticalOffset) {
-    if (mHandler != null) {
+    if (mHandler != null && getScrollTarget() == target) {
       if (mRunnable != null) {
         mHandler.removeCallbacks(mRunnable);
       }
