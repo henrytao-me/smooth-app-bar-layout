@@ -23,7 +23,7 @@
 
   <android.support.v7.widget.Toolbar
     android:id="@+id/toolbar"
-    app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+    app:navigationIcon="@drawable/ic_menu_arrow_back"
     style="@style/AppStyle.MdToolbar" />
 
   <ScrollView
@@ -36,62 +36,62 @@
       android:layout_height="wrap_content"
       android:orientation="vertical"
       android:gravity="center"
-      android:paddingBottom="?attr/mdLayout_spacing_md"
-      android:paddingLeft="?attr/mdLayout_spacing_md"
-      android:paddingRight="?attr/mdLayout_spacing_md"
-      android:paddingTop="?attr/mdLayout_spacing_md">
+      android:paddingBottom="@dimen/mdLayoutSpacing"
+      android:paddingLeft="@dimen/mdLayoutSpacing"
+      android:paddingRight="@dimen/mdLayoutSpacing"
+      android:paddingTop="@dimen/mdLayoutSpacing">
 
       <TextView
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         android:text="smooth-app-bar-layout"
         style="@style/MdText.Headline" />
 
       <TextView
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         android:gravity="center"
         android:text="Smooth version of Google Support Design AppBarLayout "
         style="@style/MdText.Body1" />
 
       <ImageView
-        android:layout_width="?attr/mdIcon_xlg"
-        android:layout_height="?attr/mdIcon_xlg"
-        android:layout_marginBottom="?attr/mdLayout_spacing_md"
+        android:layout_width="@dimen/mdIconSize_xlg"
+        android:layout_height="@dimen/mdIconSize_xlg"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing"
         android:src="@drawable/ic_logo" />
 
       <TextView
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         android:gravity="center"
         android:text="© 2015 Henry Tao All rights reserved"
         style="@style/MdText.Body1" />
 
       <View
         android:layout_width="match_parent"
-        android:layout_height="?attr/mdLayout_spacing_xlg" />
+        android:layout_height="@dimen/mdLayoutSpacing_lg" />
 
       <TextView
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         android:gravity="center"
         android:text="Fork me on GitHub!"
         style="@style/MdText.Body1" />
 
       <TextView
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         android:autoLink="web"
         android:gravity="center"
         android:text="https://github.com/henrytao-me/smooth-app-bar-layout"
         style="@style/MdText.Body1" />
 
       <View
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         style="@style/MdDivider" />
 
       <TextView
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         android:text="License"
         style="@style/MdText.Headline" />
 
       <TextView
-        android:layout_marginBottom="?attr/mdLayout_spacing_sm"
+        android:layout_marginBottom="@dimen/mdLayoutSpacing_sm"
         android:text="@string/license"
         style="@style/MdText.Body1" />
     </LinearLayout>

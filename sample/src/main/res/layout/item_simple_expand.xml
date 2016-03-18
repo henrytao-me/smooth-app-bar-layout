@@ -16,16 +16,21 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
-  android:background="@drawable/md_ripple"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:background="?attr/selectableItemBackground"
   android:clickable="true"
-  style="@style/MdList.SingleLine.TextOnly">
+  android:minHeight="48dp">
 
   <TextView
     android:id="@+id/title"
+    android:layout_centerVertical="true"
     android:layout_marginBottom="480dp"
-    android:singleLine="false"
+    android:padding="16dp"
     tools:text="Sample"
-    style="@style/MdList.SingleLine.TextOnly.Text" />
+    style="@style/MdText.Subhead1.SingleLine" />
 
-  <View style="@style/MdDivider.AlignParentBottom" />
+  <View
+    android:layout_below="@+id/title"
+    style="@style/MdDivider" />
 </RelativeLayout>

@@ -16,25 +16,25 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="?attr/mdList_itemHeight_md"
-  android:background="@drawable/md_ripple"
-  android:paddingLeft="?attr/mdLayout_spacing_md"
-  android:paddingRight="?attr/mdLayout_spacing_md">
+  android:layout_height="@dimen/mdListItemHeight"
+  android:background="?attr/selectableItemBackground"
+  android:paddingLeft="@dimen/mdLayoutSpacing"
+  android:paddingRight="@dimen/mdLayoutSpacing">
 
   <TextView
     android:id="@+id/title"
     android:layout_alignParentLeft="true"
     android:layout_centerVertical="true"
     android:layout_toLeftOf="@+id/description"
-    android:paddingLeft="?attr/mdLayout_spacing_sm"
+    android:paddingLeft="@dimen/mdLayoutSpacing_sm"
     android:text="Buy me a coffee"
-    style="@style/MdText.Subhead.SingleLine" />
+    style="@style/MdText.Subhead1.SingleLine" />
 
   <TextView
     android:id="@+id/description"
     android:layout_alignParentRight="true"
     android:layout_centerVertical="true"
-    android:paddingRight="?attr/mdLayout_spacing_sm"
+    android:paddingRight="@dimen/mdLayoutSpacing_sm"
     android:text="$0.99"
     style="@style/MdText.Body1.SingleLine" />
 </RelativeLayout>

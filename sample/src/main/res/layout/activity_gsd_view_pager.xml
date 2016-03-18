@@ -32,7 +32,7 @@
     <android.support.v7.widget.Toolbar
       android:id="@+id/toolbar"
       app:layout_scrollFlags="scroll|enterAlways"
-      app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+      app:navigationIcon="@drawable/ic_menu_arrow_back"
       style="@style/AppStyle.MdToolbar" />
 
     <android.support.design.widget.TabLayout

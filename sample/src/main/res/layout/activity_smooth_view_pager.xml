@@ -28,13 +28,13 @@
     android:id="@+id/smooth_app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?attr/secondaryActionBarSize">
+    android:minHeight="@dimen/mdSecondaryActionBarSize">
 
     <android.support.v7.widget.Toolbar
       android:id="@+id/toolbar"
       android:background="@android:color/transparent"
       app:layout_scrollFlags="scroll|enterAlways"
-      app:navigationIcon="@drawable/ic_toolbar_arrow_back"
+      app:navigationIcon="@drawable/ic_menu_arrow_back"
       style="@style/AppStyle.MdToolbar" />
 
     <android.support.design.widget.TabLayout

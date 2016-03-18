@@ -24,6 +24,7 @@ import android.view.View;
 
 import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayout.base.Utils;
+import me.henrytao.smoothappbarlayoutdemo.R;
 
 public class PagerWithHeaderAsyncFragment extends PagerWithHeaderFragment {
 
@@ -32,6 +33,7 @@ public class PagerWithHeaderAsyncFragment extends PagerWithHeaderFragment {
     Bundle bundle = new Bundle();
     bundle.putBoolean(ARG_IS_RECYCLER_VIEW, true);
     bundle.putBoolean(ARG_IS_SHORT, isShort);
+    bundle.putInt(ARG_HEADER_LAYOUT, R.layout.item_pager_header_spacing);
     fragment.setArguments(bundle);
     return fragment;
   }
@@ -52,7 +54,7 @@ public class PagerWithHeaderAsyncFragment extends PagerWithHeaderFragment {
 
   @Override
   public boolean onOffsetChanged(final SmoothAppBarLayout smoothAppBarLayout, final View target, final int verticalOffset) {
-    if (mHandler != null) {
+    if (mHandler != null && getScrollTarget() == target) {
       if (mRunnable != null) {
         mHandler.removeCallbacks(mRunnable);
       }
