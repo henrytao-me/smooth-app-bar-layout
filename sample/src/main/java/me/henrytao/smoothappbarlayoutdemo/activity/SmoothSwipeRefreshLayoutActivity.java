@@ -96,15 +96,7 @@ public class SmoothSwipeRefreshLayoutActivity extends BaseActivity {
     });
     itemTouchHelper.attachToRecyclerView(vRecyclerView);
 
-    vSmoothAppBarLayout.setScrollTargetCallback(new ScrollTargetCallback() {
-      @Override
-      public View callback(View target) {
-        return vRecyclerView;
-      }
-    });
-
-    // set proper offset for swipe refresh layout
-    // set offset for swipe refresh layouts
+    // set progress view offset
     int actionBarSize = ResourceUtils.getActionBarSize(this);
     int progressViewStart = getResources().getDimensionPixelSize(R.dimen.app_bar_height) -
             actionBarSize;
