@@ -20,6 +20,7 @@ import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -193,7 +194,23 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   }
 
   private View getScrollTarget(View target) {
-    return mScrollTargetCallback != null ? mScrollTargetCallback.callback(target) : target;
+    return mScrollTargetCallback != null ? mScrollTargetCallback.callback(target) : getSupportedScrollTarget(target);
+  }
+
+  private View getSupportedScrollTarget(View target) {
+    if (target instanceof SwipeRefreshLayout && ((SwipeRefreshLayout) target).getChildCount() > 0) {
+      SwipeRefreshLayout parent = (SwipeRefreshLayout) target;
+      View child;
+      int n = parent.getChildCount();
+      for (int i = 0; i < n; i++) {
+        child = parent.getChildAt(i);
+        if (child instanceof NestedScrollView || child instanceof RecyclerView) {
+          return child;
+        }
+      }
+      return ((SwipeRefreshLayout) target).getChildAt(0);
+    }
+    return target;
   }
 
   private void init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child) {
