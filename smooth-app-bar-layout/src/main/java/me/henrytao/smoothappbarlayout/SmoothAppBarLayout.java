@@ -151,6 +151,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   public void setScrollTargetCallback(ScrollTargetCallback scrollTargetCallback) {
     mScrollTargetCallback = scrollTargetCallback;
+    setBehaviorScrollTargetCallback();
   }
 
   public void syncOffset(int newOffset) {
@@ -194,6 +195,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
+  private void setBehaviorScrollTargetCallback() {
+    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getLayoutParams();
+    SmoothAppBarLayout.Behavior behavior = (SmoothAppBarLayout.Behavior) params.getBehavior();
+    if (behavior != null) {
+      behavior.setScrollTargetCallback(mScrollTargetCallback);
+    }
+  }
+
   public static class Behavior extends BaseBehavior {
 
     protected ScrollFlag mScrollFlag;
@@ -209,7 +218,9 @@ public class SmoothAppBarLayout extends AppBarLayout {
         mScrollFlag = new ScrollFlag(child);
       }
       if (child instanceof SmoothAppBarLayout) {
-        vViewPager = ((SmoothAppBarLayout) child).vViewPager;
+        final SmoothAppBarLayout layout = (SmoothAppBarLayout) child;
+        layout.setBehaviorScrollTargetCallback();
+        vViewPager = layout.vViewPager;
         if (vViewPager != null) {
           vViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -222,12 +233,12 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
             @Override
             public void onPageSelected(int position) {
-              propagateViewPagerOffset((SmoothAppBarLayout) child, true);
+              propagateViewPagerOffset(layout, true);
             }
           });
         }
 
-        ((SmoothAppBarLayout) child).setSyncOffsetListener(new me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener() {
+        layout.setSyncOffsetListener(new me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener() {
           @Override
           public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isOrientationChanged) {
             syncOffset(smoothAppBarLayout, -verticalOffset);

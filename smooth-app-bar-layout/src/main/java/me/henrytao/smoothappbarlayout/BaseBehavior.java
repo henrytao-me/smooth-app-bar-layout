@@ -194,9 +194,6 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   }
 
   private View getScrollTarget(View target) {
-    if (target instanceof SwipeRefreshLayout && ((SwipeRefreshLayout) target).getChildCount() > 0) {
-      return ((SwipeRefreshLayout) target).getChildAt(0);
-    }
     return mScrollTargetCallback != null ? mScrollTargetCallback.callback(target) : target;
   }
 
