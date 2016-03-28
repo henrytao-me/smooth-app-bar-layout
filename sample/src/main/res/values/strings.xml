@@ -103,6 +103,7 @@
   <string name="title_activity_gsd_scroll_snap">Gsd scroll | snap</string>
   <string name="title_activity_gsd_quick_return">Gsd quickReturn</string>
   <string name="title_activity_gsd_view_pager">Gsd ViewPager</string>
+  <string name="title_activity_gsd_swipe_refresh_layout">Gsd SwipeRefreshLayout</string>
   <string name="title_activity_smooth_scroll">Smooth scroll</string>
   <string name="title_activity_smooth_scroll_enter_always">Smooth scroll | enterAlways</string>
   <string name="title_activity_smooth_scroll_enter_always_collapsed">Smooth scroll | enterAlwaysCollapsed</string>
@@ -115,6 +116,7 @@
   <string name="title_activity_smooth_view_pager_exit_until_collapsed">Smooth ViewPager | exitUntilCollapsed</string>
   <string name="title_activity_smooth_view_pager_quick_return">Smooth ViewPager QuickReturn</string>
   <string name="title_activity_smooth_view_pager_parallax_exit_until_collapsed">Smooth ViewPager Parallax | exitUntilCollapsed</string>
+  <string name="title_activity_smooth_swipe_refresh_layout">Smooth SwipeRefreshLayout</string>
   <string name="title_activity_feature">FeatureActivity</string>
   <string name="title_activity_inbox">Inbox</string>
   <string name="close">Close</string>
