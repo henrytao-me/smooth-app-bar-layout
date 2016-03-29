@@ -26,7 +26,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
-import me.henrytao.smoothappbarlayoutdemo.apdater.SimpleAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
 public class GsdScrollActivity extends BaseActivity {

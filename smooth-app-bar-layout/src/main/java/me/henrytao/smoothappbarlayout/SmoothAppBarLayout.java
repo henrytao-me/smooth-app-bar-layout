@@ -151,7 +151,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   public void setScrollTargetCallback(ScrollTargetCallback scrollTargetCallback) {
     mScrollTargetCallback = scrollTargetCallback;
-    setBehaviorScrollTargetCallback();
+    //setBehaviorScrollTargetCallback();
   }
 
   public void syncOffset(int newOffset) {
@@ -184,6 +184,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
     }
   }
 
+  //private void setBehaviorScrollTargetCallback() {
+  //  CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getLayoutParams();
+  //  SmoothAppBarLayout.Behavior behavior = (SmoothAppBarLayout.Behavior) params.getBehavior();
+  //  if (behavior != null) {
+  //    behavior.setScrollTargetCallback(mScrollTargetCallback);
+  //  }
+  //}
+
   private void setSyncOffsetListener(me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener syncOffsetListener) {
     mSyncOffsetListener = syncOffsetListener;
     syncOffset(mRestoreCurrentOffset, true);
@@ -192,14 +200,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
   private void syncOffset(int newOffset, boolean force) {
     if (mSyncOffsetListener != null) {
       mSyncOffsetListener.onOffsetChanged(this, newOffset, force);
-    }
-  }
-
-  private void setBehaviorScrollTargetCallback() {
-    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getLayoutParams();
-    SmoothAppBarLayout.Behavior behavior = (SmoothAppBarLayout.Behavior) params.getBehavior();
-    if (behavior != null) {
-      behavior.setScrollTargetCallback(mScrollTargetCallback);
     }
   }
 
@@ -219,7 +219,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
       }
       if (child instanceof SmoothAppBarLayout) {
         final SmoothAppBarLayout layout = (SmoothAppBarLayout) child;
-        layout.setBehaviorScrollTargetCallback();
+        setScrollTargetCallback(layout.mScrollTargetCallback);
         vViewPager = layout.vViewPager;
         if (vViewPager != null) {
           vViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
