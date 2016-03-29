@@ -194,10 +194,23 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
   }
 
   private View getScrollTarget(View target) {
+    return mScrollTargetCallback != null ? mScrollTargetCallback.callback(target) : getSupportedScrollTarget(target);
+  }
+
+  private View getSupportedScrollTarget(View target) {
     if (target instanceof SwipeRefreshLayout && ((SwipeRefreshLayout) target).getChildCount() > 0) {
+      SwipeRefreshLayout parent = (SwipeRefreshLayout) target;
+      View child;
+      int n = parent.getChildCount();
+      for (int i = 0; i < n; i++) {
+        child = parent.getChildAt(i);
+        if (child instanceof NestedScrollView || child instanceof RecyclerView) {
+          return child;
+        }
+      }
       return ((SwipeRefreshLayout) target).getChildAt(0);
     }
-    return mScrollTargetCallback != null ? mScrollTargetCallback.callback(target) : target;
+    return target;
   }
 
   private void init(final CoordinatorLayout coordinatorLayout, final AppBarLayout child) {

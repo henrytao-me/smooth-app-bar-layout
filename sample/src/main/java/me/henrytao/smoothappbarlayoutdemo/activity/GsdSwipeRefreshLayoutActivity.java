@@ -28,7 +28,7 @@ import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
-public class GsdScrollActivity extends BaseActivity {
+public class GsdSwipeRefreshLayoutActivity extends BaseActivity {
 
   @Bind(android.R.id.list)
   RecyclerView vRecyclerView;
@@ -39,7 +39,7 @@ public class GsdScrollActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_gsd_scroll);
+    setContentView(R.layout.activity_gsd_swipe_refresh_layout);
     ButterKnife.bind(this);
 
     setSupportActionBar(vToolbar);
