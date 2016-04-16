@@ -26,8 +26,8 @@ ext {
       applicationId    : "me.henrytao.smoothappbarlayout",
       minSdkVersion    : 11,
       targetSdkVersion : 23,
-      versionCode      : 22,
-      versionName      : "23.2.1.1"
+      versionCode      : 23,
+      versionName      : "23.2.1.2"
   ]
 
   bintray = [
