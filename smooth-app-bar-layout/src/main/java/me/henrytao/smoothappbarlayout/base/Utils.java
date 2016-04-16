@@ -48,6 +48,10 @@ public class Utils {
     return statusBarSize;
   }
 
+  public static void intPreScroll(final SmoothAppBarLayout smoothAppBarLayout, final View target, final int offset) {
+    target.addOnLayoutChangeListener(new OnPreScrollListener(smoothAppBarLayout, target, offset));
+  }
+
   public static boolean isScrollToTop(View target) {
     if (target instanceof NestedScrollView) {
       return target.getScrollY() == 0;
@@ -96,5 +100,40 @@ public class Utils {
       }
     }
     return true;
+  }
+
+  private static class OnPreScrollListener implements View.OnLayoutChangeListener {
+
+    private final int mOffset;
+
+    private final SmoothAppBarLayout vSmoothAppBarLayout;
+
+    private final View vTarget;
+
+    private boolean mDone;
+
+    public OnPreScrollListener(SmoothAppBarLayout smoothAppBarLayout, View target, int offset) {
+      vSmoothAppBarLayout = smoothAppBarLayout;
+      vTarget = target;
+      mOffset = offset;
+    }
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+      int currentOffset = 0;
+      if (!mDone) {
+        if (v instanceof NestedScrollView) {
+          currentOffset = v.getScrollY();
+        } else if (v instanceof RecyclerView) {
+          currentOffset = ((RecyclerView) v).computeVerticalScrollOffset();
+        }
+        if (currentOffset < mOffset) {
+          vTarget.scrollBy(0, mOffset - currentOffset);
+        } else {
+          vSmoothAppBarLayout.syncOffset(mOffset);
+          mDone = true;
+        }
+      }
+    }
   }
 }
