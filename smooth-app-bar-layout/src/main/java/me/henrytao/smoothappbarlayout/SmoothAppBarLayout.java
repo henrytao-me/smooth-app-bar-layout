@@ -151,7 +151,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   public void setScrollTargetCallback(ScrollTargetCallback scrollTargetCallback) {
     mScrollTargetCallback = scrollTargetCallback;
-    //setBehaviorScrollTargetCallback();
   }
 
   public void syncOffset(int newOffset) {
@@ -183,14 +182,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
       }
     }
   }
-
-  //private void setBehaviorScrollTargetCallback() {
-  //  CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getLayoutParams();
-  //  SmoothAppBarLayout.Behavior behavior = (SmoothAppBarLayout.Behavior) params.getBehavior();
-  //  if (behavior != null) {
-  //    behavior.setScrollTargetCallback(mScrollTargetCallback);
-  //  }
-  //}
 
   private void setSyncOffsetListener(me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener syncOffsetListener) {
     mSyncOffsetListener = syncOffsetListener;
