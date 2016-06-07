@@ -254,6 +254,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
         }
       }
 
+      int oDy = dy;
       int minOffset = getMinOffset(child);
       int maxOffset = getMaxOffset(child);
       int translationOffset = accuracy ? Math.min(Math.max(minOffset, -y), maxOffset) : minOffset;
@@ -267,6 +268,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
         if (dy <= 0 && !(accuracy && y <= Math.abs(breakPoint))) {
           translationOffset = Math.min(translationOffset, breakPoint);
         }
+        // TODO: temporary fix for issue https://github.com/henrytao-me/smooth-app-bar-layout/issues/108
+        translationOffset = !accuracy && oDy == 0 && getCurrentOffset() == minOffset ? minOffset : translationOffset;
       } else if (mScrollFlag.isFlagEnterAlwaysEnabled()) {
         translationOffset = getCurrentOffset() - dy;
         translationOffset = Math.min(Math.max(minOffset, translationOffset), maxOffset);
@@ -276,7 +279,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
         // do nothing
       }
 
-      Utils.log("widget | onScrollChanged | %d | %d | %d | %d | %b | %d", minOffset, maxOffset, y, dy, accuracy, translationOffset);
+      Utils.log("widget | onScrollChanged | %d | %d | %d | %d | %d | %b | %d", minOffset, maxOffset, getCurrentOffset(), y, dy, accuracy,
+          translationOffset);
       syncOffset(child, translationOffset);
 
       propagateViewPagerOffset((SmoothAppBarLayout) child, false);
