@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.henrytao.mdcore.utils.ResourceUtils;
 import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.recyclerview.holder.HeaderHolder;
 import me.henrytao.smoothappbarlayoutdemo.R;
@@ -48,6 +49,8 @@ public class SmoothScrollExitUntilCollapsedActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_smooth_scroll_exit_until_collapsed);
     ButterKnife.bind(this);
+
+    ResourceUtils.enableTranslucentStatus(this);
 
     setSupportActionBar(vToolbar);
     vToolbar.setNavigationOnClickListener(new View.OnClickListener() {

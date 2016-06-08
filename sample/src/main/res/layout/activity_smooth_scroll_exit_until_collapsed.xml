@@ -17,17 +17,24 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:fitsSystemWindows="true">
 
-  <android.support.v7.widget.RecyclerView
-    android:id="@android:id/list"
+  <FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@android:id/list"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+  </FrameLayout>
 
   <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
     android:id="@+id/smooth_app_bar_layout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/app_bar_height">
+    android:layout_height="@dimen/app_bar_height"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.CollapsingToolbarLayout
       android:id="@+id/collapsing_toolbar_layout"
