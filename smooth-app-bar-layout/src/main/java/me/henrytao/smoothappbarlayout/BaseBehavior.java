@@ -16,7 +16,6 @@
 
 package me.henrytao.smoothappbarlayout;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
