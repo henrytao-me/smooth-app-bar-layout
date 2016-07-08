@@ -33,6 +33,9 @@
       </intent-filter>
     </activity>
     <activity
+      android:label="@string/app_name"
+      android:name=".activity.BlankActivity" />
+    <activity
       android:label="@string/title_activity_info"
       android:name=".activity.InfoActivity" />
     <activity

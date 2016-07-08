@@ -43,9 +43,16 @@ public class DynamicAdapter<T> extends RecyclerView.Adapter<DynamicAdapter.ViewH
 
   private final List<Integer> mExpands;
 
+  private OnItemClickListener mOnItemClickListener;
+
   public DynamicAdapter(List<T> data) {
     mData = data;
     mExpands = new ArrayList<>();
+  }
+
+  public DynamicAdapter(List<T> data, OnItemClickListener onItemClickListener) {
+    this(data);
+    mOnItemClickListener = onItemClickListener;
   }
 
   @Override
@@ -66,19 +73,20 @@ public class DynamicAdapter<T> extends RecyclerView.Adapter<DynamicAdapter.ViewH
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    return new ViewHolder(LayoutInflater.from(parent.getContext()), parent, viewType, new OnItemClickListener() {
-      @Override
-      public void onItemClick(View view) {
-        int position = (Integer) view.getTag(R.id.tag_position);
-        int index = mExpands.indexOf(position);
-        if (index < 0) {
-          mExpands.add(position);
-        } else {
-          mExpands.remove(index);
-        }
-        notifyDataSetChanged();
-      }
-    });
+    return new ViewHolder(LayoutInflater.from(parent.getContext()), parent, viewType,
+        mOnItemClickListener != null ? mOnItemClickListener : new OnItemClickListener() {
+          @Override
+          public void onItemClick(View view) {
+            int position = (Integer) view.getTag(R.id.tag_position);
+            int index = mExpands.indexOf(position);
+            if (index < 0) {
+              mExpands.add(position);
+            } else {
+              mExpands.remove(index);
+            }
+            notifyDataSetChanged();
+          }
+        });
   }
 
   public void addItems(List<T> data) {

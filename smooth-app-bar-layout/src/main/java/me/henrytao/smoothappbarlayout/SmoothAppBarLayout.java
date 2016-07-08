@@ -189,6 +189,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
   }
 
   private void syncOffset(int newOffset, boolean force) {
+    mRestoreCurrentOffset = newOffset;
     if (mSyncOffsetListener != null) {
       mSyncOffsetListener.onOffsetChanged(this, newOffset, force);
     }

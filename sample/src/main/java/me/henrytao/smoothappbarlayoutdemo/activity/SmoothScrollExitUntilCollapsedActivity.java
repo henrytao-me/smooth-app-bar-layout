@@ -57,7 +57,12 @@ public class SmoothScrollExitUntilCollapsedActivity extends BaseActivity {
       }
     });
 
-    mAdapter = new DynamicAdapter<>(Utils.getSampleData());
+    mAdapter = new DynamicAdapter<>(Utils.getSampleData(), new DynamicAdapter.OnItemClickListener() {
+      @Override
+      public void onItemClick(View view) {
+        startActivity(BlankActivity.newIntent(SmoothScrollExitUntilCollapsedActivity.this));
+      }
+    });
     RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(mAdapter) {
       @Override
       public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
