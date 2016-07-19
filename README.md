@@ -13,8 +13,10 @@ If you find that it still doesn't meet your need, don't hesitate to send me a re
 ## Installation
 
 ``` groovy
-compile "me.henrytao:smooth-app-bar-layout:<latest-version>"
+compile "me.henrytao:smooth-app-bar-layout:<latest-support-design-version>.*"
 ```
+
+Example: if the latest support design version is `24.1.0`, please use `compile "me.henrytao:smooth-app-bar-layout:24.1.0.*"`
 
 - `smooth-app-bar-layout` is an UI library and pretty much depended on AppCompat and Support Design. So that, versioning is quite the same with those libraries from Google.
 - `smooth-app-bar-layout` is deployed to `jCenter`. Make sure you have `jcenter()` in your project gradle.
