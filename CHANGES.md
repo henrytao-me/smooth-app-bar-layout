@@ -1,5 +1,20 @@
 # smooth-app-bar-layout releases #
 
+### Update release notes - August 7th 2016 ###
+
+All supported versions:
+- 24.1.0.0
+- 24.0.0.0
+- 23.4.0.1
+- 23.3.0.1
+- 23.2.1.3
+- 23.2.1
+- 23.2.0.1
+- 23.2.0
+- 23.1.1.2
+- 23.1.1
+
+
 ### Version 23.2.1.1 - March 29th 2016 ###
 
 * Supported: SwipeRefreshLayout
