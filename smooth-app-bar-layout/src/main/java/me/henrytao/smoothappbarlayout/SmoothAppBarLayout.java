@@ -64,18 +64,20 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   private me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener mSyncOffsetListener;
 
+  private int mTargetId;
+
   private int mViewPagerId;
 
   private ViewPager vViewPager;
 
   public SmoothAppBarLayout(Context context) {
     super(context);
-    init(null);
+    init(context, null);
   }
 
   public SmoothAppBarLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
-    init(null);
+    init(context, attrs);
   }
 
   @Override
@@ -157,10 +159,11 @@ public class SmoothAppBarLayout extends AppBarLayout {
     syncOffset(newOffset, false);
   }
 
-  private void init(AttributeSet attrs) {
+  private void init(Context context, AttributeSet attrs) {
     TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.SmoothAppBarLayout, 0, 0);
     try {
       mViewPagerId = a.getResourceId(R.styleable.SmoothAppBarLayout_sabl_view_pager_id, 0);
+      mTargetId = a.getResourceId(R.styleable.SmoothAppBarLayout_sabl_target_id, 0);
     } finally {
       a.recycle();
     }
@@ -245,6 +248,11 @@ public class SmoothAppBarLayout extends AppBarLayout {
     @Override
     protected void onScrollChanged(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int y, int dy, boolean accuracy) {
       if (!mScrollFlag.isFlagScrollEnabled() || !(child instanceof SmoothAppBarLayout)) {
+        return;
+      }
+
+      int targetId = ((SmoothAppBarLayout) child).mTargetId;
+      if (targetId > 0 && targetId != target.getId()) {
         return;
       }
 
