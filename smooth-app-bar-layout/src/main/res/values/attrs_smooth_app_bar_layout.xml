@@ -18,5 +18,6 @@
 
   <declare-styleable name="SmoothAppBarLayout">
     <attr name="sabl_view_pager_id" format="reference" />
+    <attr name="sabl_target_id" format="reference" />
   </declare-styleable>
 </resources>
