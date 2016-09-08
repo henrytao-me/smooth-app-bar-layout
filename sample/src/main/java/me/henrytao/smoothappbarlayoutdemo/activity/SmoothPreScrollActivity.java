@@ -36,7 +36,7 @@ import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 
 public class SmoothPreScrollActivity extends BaseActivity {
 
-  @Bind(android.R.id.list)
+  @Bind(R.id.recycler_view_target)
   RecyclerView vRecyclerView;
 
   @Bind(R.id.smooth_app_bar_layout)
