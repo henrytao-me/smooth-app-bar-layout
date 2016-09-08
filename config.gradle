@@ -27,7 +27,7 @@ ext {
       minSdkVersion    : 11,
       targetSdkVersion : 24,
       versionCode      : 27,
-      versionName      : "24.2.0.0"
+      versionName      : "24.2.0.1"
   ]
 
   bintray = [
