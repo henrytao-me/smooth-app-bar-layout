@@ -35,7 +35,7 @@ import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
 public class SmoothScrollExitUntilCollapsedActivity extends BaseActivity {
 
-  @Bind(android.R.id.list)
+  @Bind(R.id.recycler_view_target)
   RecyclerView vRecyclerView;
 
   @Bind(R.id.toolbar)
