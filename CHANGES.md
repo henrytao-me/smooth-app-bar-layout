@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### September 10th 2016 ###
+
+- Support v24.2.0.2
+- Fixed chopping issues: https://github.com/henrytao-me/smooth-app-bar-layout/issues/114 + https://github.com/henrytao-me/smooth-app-bar-layout/issues/139
+
 ### Update release notes - August 7th 2016 ###
 
 All supported versions:
@@ -13,7 +18,6 @@ All supported versions:
 - 23.2.0
 - 23.1.1.2
 - 23.1.1
-
 
 ### Version 23.2.1.1 - March 29th 2016 ###
 
