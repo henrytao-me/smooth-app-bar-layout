@@ -202,6 +202,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
     protected ScrollFlag mScrollFlag;
 
+    private int mLastY;
+
     private int mStatusBarSize;
 
     private ViewPager vViewPager;
@@ -262,6 +264,14 @@ public class SmoothAppBarLayout extends AppBarLayout {
           return;
         }
       }
+
+      // TODO: temporary fix for issues:
+      // https://github.com/henrytao-me/smooth-app-bar-layout/issues/114
+      // https://github.com/henrytao-me/smooth-app-bar-layout/issues/139
+      if (y == mLastY) {
+        return;
+      }
+      mLastY = y;
 
       int oDy = dy;
       int minOffset = getMinOffset(child);
