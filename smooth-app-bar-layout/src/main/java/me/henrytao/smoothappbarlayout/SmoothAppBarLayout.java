@@ -64,18 +64,20 @@ public class SmoothAppBarLayout extends AppBarLayout {
 
   private me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener mSyncOffsetListener;
 
+  private int mTargetId;
+
   private int mViewPagerId;
 
   private ViewPager vViewPager;
 
   public SmoothAppBarLayout(Context context) {
     super(context);
-    init(null);
+    init(context, null);
   }
 
   public SmoothAppBarLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
-    init(null);
+    init(context, attrs);
   }
 
   @Override
@@ -157,10 +159,11 @@ public class SmoothAppBarLayout extends AppBarLayout {
     syncOffset(newOffset, false);
   }
 
-  private void init(AttributeSet attrs) {
+  private void init(Context context, AttributeSet attrs) {
     TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.SmoothAppBarLayout, 0, 0);
     try {
       mViewPagerId = a.getResourceId(R.styleable.SmoothAppBarLayout_sabl_view_pager_id, 0);
+      mTargetId = a.getResourceId(R.styleable.SmoothAppBarLayout_sabl_target_id, 0);
     } finally {
       a.recycle();
     }
@@ -198,6 +201,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
   public static class Behavior extends BaseBehavior {
 
     protected ScrollFlag mScrollFlag;
+
+    private int mLastY;
 
     private int mStatusBarSize;
 
@@ -248,12 +253,25 @@ public class SmoothAppBarLayout extends AppBarLayout {
         return;
       }
 
+      int targetId = ((SmoothAppBarLayout) child).mTargetId;
+      if (targetId > 0 && targetId != target.getId()) {
+        return;
+      }
+
       if (vViewPager != null && vViewPager.getAdapter() instanceof ObservablePagerAdapter) {
         ObservablePagerAdapter pagerAdapter = (ObservablePagerAdapter) vViewPager.getAdapter();
         if (pagerAdapter.getObservableFragment(vViewPager.getCurrentItem()).getScrollTarget() != target) {
           return;
         }
       }
+
+      // TODO: temporary fix for issues:
+      // https://github.com/henrytao-me/smooth-app-bar-layout/issues/114
+      // https://github.com/henrytao-me/smooth-app-bar-layout/issues/139
+      if (y == mLastY) {
+        return;
+      }
+      mLastY = y;
 
       int oDy = dy;
       int minOffset = getMinOffset(child);
