@@ -27,7 +27,7 @@ ext {
       minSdkVersion    : 11,
       targetSdkVersion : 24,
       versionCode      : 27,
-      versionName      : "24.2.0.2"
+      versionName      : "24.2.1.0"
   ]
 
   bintray = [
@@ -55,16 +55,16 @@ ext {
   ]
 
   dependencies = [
-      "com.android.support:design"         : "com.android.support:design:24.2.0",
-      "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:24.2.0",
-      "com.android.support:recyclerview-v7": "com.android.support:recyclerview-v7:24.2.0"
+      "com.android.support:design"         : "com.android.support:design:24.2.1",
+      "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:24.2.1",
+      "com.android.support:recyclerview-v7": "com.android.support:recyclerview-v7:24.2.1"
   ]
 
   sampleDependencies = [
-      "com.android.support:design"         : "com.android.support:design:24.2.0",
-      "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:24.2.0",
-      "com.android.support:cardview-v7"    : "com.android.support:cardview-v7:24.2.0",
-      "com.android.support:recyclerview-v7": "com.android.support:recyclerview-v7:24.2.0",
+      "com.android.support:design"         : "com.android.support:design:24.2.1",
+      "com.android.support:appcompat-v7"   : "com.android.support:appcompat-v7:24.2.1",
+      "com.android.support:cardview-v7"    : "com.android.support:cardview-v7:24.2.1",
+      "com.android.support:recyclerview-v7": "com.android.support:recyclerview-v7:24.2.1",
 
       "me.henrytao:recyclerview"           : "me.henrytao:recyclerview:23.3.0",
       "me.henrytao:mdcore"                 : "me.henrytao:mdcore:23.2.1",
