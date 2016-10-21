@@ -131,4 +131,6 @@
   <string name="title_activity_smooth_view_pager_drawer_layout">SmoothViewPagerDrawerLayoutActivity</string>
   <string name="title_activity_smooth_view_pager_parallax_drawer_layout">SmoothViewPagerParallaxDrawerLayoutActivity</string>
   <string name="title_activity_smooth_pre_scroll">Smooth PreScroll</string>
+  <string name="title_activity_gsd_scroll_parallax">Gsd scroll | Parallax</string>
+  <string name="title_activity_smooth_scroll_parallax">Smooth scroll | Parallax</string>
 </resources>
