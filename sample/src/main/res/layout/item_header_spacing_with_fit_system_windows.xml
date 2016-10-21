@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2015 "Henry Tao <hi@henrytao.me>"
+  ~ Copyright 2016 "Henry Tao <hi@henrytao.me>"
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
 
-  <dimen name="app_bar_height_with_fit_system_windows">232dp</dimen>
-
-  <dimen name="google_play_cover_fitsSystemWindows">168dp</dimen>
-
-  <dimen name="view_pager_parallax_drawer_layout_fitsSystemWindows">232dp</dimen>
-</resources>
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_bar_height_with_fit_system_windows" />
+</LinearLayout>

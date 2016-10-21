@@ -106,5 +106,11 @@
     <activity
       android:label="@string/title_activity_smooth_pre_scroll"
       android:name=".activity.SmoothPreScrollActivity" />
+    <activity
+      android:label="@string/title_activity_gsd_scroll_parallax"
+      android:name=".activity.GsdScrollParallaxActivity" />
+    <activity
+      android:label="@string/title_activity_smooth_scroll_parallax"
+      android:name=".activity.SmoothScrollParallaxActivity" />
   </application>
 </manifest>

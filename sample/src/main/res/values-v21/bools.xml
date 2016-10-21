@@ -17,5 +17,4 @@
 <resources>
 
   <bool name="isFitSystemWindows">true</bool>
-
 </resources>
