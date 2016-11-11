@@ -1,5 +1,10 @@
 # smooth-app-bar-layout releases #
 
+### November 11th 2016 ###
+
+- Support v25.0.0.0
+
+
 ### September 14th 2016 ###
 
 - Support v24.2.1.0
