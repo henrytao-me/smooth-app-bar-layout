@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import me.henrytao.mdcore.utils.ResourceUtils;
 import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.recyclerview.holder.HeaderHolder;
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
@@ -38,6 +39,9 @@ public class SmoothScrollParallaxActivity extends BaseActivity {
 
   @Bind(R.id.recycler_view_target)
   RecyclerView vRecyclerView;
+
+  @Bind(R.id.smooth_app_bar_layout)
+  SmoothAppBarLayout vSmoothAppBarLayout;
 
   @Bind(R.id.toolbar)
   Toolbar vToolbar;
