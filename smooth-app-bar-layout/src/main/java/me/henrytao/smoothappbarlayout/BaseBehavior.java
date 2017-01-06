@@ -24,10 +24,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import me.henrytao.smoothappbarlayout.base.ObservableNestedScrollView;
 import me.henrytao.smoothappbarlayout.base.ObservableRecyclerView;
@@ -193,6 +195,11 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     child.setTag(R.id.tag_current_offset, mCurrentOffset);
   }
 
+  void temporaryInit(CoordinatorLayout coordinatorLayout, AppBarLayout child) {
+    vScrollTarget = getScrollTarget(coordinatorLayout);
+    initScrollTarget(coordinatorLayout, child);
+  }
+
   private View getScrollTarget(View target) {
     return mScrollTargetCallback != null ? mScrollTargetCallback.callback(target) : getSupportedScrollTarget(target);
   }
@@ -209,6 +216,21 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
         }
       }
       return ((SwipeRefreshLayout) target).getChildAt(0);
+    } else if (target instanceof CoordinatorLayout) {
+      Stack<View> stack = new Stack<>();
+      stack.add(target);
+      while (stack.size() > 0) {
+        View view = stack.pop();
+        if (view instanceof NestedScrollView || view instanceof RecyclerView) {
+          return view;
+        }
+        if (view instanceof ViewGroup) {
+          int n = ((ViewGroup) view).getChildCount();
+          for (int i = 0; i < n; i++) {
+            stack.add(((ViewGroup) view).getChildAt(i));
+          }
+        }
+      }
     }
     return target;
   }
