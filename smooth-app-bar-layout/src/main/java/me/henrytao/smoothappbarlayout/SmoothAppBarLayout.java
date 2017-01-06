@@ -211,6 +211,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
     @Override
     protected void onInit(CoordinatorLayout coordinatorLayout, final AppBarLayout child) {
       Utils.log("widget | onInit");
+
       if (mScrollFlag == null) {
         mScrollFlag = new ScrollFlag(child);
       }
@@ -234,7 +235,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
             }
           });
         }
-
         layout.setSyncOffsetListener(new me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener() {
           @Override
           public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isOrientationChanged) {
@@ -244,6 +244,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
             }
           }
         });
+        temporaryInit(coordinatorLayout, child);
       }
     }
 
