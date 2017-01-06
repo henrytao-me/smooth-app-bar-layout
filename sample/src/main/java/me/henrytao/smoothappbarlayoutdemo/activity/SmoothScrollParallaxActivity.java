@@ -40,11 +40,11 @@ public class SmoothScrollParallaxActivity extends BaseActivity {
   @Bind(R.id.recycler_view_target)
   RecyclerView vRecyclerView;
 
-  @Bind(R.id.toolbar)
-  Toolbar vToolbar;
-
   @Bind(R.id.smooth_app_bar_layout)
   SmoothAppBarLayout vSmoothAppBarLayout;
+
+  @Bind(R.id.toolbar)
+  Toolbar vToolbar;
 
   private DynamicAdapter<String> mAdapter;
 
@@ -80,13 +80,6 @@ public class SmoothScrollParallaxActivity extends BaseActivity {
 
     vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     vRecyclerView.setAdapter(adapter);
-
-    vRecyclerView.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        vRecyclerView.smoothScrollToPosition(20);
-      }
-    }, 2000);
 
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
       @Override

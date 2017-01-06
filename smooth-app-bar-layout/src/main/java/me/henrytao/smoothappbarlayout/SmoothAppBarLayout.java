@@ -211,7 +211,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
     @Override
     protected void onInit(CoordinatorLayout coordinatorLayout, final AppBarLayout child) {
       Utils.log("widget | onInit");
-
       if (mScrollFlag == null) {
         mScrollFlag = new ScrollFlag(child);
       }
