@@ -232,7 +232,6 @@ public class SmoothAppBarLayout extends AppBarLayout {
             }
           });
         }
-
         layout.setSyncOffsetListener(new me.henrytao.smoothappbarlayout.base.OnOffsetChangedListener() {
           @Override
           public void onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, int verticalOffset, boolean isOrientationChanged) {
@@ -242,6 +241,7 @@ public class SmoothAppBarLayout extends AppBarLayout {
             }
           }
         });
+        temporaryInit(coordinatorLayout, child);
       }
     }
 
