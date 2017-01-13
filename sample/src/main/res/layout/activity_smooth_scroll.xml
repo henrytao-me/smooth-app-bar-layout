@@ -19,10 +19,11 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <android.support.v7.widget.RecyclerView
-    android:id="@android:id/list"
+  <fragment
+    android:id="@+id/fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:name="me.henrytao.smoothappbarlayoutdemo.fragment.TestFragment" />
 
   <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
     android:id="@+id/smooth_app_bar_layout"

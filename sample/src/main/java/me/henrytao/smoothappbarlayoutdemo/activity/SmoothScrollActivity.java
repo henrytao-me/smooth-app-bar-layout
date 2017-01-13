@@ -35,13 +35,8 @@ import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
 public class SmoothScrollActivity extends BaseActivity {
 
-  @Bind(android.R.id.list)
-  RecyclerView vRecyclerView;
-
   @Bind(R.id.toolbar)
   Toolbar vToolbar;
-
-  private DynamicAdapter<String> mAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -56,34 +51,5 @@ public class SmoothScrollActivity extends BaseActivity {
         onBackPressed();
       }
     });
-
-    mAdapter = new DynamicAdapter<>(Utils.getSampleData());
-    RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(mAdapter) {
-      @Override
-      public RecyclerView.ViewHolder onCreateFooterViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return null;
-      }
-
-      @Override
-      public RecyclerView.ViewHolder onCreateHeaderViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return new HeaderHolder(layoutInflater, viewGroup, R.layout.item_header_spacing);
-      }
-    };
-
-    vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    vRecyclerView.setAdapter(adapter);
-
-    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-      @Override
-      public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return false;
-      }
-
-      @Override
-      public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        mAdapter.remove((int) viewHolder.itemView.getTag(R.id.tag_position));
-      }
-    });
-    itemTouchHelper.attachToRecyclerView(vRecyclerView);
   }
 }
