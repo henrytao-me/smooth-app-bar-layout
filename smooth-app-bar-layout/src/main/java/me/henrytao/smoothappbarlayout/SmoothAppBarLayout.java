@@ -24,6 +24,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -107,6 +109,65 @@ public class SmoothAppBarLayout extends AppBarLayout {
         item = (OnOffsetChangedListener) ref.get();
       } while (item != listener && item != null);
       i.remove();
+    }
+  }
+
+  @Override
+  public void setExpanded(boolean expanded) {
+    setExpanded(expanded, false);
+  }
+
+  @Override
+  public void setExpanded(boolean expanded, boolean animate) {
+    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getLayoutParams();
+    Behavior behavior = (Behavior) params.getBehavior();
+    if (behavior == null) {
+      super.setExpanded(expanded, animate);
+      return;
+    }
+    View view = behavior.getScrollTarget();
+    if (!expanded && !behavior.isCollapsed()) {
+      int minOffset = Math.abs(behavior.getMinOffset(this));
+      if (view instanceof RecyclerView) {
+        RecyclerView recyclerView = (RecyclerView) view;
+        int offset = minOffset - recyclerView.computeVerticalScrollOffset();
+        if (animate) {
+          recyclerView.smoothScrollBy(0, offset);
+        } else {
+          recyclerView.scrollBy(0, offset);
+        }
+      } else if (view instanceof NestedScrollView) {
+        NestedScrollView nestedScrollView = (NestedScrollView) view;
+        if (animate) {
+          nestedScrollView.smoothScrollTo(0, minOffset);
+        } else {
+          nestedScrollView.scrollTo(0, minOffset);
+        }
+      }
+    } else if (expanded) {
+      if (view instanceof RecyclerView) {
+        RecyclerView recyclerView = (RecyclerView) view;
+        if (animate) {
+          if (behavior.isCollapsed()) {
+            recyclerView.smoothScrollToPosition(0);
+          } else {
+            recyclerView.smoothScrollBy(0, -recyclerView.computeVerticalScrollOffset());
+          }
+        } else {
+          if (behavior.isCollapsed()) {
+            recyclerView.scrollToPosition(0);
+          } else {
+            recyclerView.scrollBy(0, -recyclerView.computeVerticalScrollOffset());
+          }
+        }
+      } else if (view instanceof NestedScrollView) {
+        NestedScrollView nestedScrollView = (NestedScrollView) view;
+        if (animate) {
+          nestedScrollView.smoothScrollTo(0, 0);
+        } else {
+          nestedScrollView.scrollTo(0, 0);
+        }
+      }
     }
   }
 
