@@ -53,6 +53,8 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
 
   private DragCallback mDragCallbackListener;
 
+  private boolean mIsCollapsed;
+
   private boolean mIsOnInit = false;
 
   private boolean mIsPullDownFromTop;
@@ -147,6 +149,14 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
     return mCurrentOffset;
   }
 
+  public View getScrollTarget() {
+    return vScrollTarget;
+  }
+
+  public boolean isCollapsed() {
+    return mIsCollapsed;
+  }
+
   public void setOverrideOnScrollListener(boolean overrideOnScrollListener) {
     mOverrideOnScrollListener = overrideOnScrollListener;
   }
@@ -186,6 +196,7 @@ public abstract class BaseBehavior extends AppBarLayout.Behavior {
 
   protected void syncOffset(AppBarLayout child, int newOffset) {
     Utils.log("syncOffset | %d", newOffset);
+    mIsCollapsed = newOffset == mCurrentOffset && mCurrentOffset != 0;
     setTopAndBottomOffset(newOffset);
     if (child instanceof SmoothAppBarLayout && ((SmoothAppBarLayout) child).mHaveChildWithInterpolator && mCoordinatorLayout != null) {
       mCoordinatorLayout.dispatchDependentViewsChanged(child);
