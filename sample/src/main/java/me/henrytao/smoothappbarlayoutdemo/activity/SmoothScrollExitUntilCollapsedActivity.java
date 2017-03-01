@@ -24,22 +24,31 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.henrytao.recyclerview.SimpleRecyclerViewAdapter;
 import me.henrytao.recyclerview.holder.HeaderHolder;
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 import me.henrytao.smoothappbarlayoutdemo.R;
 import me.henrytao.smoothappbarlayoutdemo.apdater.DynamicAdapter;
 import me.henrytao.smoothappbarlayoutdemo.util.Utils;
 
 public class SmoothScrollExitUntilCollapsedActivity extends BaseActivity {
 
+  @Bind(R.id.btn_action)
+  Button vBtnAction;
+
   @Bind(R.id.recycler_view_target)
   RecyclerView vRecyclerView;
 
   @Bind(R.id.toolbar)
   Toolbar vToolbar;
+
+  @Bind(R.id.smooth_app_bar_layout)
+  SmoothAppBarLayout vSmoothAppBarLayout;
 
   private DynamicAdapter<String> mAdapter;
 
@@ -85,5 +94,19 @@ public class SmoothScrollExitUntilCollapsedActivity extends BaseActivity {
       }
     });
     itemTouchHelper.attachToRecyclerView(vRecyclerView);
+
+    vBtnAction.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
+      }
+    });
+
+    vSmoothAppBarLayout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
+      }
+    });
   }
 }

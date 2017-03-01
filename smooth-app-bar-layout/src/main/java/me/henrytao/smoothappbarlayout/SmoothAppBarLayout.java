@@ -28,6 +28,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -53,6 +54,8 @@ public class SmoothAppBarLayout extends AppBarLayout {
   private static final String ARG_CURRENT_OFFSET = "ARG_CURRENT_OFFSET";
 
   private static final String ARG_SUPER = "ARG_SUPER";
+
+  private static final int CUSTOM_EDGE_FLAG = 2023477;
 
   public static boolean DEBUG = false;
 
@@ -206,6 +209,32 @@ public class SmoothAppBarLayout extends AppBarLayout {
     bundle.putInt(ARG_CURRENT_OFFSET, getCurrentOffset());
     bundle.putParcelable(ARG_SUPER, super.onSaveInstanceState());
     return bundle;
+  }
+
+  @Override
+  public boolean dispatchTouchEvent(MotionEvent ev) {
+
+    // We need to check wether we have arrived from our own triggered motion dispatch,
+    // There are no really appropriate fields on MotionEvents to store custom data, so we abuse edgeflags
+    if (ev.getEdgeFlags() == CUSTOM_EDGE_FLAG) {
+      return false;
+    }
+
+    boolean dispatched = super.dispatchTouchEvent(ev);
+    if (dispatched && ev.getAction() == MotionEvent.ACTION_MOVE) {
+      // After we know some view in our hierarchy would want to receive the move touch event, we don't want it to have though,
+      // we create a new motion event which will cancel our current motion event stream and will be disregarded by appbarlayout,
+      // so CoordinatorLayout.Behaviour can receive the new motion event stream
+      MotionEvent motionEvent = MotionEvent.obtain(ev);
+      motionEvent.offsetLocation(getLeft(), getTop());
+      motionEvent.setAction(MotionEvent.ACTION_DOWN);
+      motionEvent.setEdgeFlags(CUSTOM_EDGE_FLAG);
+
+      // getParent() cannot return null, since well - who would have called this method
+      ((ViewGroup) getParent()).dispatchTouchEvent(motionEvent);
+      return false;
+    }
+    return dispatched;
   }
 
   public int getCurrentOffset() {
