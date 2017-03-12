@@ -117,6 +117,8 @@ public class MainActivity extends BaseActivity implements SimpleAdapter.OnItemCl
     features.add(new Feature(SmoothViewPagerParallaxExitUntilCollapsedActivity.class, "ViewPager Parallax | exitUntilCollapsed"));
     features.add(new Feature(GsdSwipeRefreshLayoutActivity.class, "SwipeRefreshLayout"));
     features.add(new Feature(SmoothSwipeRefreshLayoutActivity.class, "SwipeRefreshLayout"));
+    features.add(new Feature(null, "N/A"));
+    features.add(new Feature(SmoothCollapsingToolbarLayoutWithViewPager.class, "CollapsingToolbarLayout with ViewPager"));
     return features;
   }
 

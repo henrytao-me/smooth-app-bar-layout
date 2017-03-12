@@ -133,4 +133,5 @@
   <string name="title_activity_smooth_pre_scroll">Smooth PreScroll</string>
   <string name="title_activity_gsd_scroll_parallax">Gsd scroll | Parallax</string>
   <string name="title_activity_smooth_scroll_parallax">Smooth scroll | Parallax</string>
+  <string name="title_activity_smooth_collapsing_toolbar_layout_with_view_pager">Smooth CollapsingToolbarLayout with ViewPager</string>
 </resources>
