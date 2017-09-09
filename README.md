@@ -4,7 +4,7 @@ smooth-app-bar-layout [Deprecated]
 
 ================
 
-# [DEPRECATED] Use support design 26.0.0 or above instead.
+# [DEPRECATED] The issue that is addressed in this library is fixed from support design 26.0.0 or above (finally). Please use support design instead. 
 
 This is a smooth version of `Google Support Design AppBarLayout`. If you are using `AppBarLayout`, you will know it has an issue with fling. Check out these threads to know about that problem:
 [http://stackoverflow.com/questions/30923889/flinging-with-recyclerview-appbarlayout](http://stackoverflow.com/questions/30923889/flinging-with-recyclerview-appbarlayout)
